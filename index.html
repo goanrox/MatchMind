@@ -692,6 +692,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
     <button class="modal-close" onclick="closeModal('milo-modal')">×</button>
   </div>
   <div class="modal-body">
+
     <p style="font-size:.83rem;color:rgba(255,255,255,.4);margin-bottom:14px">Ask Milo anything about soccer — he'll explain it using American sports you already know.</p>
     <div class="chat-msgs" id="milo-msgs"></div>
     <div class="chat-row">
@@ -714,7 +715,7 @@ function openModal(id){
   if(id==='quiz-modal'&&!quizInitialized){initQuiz();quizInitialized=true}
   if(id==='translator-modal'&&!termsInitialized){renderTerms();termsInitialized=true}
   if(id==='milo-modal'&&!miloInitialized){
-    addMiloMsg('b',"Hey! I'm Milo 👋 Ask me anything about soccer — I'll explain it using American sports you already know!");
+    addMiloMsg('b',"Hey! I'm Milo ⚽ Paste your free Groq API key above and ask me anything about soccer — I'll explain it using American sports you already know!");
     miloInitialized=true;
   }
   // focus input if present
