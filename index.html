@@ -991,51 +991,157 @@ function showMatchup(){
 /* ══════════════════════════════
    ASK MILO
 ══════════════════════════════ */
-let miloInitialized=false;
-const MILO_QA=[
-  {k:['offside'],a:"Offside = being past the last defender when the ball is played ⚠️ — like being in the crease before the puck in hockey. Flag goes up, play stops, other team gets the ball."},
-  {k:['stoppage','clock','extra min'],a:"The clock never stops ⏱️ — the ref adds 'stoppage time' at the end for delays. Like makeup time in basketball, but the ref eyeballs it and holds up a number board."},
-  {k:['var','video'],a:"VAR = instant replay 📺 — like an NFL coach's challenge. Reviews goals, penalties, red cards. Takes 2-3 mins, fans hate the wait, but it gets calls right."},
-  {k:['penalty','pk','spot kick'],a:"Penalty = 1-on-1 with the keeper from 12 yards 🦵, given for a foul in the box. Kickers score ~75% of the time. Entire tournaments are decided by them."},
-  {k:['corner','corner kick'],a:"Corner kick = like an inbound play in basketball 🏀 — ball went over the end line off the defense, so the attacking team gets it from the corner arc."},
-  {k:['yellow'],a:"Yellow card = official warning 🟨, like a technical foul in basketball. Two yellows in one game = automatic red card and ejection."},
-  {k:['red card','sent off'],a:"Red card = ejected AND team plays shorthanded 🟥 (10 v 11) for the rest of the game. Like two technicals — except the whole team suffers."},
-  {k:['hat trick','hattrick'],a:"Hat-trick = one player scores 3 goals in one match 🎩 — rare, celebrated loudly, and the player gets to keep the match ball. Named after cricket, originally."},
-  {k:['clean sheet','shutout'],a:"Clean sheet = shutout 🧤 — keeper didn't concede a single goal the whole match. Like a baseball no-hitter or hockey shutout. Keepers obsess over these."},
-  {k:['extra time','overtime'],a:"Extra time = 2×15 min OT periods in knockout games 🏒. If still tied after 120 total minutes, penalty shootout. Everyone cries regardless of outcome."},
-  {k:['points','advance','group stage'],a:"Win = 3 pts, Draw = 1 pt each, Loss = 0 ⚽. Top 2 from each group advance to knockouts — like making the playoffs in just 3 games. Every match matters enormously."},
-  {k:['how many','players','team size'],a:"11 players per team on the field 🧮 — 10 outfield players plus 1 goalkeeper. Up to 5 substitutions per game from a bench of up to 15."},
-  {k:['golden boot','top scorer'],a:"Golden Boot = top scorer award 👟. Mbappé won it at 2022 with 8 goals — even though France lost the final on penalties to Argentina."},
-  {k:['messi','goat','best player'],a:"Messi is widely considered the GOAT 🐐 — finally won the World Cup with Argentina in 2022 at 35 years old. Mbappé is the heir apparent. The debate will outlive us all."},
-  {k:['pressing','press','gegenpressing'],a:"Pressing = full-court press in basketball 🏀 — aggressively chasing when the opponent has the ball. Gegenpressing (Klopp's concept) means pressing IMMEDIATELY after losing possession."},
-  {k:['tiki','taka','possession'],a:"Tiki-taka = Spain's short-pass possession style ⚡ — like an NBA team that never rushes, patiently passing until the defense opens up. Spain used it to win three straight major tournaments."},
-  {k:['formation','4-3-3','tactical'],a:"Formations = play schemes 📐 — 4-3-3 = 4 defenders, 3 mids, 3 forwards. Coaches switch mid-game based on the score, just like an NFL play-caller adjusting at halftime."},
-  {k:['how long','90 min','game length'],a:"90 minutes total — two 45-minute halves ⏱️. Plus stoppage time (usually 3-8 min). Tied knockout games get 30 more (extra time), then a shootout if still level."},
-  {k:['aggregate'],a:"Aggregate = total goals over two legs of a knockout tie 🧮. Win leg 1 by 2-0, lose leg 2 by 1-0 = advance on 2-1 aggregate. Away goals used to be a tiebreaker but FIFA removed that."},
-  {k:['false 9','striker'],a:"False 9 = a striker who drops deep into midfield instead of staying up front 🎯 — confusing defenders who don't know whether to follow them or hold their defensive line."},
-];
-function getMiloReply(q){
-  const ql=q.toLowerCase();
-  for(const p of MILO_QA)if(p.k.some(k=>ql.includes(k)))return p.a;
-  return"Great question! ⚽ Try asking about offside, VAR, penalties, yellow cards, stoppage time, formations, how teams advance, or any player like Messi or Mbappé!";
+<script>
+// ================== UTILITIES, MODALS, OTHER FEATURES (keep your existing code above) ==================
+
+// ... keep ALL your existing JS above this point (scroll, counters, lessons, quiz, translator, live match, etc.)
+
+// ================== ASK MILO (Groq-powered) ==================
+
+let miloInitialized = false;
+
+// Reuse Milo's existing message bubble styles
+function addMiloMsg(who, text) {
+  const msgs = document.getElementById('milo-msgs');
+  if (!msgs) return;
+
+  const d = document.createElement('div');
+  d.className = who === 'b' ? 'cm-b' : 'cm-u';
+  d.textContent = text;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
 }
-function addMiloMsg(who,text){
-  const msgs=document.getElementById('milo-msgs');
-  const d=document.createElement('div');
-  d.className=who==='b'?'cm-b':'cm-u';d.textContent=text;
-  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+
+async function sendMilo() {
+  const inp = document.getElementById('milo-in');
+  const msgs = document.getElementById('milo-msgs');
+  if (!inp || !msgs) return;
+
+  const q = inp.value.trim();
+  if (!q) return;
+
+  // user bubble
+  addMiloMsg('u', q);
+  inp.value = '';
+
+  // loading bubble
+  const load = document.createElement('div');
+  load.className = 'cm-b';
+  load.style.opacity = 0.5;
+  load.textContent = 'Thinking...';
+  msgs.appendChild(load);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are Milo, a friendly soccer explainer for American sports fans. ' +
+              'Answer clearly using analogies to NFL, NBA, MLB, NHL when helpful.'
+          },
+          { role: 'user', content: q }
+        ]
+      })
+    });
+
+    const data = await res.json();
+    load.remove();
+
+    if (!res.ok) {
+      const errText =
+        data.error?.message ||
+        (typeof data.error === 'string'
+          ? data.error
+          : JSON.stringify(data.error || data));
+      addMiloMsg('b', 'Error: ' + errText);
+      return;
+    }
+
+    const reply =
+      data.choices?.[0]?.message?.content || 'No reply from Groq.';
+    addMiloMsg('b', reply);
+  } catch (e) {
+    load.remove();
+    addMiloMsg('b', 'Network error: ' + e.message);
+  }
 }
-function sendMilo(){
-  const inp=document.getElementById('milo-in');
-  const q=inp.value.trim();if(!q)return;
-  addMiloMsg('u',q);inp.value='';
-  const load=document.createElement('div');
-  load.className='cm-b';load.textContent='…';load.style.opacity='.4';
-  document.getElementById('milo-msgs').appendChild(load);
-  document.getElementById('milo-msgs').scrollTop=9999;
-  setTimeout(()=>{load.remove();addMiloMsg('b',getMiloReply(q))},310);
+
+// ============= MODAL OPEN/CLOSE (Milo hook added) =============
+
+// If you already have openModal/closeModal functions, keep them;
+// just make sure they include this Milo initialization logic.
+// If not, use this full version:
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // special behavior for Milo modal: first-time greeting
+  if (id === 'milo-modal' && !miloInitialized) {
+    addMiloMsg(
+      'b',
+      "Hey there, I'm Milo, your go‑to guide for all things soccer. " +
+        "Ask me anything you're confused about, and I'll explain it using sports you already know."
+    );
+    miloInitialized = true;
+  }
 }
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// close on backdrop click
+document.addEventListener('click', (e) => {
+  const overlay = e.target.closest('.modal-overlay');
+  if (overlay && e.target === overlay) {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// Esc to close
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document
+      .querySelectorAll('.modal-overlay.open')
+      .forEach((m) => m.classList.remove('open'));
+    document.body.style.overflow = '';
+  }
+});
+
+// ============= Milo input Enter key handler =============
+
+// If your HTML input already has onkeydown="if (event.key === 'Enter') sendMilo()"
+// you can keep that. This listener just adds a backup.
+
+document.addEventListener('DOMContentLoaded', () => {
+  const mi = document.getElementById('milo-in');
+  const btn = document.getElementById('milo-send'); // optional if you add an id to the button
+
+  if (mi) {
+    mi.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMilo();
+    });
+  }
+  if (btn) {
+    btn.addEventListener('click', sendMilo);
+  }
+});
 
 </script>
 </body>
 </html>
+
