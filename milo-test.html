@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Milo Test</title>
+</head>
+<body style="background:#000;color:#fff;font-family:sans-serif;padding:20px;">
+  <h2>Milo Test Chat</h2>
+
+  <div id="output" style="min-height:80px;margin-bottom:10px;">
+    Ask Milo anything about soccer.
+  </div>
+
+  <input id="question" type="text" placeholder="Type a question..."
+         style="width:100%;max-width:400px;padding:8px;margin-bottom:8px;" />
+
+  <button id="send" style="padding:8px 16px;">Ask Milo</button>
+
+  <script>
+    async function askMilo() {
+      const input = document.getElementById('question');
+      const out = document.getElementById('output');
+      const text = input.value.trim();
+      if (!text) return;
+
+      out.textContent = 'Thinking...';
+      input.value = '';
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: [
+              { role: 'system', content: 'You are Milo, a friendly soccer explainer.' },
+              { role: 'user', content: text }
+            ]
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          out.textContent = 'Error: ' + (data.error?.message || JSON.stringify(data.error || data));
+          return;
+        }
+
+        const reply = data.choices?.[0]?.message?.content || 'No reply from Groq.';
+        out.textContent = reply;
+      } catch (e) {
+        out.textContent = 'Network error: ' + e.message;
+      }
+    }
+
+    document.getElementById('send').addEventListener('click', askMilo);
+    document.getElementById('question').addEventListener('keydown', e => {
+      if (e.key === 'Enter') askMilo();
+    });
+  </script>
+</body>
+</html>
