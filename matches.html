@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchMind — Matches</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#18181f;color:#fff;overflow-x:hidden;min-height:100vh;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
+        radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
+        radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
+        linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+      pointer-events:none;
+    }
+    .wrap{position:relative;z-index:1}
+    nav{
+      position:sticky;top:0;z-index:100;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;
+      background:rgba(18,16,22,.82);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none}
+    .back-btn{
+      text-decoration:none;color:#fff;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);padding:10px 16px;border-radius:12px;
+      font-size:.86rem;font-weight:600;
+    }
+    .page{max-width:1180px;margin:0 auto;padding:42px 24px 70px}
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:2.3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px}
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.4rem,5vw,4.4rem);
+      line-height:1.02;letter-spacing:-1px;margin-bottom:16px
+    }
+    .sub{
+      max-width:760px;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.48);
+      margin-bottom:26px
+    }
+    .toolbar{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:28px
+    }
+    .search,.select{
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:14px;
+      padding:13px 16px;
+      color:#fff;
+      font-family:'DM Sans',sans-serif;
+      font-size:.92rem;
+      outline:none;
+    }
+    .search{flex:1;min-width:250px}
+    .select{min-width:210px}
+    .search::placeholder{color:rgba(255,255,255,.28)}
+    .stats-strip{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px
+    }
+    .mini-stat{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:16px;padding:18px 16px
+    }
+    .mini-stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:4px}
+    .mini-stat-lbl{font-size:.78rem;color:rgba(255,255,255,.36)}
+    .list{display:grid;gap:14px}
+    .match-card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:18px 20px;
+      transition:all .22s ease;
+    }
+    .match-card:hover{
+      transform:translateY(-3px);
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.16);
+    }
+    .stage{
+      display:inline-flex;
+      padding:4px 10px;border-radius:999px;
+      font-size:.68rem;font-weight:700;letter-spacing:.4px;
+      background:rgba(100,180,255,.12);color:#64b4ff;
+      margin-bottom:10px;
+    }
+    .match-main{
+      display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start
+    }
+    .teams{
+      font-size:1.05rem;font-weight:700;margin-bottom:6px
+    }
+    .meta{
+      font-size:.84rem;line-height:1.6;color:rgba(255,255,255,.5)
+    }
+    .score-pill{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:10px 14px;
+      font-size:.82rem;
+      color:rgba(255,255,255,.72);
+      min-width:130px;
+      text-align:center;
+    }
+    .empty{
+      text-align:center;color:rgba(255,255,255,.35);padding:28px 0;font-size:.92rem;display:none
+    }
+    @media(max-width:900px){
+      .stats-strip{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      nav{padding:0 18px}
+      .page{padding:28px 18px 60px}
+      .stats-strip{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="nav-logo">⚽ MatchMind</a>
+      <a href="index.html" class="back-btn">← Back</a>
+    </nav>
+
+    <main class="page">
+      <p class="eyebrow">Tournament Schedule</p>
+      <h1>Matches,<br>cleanly laid out.</h1>
+      <p class="sub">
+        Give fans a simple place to browse fixtures, filter by round, and understand the biggest storylines before kickoff.
+      </p>
+
+      <div class="stats-strip">
+        <div class="mini-stat"><div class="mini-stat-num">104</div><div class="mini-stat-lbl">Projected Matches</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">12</div><div class="mini-stat-lbl">Groups</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">32</div><div class="mini-stat-lbl">Knockout Teams</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">1</div><div class="mini-stat-lbl">Final</div></div>
+      </div>
+
+      <div class="toolbar">
+        <input id="matchSearch" class="search" type="text" placeholder="Search a matchup… ex. USA, Brazil, Final" />
+        <select id="stageFilter" class="select">
+          <option value="all">All Stages</option>
+          <option value="group">Group Stage</option>
+          <option value="round32">Round of 32</option>
+          <option value="round16">Round of 16</option>
+          <option value="quarterfinal">Quarterfinal</option>
+          <option value="semifinal">Semifinal</option>
+          <option value="final">Final</option>
+        </select>
+      </div>
+
+      <div id="matchList" class="list"></div>
+      <div id="emptyState" class="empty">No matches found for that filter.</div>
+    </main>
+  </div>
+
+  <script>
+    const matches = [
+      { stage:"group", stageLabel:"Group Stage", teams:"🇺🇸 USA vs 🏴 England", meta:"High-profile early matchup · Host spotlight · Massive TV draw", score:"Preview" },
+      { stage:"group", stageLabel:"Group Stage", teams:"🇲🇽 Mexico vs 🇦🇷 Argentina", meta:"Historic pressure game · Giant-killer potential", score:"Preview" },
+      { stage:"group", stageLabel:"Group Stage", teams:"🇧🇷 Brazil vs 🇯🇵 Japan", meta:"Technique vs tempo · Strong tactical contrast", score:"Preview" },
+      { stage:"group", stageLabel:"Group Stage", teams:"🇫🇷 France vs 🇳🇬 Nigeria", meta:"Power and speed · Potential upset alert", score:"Preview" },
+      { stage:"round32", stageLabel:"Round of 32", teams:"1A vs 3C", meta:"Knockout pressure begins · No room for mistakes", score:"TBD" },
+      { stage:"round16", stageLabel:"Round of 16", teams:"Winner Match 73 vs Winner Match 74", meta:"Elite teams start colliding here", score:"TBD" },
+      { stage:"quarterfinal", stageLabel:"Quarterfinal", teams:"Quarterfinal 1", meta:"Eight teams left · One mistake changes everything", score:"TBD" },
+      { stage:"semifinal", stageLabel:"Semifinal", teams:"Semifinal 1", meta:"One step from the final · Maximum pressure", score:"TBD" },
+      { stage:"final", stageLabel:"Final", teams:"World Cup Final", meta:"MetLife Stadium · Biggest match in world soccer", score:"July 19, 2026" }
+    ];
+
+    const matchList = document.getElementById("matchList");
+    const matchSearch = document.getElementById("matchSearch");
+    const stageFilter = document.getElementById("stageFilter");
+    const emptyState = document.getElementById("emptyState");
+
+    function renderMatches() {
+      const q = matchSearch.value.trim().toLowerCase();
+      const stage = stageFilter.value;
+
+      const filtered = matches.filter(match => {
+        const matchStage = stage === "all" || match.stage === stage;
+        const matchQuery =
+          match.teams.toLowerCase().includes(q) ||
+          match.meta.toLowerCase().includes(q) ||
+          match.stageLabel.toLowerCase().includes(q);
+        return matchStage && matchQuery;
+      });
+
+      matchList.innerHTML = filtered.map(match => `
+        <div class="match-card">
+          <div class="stage">${match.stageLabel}</div>
+          <div class="match-main">
+            <div>
+              <div class="teams">${match.teams}</div>
+              <div class="meta">${match.meta}</div>
+            </div>
+            <div class="score-pill">${match.score}</div>
+          </div>
+        </div>
+      `).join("");
+
+      emptyState.style.display = filtered.length ? "none" : "block";
+    }
+
+    matchSearch.addEventListener("input", renderMatches);
+    stageFilter.addEventListener("change", renderMatches);
+    renderMatches();
+  </script>
+</body>
+</html>
