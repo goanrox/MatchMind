@@ -4,20 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MatchMind — Soccer Finally Explained</title>
-
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --bg:#0c0d12;
+      --bg:#0d0f15;
       --panel:rgba(255,255,255,.07);
-      --panel-strong:rgba(255,255,255,.1);
+      --panel-2:rgba(255,255,255,.05);
       --border:rgba(255,255,255,.11);
-      --text:#ffffff;
+      --text:#fff;
       --muted:rgba(255,255,255,.62);
       --soft:rgba(255,255,255,.38);
-      --shadow:0 18px 60px rgba(0,0,0,.35);
-      --radius:24px;
+      --shadow:0 18px 60px rgba(0,0,0,.34);
+      --radius:26px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -27,7 +26,6 @@
       background:var(--bg);
       color:var(--text);
       overflow-x:hidden;
-      min-height:100vh;
     }
 
     body::before{
@@ -36,10 +34,10 @@
       inset:0;
       z-index:-3;
       background:
-        radial-gradient(ellipse 55% 45% at 12% 18%, rgba(218,180,115,.16) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 44% at 88% 68%, rgba(97,129,207,.16) 0%, transparent 70%),
-        radial-gradient(ellipse 35% 30% at 50% 100%, rgba(61,68,116,.35) 0%, transparent 70%),
-        linear-gradient(145deg, #17171f 0%, #101119 52%, #0a0b10 100%);
+        radial-gradient(ellipse 52% 42% at 12% 20%, rgba(214,177,111,.16) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 40% at 88% 70%, rgba(92,122,212,.18) 0%, transparent 72%),
+        radial-gradient(ellipse 35% 28% at 50% 100%, rgba(64,69,112,.32) 0%, transparent 70%),
+        linear-gradient(145deg,#181922 0%, #10121a 55%, #0a0b10 100%);
       pointer-events:none;
     }
 
@@ -49,16 +47,11 @@
       inset:0;
       z-index:-2;
       background:
-        linear-gradient(to bottom, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(to bottom, rgba(255,255,255,.04), rgba(255,255,255,0) 16%),
         linear-gradient(to right, rgba(255,255,255,.015), rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,.015));
       pointer-events:none;
-      mix-blend-mode:screen;
       opacity:.55;
-    }
-
-    .page-wrap{
-      position:relative;
-      z-index:1;
+      mix-blend-mode:screen;
     }
 
     .container{
@@ -74,20 +67,16 @@
       -webkit-backdrop-filter:blur(22px) saturate(140%);
     }
 
-    .glass::before{
-      content:'';
-      position:absolute;
-      inset:1px 1px auto 1px;
-      height:42%;
-      border-radius:inherit;
-      background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0));
-      opacity:.45;
-      pointer-events:none;
+    .glass-lite{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.045));
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(18px) saturate(135%);
+      -webkit-backdrop-filter:blur(18px) saturate(135%);
     }
 
     .reveal{
       opacity:0;
-      transform:translateY(22px);
+      transform:translateY(20px);
       transition:opacity .7s ease, transform .7s ease;
     }
 
@@ -99,21 +88,20 @@
     nav{
       position:sticky;
       top:0;
-      z-index:100;
+      z-index:110;
       padding:14px 0;
-      background:linear-gradient(180deg, rgba(10,11,16,.82), rgba(10,11,16,.48), rgba(10,11,16,0));
-      backdrop-filter:blur(18px);
-      -webkit-backdrop-filter:blur(18px);
+      background:linear-gradient(180deg, rgba(10,11,16,.82), rgba(10,11,16,.45), rgba(10,11,16,0));
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
     }
 
     .nav-shell{
-      position:relative;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:18px;
       padding:14px 18px;
-      border-radius:22px;
+      border-radius:24px;
     }
 
     .brand{
@@ -125,7 +113,6 @@
       font-family:'Playfair Display',serif;
       font-size:1.22rem;
       font-weight:600;
-      letter-spacing:.2px;
       white-space:nowrap;
     }
 
@@ -143,8 +130,8 @@
 
     .nav-links{
       display:flex;
-      align-items:center;
       gap:6px;
+      align-items:center;
       flex-wrap:wrap;
       justify-content:center;
     }
@@ -157,6 +144,7 @@
       padding:10px 14px;
       border-radius:999px;
       transition:all .22s ease;
+      cursor:pointer;
     }
 
     .nav-links a:hover{
@@ -168,8 +156,8 @@
       border:none;
       cursor:pointer;
       border-radius:999px;
-      padding:11px 16px;
-      font-size:.88rem;
+      padding:11px 18px;
+      font-size:.9rem;
       font-weight:700;
       color:#111318;
       background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.86));
@@ -184,25 +172,24 @@
     }
 
     .hero{
-      position:relative;
-      padding:72px 0 40px;
+      padding:18px 0 30px;
     }
 
     .hero-shell{
       position:relative;
-      text-align:center;
-      padding:46px 24px 28px;
-      border-radius:34px;
       overflow:hidden;
+      border-radius:34px;
+      text-align:center;
+      padding:44px 22px 30px;
     }
 
     .hero-shell::after{
       content:'';
       position:absolute;
       inset:auto -20% -28% -20%;
-      height:50%;
-      background:radial-gradient(circle, rgba(107,132,220,.18), transparent 58%);
-      filter:blur(30px);
+      height:54%;
+      background:radial-gradient(circle, rgba(102,129,224,.17), transparent 58%);
+      filter:blur(32px);
       pointer-events:none;
     }
 
@@ -217,7 +204,6 @@
       color:rgba(255,255,255,.72);
       font-size:.8rem;
       font-weight:600;
-      letter-spacing:.2px;
       margin-bottom:26px;
     }
 
@@ -237,8 +223,8 @@
 
     .hero h1{
       font-family:'Playfair Display',serif;
-      font-size:clamp(3rem, 7.4vw, 6.4rem);
-      line-height:.97;
+      font-size:clamp(3rem, 7vw, 6.2rem);
+      line-height:.96;
       letter-spacing:-2px;
       margin-bottom:18px;
     }
@@ -249,7 +235,7 @@
     }
 
     .hero-copy{
-      width:min(760px, 100%);
+      width:min(760px,100%);
       margin:0 auto 32px;
       color:var(--muted);
       font-size:1.06rem;
@@ -269,7 +255,6 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:8px;
       min-width:180px;
       padding:15px 24px;
       border-radius:18px;
@@ -277,6 +262,7 @@
       font-weight:700;
       transition:all .22s ease;
       border:1px solid rgba(255,255,255,.12);
+      cursor:pointer;
     }
 
     .btn-primary{
@@ -285,12 +271,10 @@
       box-shadow:0 16px 38px rgba(255,255,255,.12);
     }
 
-    .btn-primary:hover{
-      transform:translateY(-2px);
-    }
+    .btn-primary:hover{transform:translateY(-2px)}
 
     .btn-secondary{
-      color:rgba(255,255,255,.84);
+      color:rgba(255,255,255,.86);
       background:rgba(255,255,255,.06);
     }
 
@@ -303,7 +287,7 @@
       display:grid;
       grid-template-columns:repeat(4,1fr);
       gap:16px;
-      margin-top:12px;
+      margin-top:10px;
     }
 
     .stat-card{
@@ -311,10 +295,9 @@
       overflow:hidden;
       text-decoration:none;
       color:inherit;
-      padding:26px 18px 22px;
+      padding:26px 18px 20px;
       border-radius:24px;
-      transition:transform .26s ease, border-color .26s ease, background .26s ease, box-shadow .26s ease;
-      transform-style:preserve-3d;
+      transition:transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
       isolation:isolate;
     }
 
@@ -323,11 +306,10 @@
       position:absolute;
       inset:-2px;
       border-radius:inherit;
-      background:radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.16), transparent 32%);
+      background:radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.16), transparent 30%);
       opacity:0;
       transition:opacity .22s ease;
       pointer-events:none;
-      z-index:0;
     }
 
     .stat-card:hover{
@@ -337,14 +319,7 @@
       box-shadow:0 24px 60px rgba(0,0,0,.34);
     }
 
-    .stat-card:hover::after{
-      opacity:1;
-    }
-
-    .stat-content{
-      position:relative;
-      z-index:1;
-    }
+    .stat-card:hover::after{opacity:1}
 
     .stat-number{
       font-family:'Playfair Display',serif;
@@ -356,7 +331,7 @@
 
     .stat-label{
       font-size:.84rem;
-      color:rgba(255,255,255,.55);
+      color:rgba(255,255,255,.56);
       margin-bottom:12px;
     }
 
@@ -364,15 +339,13 @@
       display:inline-flex;
       align-items:center;
       gap:6px;
-      color:rgba(255,255,255,.74);
+      color:rgba(255,255,255,.76);
       font-size:.76rem;
       font-weight:700;
-      letter-spacing:.2px;
     }
 
     .stat-arrow{
       opacity:.55;
-      transform:translateX(0);
       transition:transform .2s ease, opacity .2s ease;
     }
 
@@ -382,17 +355,17 @@
     }
 
     .section{
-      padding:40px 0 12px;
+      padding:40px 0 6px;
     }
 
     .section-head{
-      margin-bottom:26px;
+      margin-bottom:24px;
     }
 
     .eyebrow{
       font-size:.72rem;
       font-weight:700;
-      letter-spacing:2.4px;
+      letter-spacing:2.3px;
       text-transform:uppercase;
       color:rgba(255,255,255,.3);
       margin-bottom:10px;
@@ -400,215 +373,264 @@
 
     .section-title{
       font-family:'Playfair Display',serif;
-      font-size:clamp(2rem, 4.4vw, 3.4rem);
+      font-size:clamp(2rem, 4vw, 3.2rem);
       line-height:1.04;
       letter-spacing:-1px;
       margin-bottom:12px;
     }
 
     .section-sub{
-      width:min(760px, 100%);
+      width:min(760px,100%);
       color:var(--muted);
       line-height:1.8;
       font-size:1rem;
     }
 
-    .why-grid{
+    .pain-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:16px;
-      margin-top:24px;
+      margin-top:28px;
     }
 
-    .why-card{
+    .pain-card{
       position:relative;
-      overflow:hidden;
-      padding:24px;
+      min-height:260px;
       border-radius:24px;
-      min-height:210px;
+      overflow:hidden;
+      padding:22px;
       transition:transform .24s ease, background .24s ease, border-color .24s ease;
     }
 
-    .why-card:hover{
+    .pain-card:hover{
       transform:translateY(-4px);
       background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.06));
       border-color:rgba(255,255,255,.16);
     }
 
-    .why-icon{
-      width:48px;
-      height:48px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      font-size:1.2rem;
-      margin-bottom:16px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-    }
-
-    .why-card h3{
-      font-size:1rem;
-      margin-bottom:10px;
-    }
-
-    .why-card p{
-      color:rgba(255,255,255,.56);
-      line-height:1.7;
-      font-size:.9rem;
-    }
-
-    .showcase{
-      padding:26px 0 10px;
-    }
-
-    .showcase-shell{
-      position:relative;
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:18px;
-      align-items:stretch;
-    }
-
-    .feature-panel{
-      position:relative;
-      overflow:hidden;
-      border-radius:30px;
-      padding:28px;
-      min-height:390px;
-    }
-
-    .feature-panel::after{
-      content:'';
+    .pain-front{
       position:absolute;
-      right:-10%;
-      top:-10%;
-      width:280px;
-      height:280px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(255,255,255,.12), transparent 60%);
-      filter:blur(8px);
-      pointer-events:none;
+      inset:0;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      transition:opacity .28s ease;
     }
 
-    .feature-kicker{
-      font-size:.72rem;
-      font-weight:700;
-      letter-spacing:2px;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.34);
-      margin-bottom:12px;
+    .pain-card:hover .pain-front{opacity:0}
+
+    .pain-back{
+      position:absolute;
+      inset:0;
+      padding:22px;
+      opacity:0;
+      transform:translateY(12px);
+      transition:opacity .28s ease, transform .28s ease;
+      background:rgba(255,255,255,.04);
     }
 
-    .feature-title{
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.8rem, 3vw, 2.8rem);
-      line-height:1.05;
-      letter-spacing:-1px;
+    .pain-card:hover .pain-back{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .pain-emoji{
+      font-size:2.1rem;
       margin-bottom:14px;
     }
 
-    .feature-copy{
-      color:var(--muted);
-      line-height:1.8;
-      max-width:620px;
-      margin-bottom:26px;
+    .pain-q{
+      font-size:.95rem;
+      font-weight:700;
+      line-height:1.45;
+      margin-bottom:8px;
     }
 
-    .feature-list{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
+    .pain-hint{
+      color:rgba(255,255,255,.3);
+      font-size:.76rem;
     }
 
-    .feature-list .item{
-      padding:16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.05);
+    .pain-answer-tag{
+      font-size:.66rem;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.3);
+      margin-bottom:10px;
+    }
+
+    .pain-answer{
+      font-size:.87rem;
+      line-height:1.62;
+      color:rgba(255,255,255,.84);
+      margin-bottom:12px;
+    }
+
+    .pain-analogy{
+      padding:12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.1);
     }
 
-    .feature-list .item strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:.92rem;
+    .pain-analogy .al{
+      font-size:.64rem;
+      font-weight:700;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.28);
+      margin-bottom:4px;
     }
 
-    .feature-list .item span{
-      font-size:.84rem;
-      line-height:1.65;
-      color:rgba(255,255,255,.55);
+    .pain-analogy p{
+      font-size:.8rem;
+      line-height:1.55;
+      color:rgba(255,255,255,.66);
     }
 
-    .side-stack{
+    .feat-grid{
       display:grid;
-      gap:18px;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:28px;
     }
 
-    .mini-panel{
-      position:relative;
-      overflow:hidden;
-      border-radius:28px;
-      padding:24px;
-      min-height:186px;
+    .feat-card{
+      padding:24px 20px;
+      border-radius:24px;
+      transition:transform .24s ease, background .24s ease, border-color .24s ease;
+      cursor:pointer;
     }
 
-    .mini-panel h3{
+    .feat-card:hover{
+      transform:translateY(-4px);
+      background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.06));
+      border-color:rgba(255,255,255,.16);
+    }
+
+    .feat-ico{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom:16px;
+      font-size:1.1rem;
+    }
+
+    .feat-card h3{
       font-size:1rem;
       margin-bottom:10px;
     }
 
-    .mini-panel p{
-      font-size:.88rem;
-      line-height:1.7;
+    .feat-card p{
       color:rgba(255,255,255,.56);
+      line-height:1.72;
+      font-size:.9rem;
+      margin-bottom:12px;
     }
 
-    .mini-pill{
-      display:inline-flex;
-      margin-top:16px;
-      font-size:.7rem;
+    .feat-arrow{
+      color:rgba(255,255,255,.3);
+      font-size:.82rem;
       font-weight:700;
-      letter-spacing:.3px;
-      padding:5px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      color:rgba(255,255,255,.8);
-      border:1px solid rgba(255,255,255,.1);
     }
 
-    .cta-band{
-      padding:42px 0 80px;
-    }
-
-    .cta-shell{
-      position:relative;
-      overflow:hidden;
-      border-radius:32px;
-      padding:34px 26px;
+    .tab-row{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
+      gap:8px;
+      margin:22px 0 18px;
       flex-wrap:wrap;
     }
 
-    .cta-shell h3{
-      font-family:'Playfair Display',serif;
-      font-size:clamp(1.6rem, 3vw, 2.4rem);
-      line-height:1.1;
-      letter-spacing:-.8px;
-      margin-bottom:8px;
+    .wtab{
+      padding:9px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.66);
+      font-size:.84rem;
+      font-weight:700;
+      cursor:pointer;
+      transition:all .2s ease;
     }
 
-    .cta-shell p{
-      color:var(--muted);
-      line-height:1.7;
-      max-width:680px;
+    .wtab.on{
+      background:rgba(255,255,255,.9);
+      color:#111318;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
     }
+
+    .wtab.off:hover{
+      background:rgba(255,255,255,.1);
+      color:#fff;
+    }
+
+    .watch-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .watch-card{
+      text-decoration:none;
+      color:inherit;
+      padding:20px;
+      border-radius:22px;
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      transition:transform .24s ease, background .24s ease, border-color .24s ease;
+    }
+
+    .watch-card:hover{
+      transform:translateY(-4px);
+      background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.06));
+      border-color:rgba(255,255,255,.16);
+    }
+
+    .w-ico{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:1.05rem;
+      flex-shrink:0;
+    }
+
+    .w-body h3{
+      font-size:.96rem;
+      margin-bottom:5px;
+    }
+
+    .w-body p{
+      color:rgba(255,255,255,.56);
+      line-height:1.65;
+      font-size:.86rem;
+      margin-bottom:10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:.68rem;
+      font-weight:700;
+      letter-spacing:.3px;
+    }
+
+    .b-free{background:rgba(125,239,161,.13);color:#7defa1}
+    .b-paid{background:rgba(255,210,100,.12);color:#ffd264}
 
     footer{
-      padding:0 0 40px;
+      padding:34px 0 40px;
     }
 
     .footer-shell{
@@ -617,17 +639,156 @@
       justify-content:space-between;
       gap:16px;
       flex-wrap:wrap;
-      padding:20px 6px 0;
+      padding-top:20px;
       border-top:1px solid rgba(255,255,255,.08);
       color:rgba(255,255,255,.42);
       font-size:.84rem;
     }
 
+    /* Floating Milo window */
+    .milo-window{
+      position:fixed;
+      right:24px;
+      bottom:98px;
+      width:360px;
+      max-width:calc(100vw - 24px);
+      height:480px;
+      max-height:70vh;
+      border-radius:24px;
+      display:none;
+      flex-direction:column;
+      overflow:hidden;
+      z-index:140;
+      transform:translateY(18px) scale(.98);
+      opacity:0;
+      transition:all .24s ease;
+    }
+
+    .milo-window.open{
+      display:flex;
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .milo-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+    }
+
+    .milo-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .milo-title .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#83ef9d;
+      box-shadow:0 0 16px #83ef9d;
+      flex-shrink:0;
+    }
+
+    .milo-close{
+      width:32px;
+      height:32px;
+      border:none;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      color:rgba(255,255,255,.8);
+      cursor:pointer;
+      font-size:1rem;
+    }
+
+    .milo-close:hover{
+      background:rgba(255,255,255,.14);
+    }
+
+    .milo-body{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      min-height:0;
+      padding:14px;
+      gap:12px;
+    }
+
+    .chat-msgs{
+      flex:1;
+      min-height:0;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding-right:2px;
+    }
+
+    .cm-b,.cm-u{
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:.84rem;
+      line-height:1.55;
+      max-width:86%;
+      white-space:pre-wrap;
+    }
+
+    .cm-b{
+      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.1);
+      align-self:flex-start;
+    }
+
+    .cm-u{
+      background:rgba(255,255,255,.15);
+      align-self:flex-end;
+    }
+
+    .chat-row{
+      display:flex;
+      gap:8px;
+    }
+
+    .chat-row input{
+      flex:1;
+      border:none;
+      outline:none;
+      border-radius:14px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+      color:#fff;
+      font-family:'DM Sans',sans-serif;
+      font-size:.84rem;
+    }
+
+    .chat-row input::placeholder{
+      color:rgba(255,255,255,.3);
+    }
+
+    .chat-row button{
+      border:none;
+      border-radius:14px;
+      padding:0 16px;
+      min-width:50px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.86));
+      color:#111318;
+      font-weight:800;
+      cursor:pointer;
+    }
+
     .fab{
       position:fixed;
-      right:26px;
-      bottom:26px;
-      z-index:120;
+      right:24px;
+      bottom:24px;
+      z-index:145;
       width:62px;
       height:62px;
       border-radius:50%;
@@ -642,6 +803,7 @@
       backdrop-filter:blur(20px);
       -webkit-backdrop-filter:blur(20px);
       box-shadow:0 14px 36px rgba(0,0,0,.3);
+      cursor:pointer;
     }
 
     .fab:hover{
@@ -673,276 +835,426 @@
 
     @media (max-width: 1024px){
       .stats-row{grid-template-columns:repeat(2,1fr)}
-      .why-grid{grid-template-columns:1fr 1fr}
-      .showcase-shell{grid-template-columns:1fr}
+      .pain-grid,.feat-grid{grid-template-columns:1fr 1fr}
     }
 
     @media (max-width: 760px){
-      nav{padding:12px 0}
       .container{width:min(1180px, calc(100% - 26px))}
-      .nav-shell{
-        padding:12px 14px;
-        gap:12px;
-      }
       .nav-links{display:none}
-      .hero{padding:44px 0 28px}
-      .hero-shell{padding:30px 18px 22px}
+      .nav-shell{padding:12px 14px}
+      .hero-shell{padding:34px 18px 24px}
       .hero-copy{font-size:.98rem}
-      .stats-row{grid-template-columns:1fr}
-      .why-grid{grid-template-columns:1fr}
-      .feature-list{grid-template-columns:1fr}
-      .cta-shell{padding:26px 18px}
+      .stats-row,.pain-grid,.feat-grid,.watch-grid{grid-template-columns:1fr}
+      .milo-window{
+        right:12px;
+        left:12px;
+        width:auto;
+        bottom:88px;
+        max-width:none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page-wrap">
 
-    <nav>
-      <div class="container">
-        <div class="nav-shell glass">
-          <a href="#" class="brand">
-            <span class="brand-mark">⚽</span>
-            <span>MatchMind</span>
-          </a>
+  <nav>
+    <div class="container">
+      <div class="nav-shell glass">
+        <a href="#" class="brand">
+          <span class="brand-mark">⚽</span>
+          <span>MatchMind</span>
+        </a>
 
-          <div class="nav-links">
-            <a href="#why">Why MatchMind</a>
-            <a href="#experience">Experience</a>
-            <a href="#explore">Explore</a>
-          </div>
-
-          <button class="nav-cta" onclick="scrollToSection('#explore')">Open Guide</button>
+        <div class="nav-links">
+          <a onclick="scrollToSection('#why')">Why MatchMind</a>
+          <a onclick="scrollToSection('#soccer101')">Soccer 101</a>
+          <a onclick="scrollToSection('#features')">Features</a>
+          <a onclick="scrollToSection('#watch')">Watch</a>
         </div>
+
+        <button class="nav-cta" onclick="scrollToSection('#explore')">Open Guide</button>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <section class="hero">
-      <div class="container">
-        <div class="hero-shell glass reveal">
-          <div class="hero-badge">
-            <span class="live-dot"></span>
-            <span>World Cup 2026 · USA · Canada · Mexico</span>
-          </div>
-
-          <h1>
-            Soccer,<br />
-            <span class="muted-script">finally</span> explained.
-          </h1>
-
-          <p class="hero-copy">
-            The smart fan companion for World Cup 2026. MatchMind translates every rule, play, and moment into plain American English — in real time, with a premium experience designed for curious new fans.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#explore" class="btn btn-primary">Start Exploring</a>
-            <a href="#why" class="btn btn-secondary">See How It Works</a>
-          </div>
-
-          <div class="stats-row">
-            <a class="stat-card glass tilt-card" href="teams.html">
-              <div class="stat-content">
-                <div class="stat-number" data-target="48">0</div>
-                <div class="stat-label">Teams</div>
-                <div class="stat-hint">View all teams <span class="stat-arrow">→</span></div>
-              </div>
-            </a>
-
-            <a class="stat-card glass tilt-card" href="matches.html">
-              <div class="stat-content">
-                <div class="stat-number" data-target="104">0</div>
-                <div class="stat-label">Matches</div>
-                <div class="stat-hint">Browse fixtures <span class="stat-arrow">→</span></div>
-              </div>
-            </a>
-
-            <a class="stat-card glass tilt-card" href="cities.html">
-              <div class="stat-content">
-                <div class="stat-number" data-target="16">0</div>
-                <div class="stat-label">Host Cities</div>
-                <div class="stat-hint">See venues <span class="stat-arrow">→</span></div>
-              </div>
-            </a>
-
-            <a class="stat-card glass tilt-card" href="lessons.html">
-              <div class="stat-content">
-                <div class="stat-number" data-target="12">0</div>
-                <div class="stat-label">Lessons</div>
-                <div class="stat-hint">Start learning <span class="stat-arrow">→</span></div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="why">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">Why it works</div>
-          <h2 class="section-title">Every American’s soccer confusion,<br />cleanly decoded.</h2>
-          <p class="section-sub">
-            MatchMind is built for the fan who wants the World Cup to finally click. Instead of throwing jargon at people, it uses elegant explanations, intuitive browsing, and a calm product experience that makes the game feel instantly more accessible.
-          </p>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-shell glass reveal">
+        <div class="hero-badge">
+          <span class="live-dot"></span>
+          <span>World Cup 2026 · USA · Canada · Mexico</span>
         </div>
 
-        <div class="why-grid">
-          <div class="why-card glass reveal tilt-card">
-            <div class="why-icon">🧠</div>
-            <h3>Plain-English explanations</h3>
-            <p>Rules, tactics, and match moments are translated into language that makes sense fast, without sounding watered down.</p>
-          </div>
+        <h1>
+          Soccer,<br />
+          <span class="muted-script">finally</span> explained.
+        </h1>
 
-          <div class="why-card glass reveal tilt-card">
-            <div class="why-icon">✨</div>
-            <h3>Premium fan experience</h3>
-            <p>A polished, liquid-glass interface makes the product feel aspirational, modern, and worthy of a global event like the World Cup.</p>
-          </div>
+        <p class="hero-copy">
+          The smart fan companion for World Cup 2026. MatchMind translates every rule, play, and moment into plain American English — in real time, with a premium experience designed for curious new fans.
+        </p>
 
-          <div class="why-card glass reveal tilt-card">
-            <div class="why-icon">🌍</div>
-            <h3>Built for discovery</h3>
-            <p>Fans can jump from teams to matches to host cities to lessons without friction, turning curiosity into exploration.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="showcase" id="experience">
-      <div class="container">
-        <div class="showcase-shell">
-          <div class="feature-panel glass reveal">
-            <div class="feature-kicker">The experience</div>
-            <div class="feature-title">A smarter front door<br />to World Cup 2026.</div>
-            <div class="feature-copy">
-              MatchMind is designed like a premium consumer product, not just an info page. It makes soccer feel less intimidating and more exciting through structure, visual clarity, and guided exploration.
-            </div>
-
-            <div class="feature-list">
-              <div class="item">
-                <strong>Teams directory</strong>
-                <span>Quickly understand who’s playing, why they matter, and where they fit in the tournament conversation.</span>
-              </div>
-              <div class="item">
-                <strong>Matches browser</strong>
-                <span>Surface big games, likely storylines, and the moments fans should care about before kickoff.</span>
-              </div>
-              <div class="item">
-                <strong>Host cities view</strong>
-                <span>Turn venues into destinations, helping users connect the tournament to real places and energy.</span>
-              </div>
-              <div class="item">
-                <strong>Lessons hub</strong>
-                <span>Give beginners a no-stress path into the sport with structured, confidence-building learning.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="side-stack">
-            <div class="mini-panel glass reveal tilt-card">
-              <h3>Elegant by default</h3>
-              <p>Inspired by glassmorphism and Apple-like softness, the design feels premium without becoming noisy or overdesigned.</p>
-              <span class="mini-pill">Liquid glass feel</span>
-            </div>
-
-            <div class="mini-panel glass reveal tilt-card">
-              <h3>Built to scale</h3>
-              <p>The homepage now routes cleanly into dedicated pages for teams, matches, cities, and lessons, so the app can grow with the tournament.</p>
-              <span class="mini-pill">Expandable architecture</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="explore">
-      <div class="container">
-        <div class="section-head reveal">
-          <div class="eyebrow">Explore MatchMind</div>
-          <h2 class="section-title">Choose your way in.</h2>
-          <p class="section-sub">
-            Tap a destination below to go deeper. These four pages now act as the core navigation system for the MatchMind experience.
-          </p>
+        <div class="hero-actions">
+          <a href="#explore" class="btn btn-primary">Start Exploring</a>
+          <a href="#why" class="btn btn-secondary">See How It Works</a>
         </div>
 
         <div class="stats-row">
-          <a class="stat-card glass reveal tilt-card" href="teams.html">
-            <div class="stat-content">
-              <div class="stat-number">48</div>
-              <div class="stat-label">Teams</div>
-              <div class="stat-hint">Open teams page <span class="stat-arrow">→</span></div>
-            </div>
+          <a class="stat-card glass tilt-card" href="teams.html">
+            <div class="stat-number" data-target="48">0</div>
+            <div class="stat-label">Teams</div>
+            <div class="stat-hint">View all teams <span class="stat-arrow">→</span></div>
           </a>
 
-          <a class="stat-card glass reveal tilt-card" href="matches.html">
-            <div class="stat-content">
-              <div class="stat-number">104</div>
-              <div class="stat-label">Matches</div>
-              <div class="stat-hint">Open matches page <span class="stat-arrow">→</span></div>
-            </div>
+          <a class="stat-card glass tilt-card" href="matches.html">
+            <div class="stat-number" data-target="104">0</div>
+            <div class="stat-label">Matches</div>
+            <div class="stat-hint">Browse fixtures <span class="stat-arrow">→</span></div>
           </a>
 
-          <a class="stat-card glass reveal tilt-card" href="cities.html">
-            <div class="stat-content">
-              <div class="stat-number">16</div>
-              <div class="stat-label">Host Cities</div>
-              <div class="stat-hint">Open cities page <span class="stat-arrow">→</span></div>
-            </div>
+          <a class="stat-card glass tilt-card" href="cities.html">
+            <div class="stat-number" data-target="16">0</div>
+            <div class="stat-label">Host Cities</div>
+            <div class="stat-hint">See venues <span class="stat-arrow">→</span></div>
           </a>
 
-          <a class="stat-card glass reveal tilt-card" href="lessons.html">
-            <div class="stat-content">
-              <div class="stat-number">12</div>
-              <div class="stat-label">Lessons</div>
-              <div class="stat-hint">Open lessons page <span class="stat-arrow">→</span></div>
-            </div>
+          <a class="stat-card glass tilt-card" href="lessons.html">
+            <div class="stat-number" data-target="12">0</div>
+            <div class="stat-label">Lessons</div>
+            <div class="stat-hint">Start learning <span class="stat-arrow">→</span></div>
           </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="cta-band">
-      <div class="container">
-        <div class="cta-shell glass reveal">
-          <div>
-            <h3>The World Cup is huge.<br />Your product should feel ready for it.</h3>
-            <p>
-              This homepage now acts like a premium gateway into the rest of the MatchMind experience, with cleaner navigation, better aesthetics, and direct paths into your uploaded pages.
-            </p>
+  <section class="section" id="why">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Why MatchMind</div>
+        <h2 class="section-title">Every American’s<br />soccer confusion</h2>
+        <p class="section-sub">Hover each card for the real answer — explained using sports you already love.</p>
+      </div>
+
+      <div class="pain-grid">
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">😕</div>
+            <div class="pain-q">"Why is everyone celebrating a 0-0 tie??"</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
           </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">A 0-0 game is often a tactical war — two defenses refusing to crack. Keeping a clean sheet can be a massive result.</div>
+            <div class="pain-analogy">
+              <div class="al">🏈 American Analogy</div>
+              <p>Like a 3-0 NFL game where the defense dominated every drive — ugly score, huge pride.</p>
+            </div>
+          </div>
+        </div>
 
-          <div class="hero-actions" style="margin-bottom:0">
-            <a href="teams.html" class="btn btn-primary">Browse Teams</a>
-            <a href="lessons.html" class="btn btn-secondary">View Lessons</a>
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">😵</div>
+            <div class="pain-q">"What even is offside? I've asked 10 times."</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
+          </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">You're offside if you're too far ahead of the defense at the exact moment the pass is played to you.</div>
+            <div class="pain-analogy">
+              <div class="al">🏒 American Analogy</div>
+              <p>Like getting ahead of the play before the puck arrives. Timing is everything.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">🤷</div>
+            <div class="pain-q">"Why did the clock go past 90 minutes??"</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
+          </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">The ref adds stoppage time to make up for injuries, substitutions, reviews, and delays.</div>
+            <div class="pain-analogy">
+              <div class="al">🏀 American Analogy</div>
+              <p>Think of it like adding back dead time at the end of a quarter, but less exact.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">🥱</div>
+            <div class="pain-q">"Why did the game just stop for a VIDEO REPLAY??"</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
+          </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">That’s VAR — officials review key moments like goals, penalties, and red cards using video replay.</div>
+            <div class="pain-analogy">
+              <div class="al">🏈 American Analogy</div>
+              <p>It’s basically instant replay, but fans get just as annoyed waiting for the decision.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">😳</div>
+            <div class="pain-q">"Why did they get a 1-on-1 shot after a foul??"</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
+          </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">That’s a penalty kick — one player against the goalkeeper after a foul inside the box.</div>
+            <div class="pain-analogy">
+              <div class="al">🏀 American Analogy</div>
+              <p>Like a pressure-packed free throw, except way more dramatic and with a goalkeeper staring you down.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pain-card glass-lite reveal tilt-card">
+          <div class="pain-front">
+            <div class="pain-emoji">😂</div>
+            <div class="pain-q">"Why is he rolling around like he's dying??"</div>
+            <div class="pain-hint">↑ Hover for the answer</div>
+          </div>
+          <div class="pain-back">
+            <div class="pain-answer-tag">The Answer</div>
+            <div class="pain-answer">Sometimes players exaggerate contact to win a foul. It’s controversial — and refs do punish obvious simulation.</div>
+            <div class="pain-analogy">
+              <div class="al">🏀 American Analogy</div>
+              <p>Think NBA flopping, just with more drama and more rolling.</p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      <div class="container">
-        <div class="footer-shell">
-          <div>© 2026 MatchMind</div>
-          <div>Soccer for new fans, designed like a premium product.</div>
+  <section class="section" id="soccer101">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Soccer 101</div>
+        <h2 class="section-title">The rules, explained<br />like American sports</h2>
+        <p class="section-sub">The simple version, without the jargon overload.</p>
+      </div>
+
+      <div class="feat-grid">
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">⏱️</div>
+          <h3>How Time Works</h3>
+          <p>Two 45-minute halves with stoppage time added at the end. The clock doesn’t stop the way it does in American sports.</p>
+          <div class="feat-arrow">Beginner essential</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🟨</div>
+          <h3>Yellow &amp; Red Cards</h3>
+          <p>Yellow is a warning. Red means immediate ejection, and the team plays a man down.</p>
+          <div class="feat-arrow">Know this fast</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🏆</div>
+          <h3>Extra Time &amp; Shootouts</h3>
+          <p>When knockout games are tied after 90, they go to extra time, then penalties if needed.</p>
+          <div class="feat-arrow">High-drama moment</div>
         </div>
       </div>
-    </footer>
+    </div>
+  </section>
 
-    <a class="fab" href="milo-test.html" aria-label="Ask Milo">
-      <span class="fab-label">Ask Milo</span>
-      ⚽
-    </a>
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Everything you need</div>
+        <h2 class="section-title">Six tools. One app.</h2>
+        <p class="section-sub">From total beginner to game-day expert — everything you need to actually enjoy the World Cup.</p>
+      </div>
+
+      <div class="feat-grid">
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🎓</div>
+          <h3>Soccer School</h3>
+          <p>12 animated lessons. Offside to shootouts, explained using American sports analogies.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🔴</div>
+          <h3>Live Translator</h3>
+          <p>Every match event explained in real time with plain English and sports analogies.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🧠</div>
+          <h3>Fan IQ Quiz</h3>
+          <p>60 questions across three difficulty levels. Build your score from 0 to 1000.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🌍</div>
+          <h3>Translation Hub</h3>
+          <p>40 soccer terms decoded plus 20 fan phrases in English, Spanish, and French.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🎭</div>
+          <h3>Pre-Game Hype</h3>
+          <p>Rivalry history, players to watch, and Milo’s predictions for marquee matches.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+
+        <div class="feat-card glass-lite reveal tilt-card">
+          <div class="feat-ico">🕵️</div>
+          <h3>Match Integrity</h3>
+          <p>The dark side of soccer — scandals, match-fixing, and how FIFA fights back.</p>
+          <div class="feat-arrow">Tap to explore →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="watch">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">How to watch</div>
+        <h2 class="section-title">World Cup 2026</h2>
+        <p class="section-sub">Simple viewing options for new fans in the U.S.</p>
+      </div>
+
+      <div class="tab-row reveal">
+        <button class="wtab on" onclick="fw('all',this)">All Options</button>
+        <button class="wtab off" onclick="fw('free',this)">Free</button>
+        <button class="wtab off" onclick="fw('stream',this)">Streaming</button>
+        <button class="wtab off" onclick="fw('es',this)">En Español</button>
+      </div>
+
+      <div class="watch-grid">
+        <div class="watch-card glass-lite reveal" data-t="free">
+          <div class="w-ico">📺</div>
+          <div class="w-body">
+            <h3>Fox Sports / FS1</h3>
+            <p>Primary English-language broadcaster for 2026. Free with cable, antenna, or live TV bundle.</p>
+            <span class="badge b-free">✓ Free with cable</span>
+          </div>
+        </div>
+
+        <div class="watch-card glass-lite reveal" data-t="free es">
+          <div class="w-ico">📡</div>
+          <div class="w-body">
+            <h3>Telemundo</h3>
+            <p>Spanish-language coverage in many U.S. markets through over-the-air broadcast.</p>
+            <span class="badge b-free">✓ Free over-the-air</span>
+          </div>
+        </div>
+
+        <div class="watch-card glass-lite reveal" data-t="stream">
+          <div class="w-ico">🎬</div>
+          <div class="w-body">
+            <h3>Fubo TV</h3>
+            <p>Best all-in-one streaming option for fans who want broad match access.</p>
+            <span class="badge b-paid">★ Best streaming bundle</span>
+          </div>
+        </div>
+
+        <div class="watch-card glass-lite reveal" data-t="free stream es">
+          <div class="w-ico">🌍</div>
+          <div class="w-body">
+            <h3>ViX</h3>
+            <p>Free Spanish-language streaming option that’s easy to access on mobile.</p>
+            <span class="badge b-free">✓ Free app</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="explore">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Explore MatchMind</div>
+        <h2 class="section-title">Choose your way in.</h2>
+        <p class="section-sub">Teams, matches, cities, and lessons now work as the main navigation paths into the product.</p>
+      </div>
+
+      <div class="stats-row">
+        <a class="stat-card glass tilt-card reveal" href="teams.html">
+          <div class="stat-number">48</div>
+          <div class="stat-label">Teams</div>
+          <div class="stat-hint">Open teams page <span class="stat-arrow">→</span></div>
+        </a>
+
+        <a class="stat-card glass tilt-card reveal" href="matches.html">
+          <div class="stat-number">104</div>
+          <div class="stat-label">Matches</div>
+          <div class="stat-hint">Open matches page <span class="stat-arrow">→</span></div>
+        </a>
+
+        <a class="stat-card glass tilt-card reveal" href="cities.html">
+          <div class="stat-number">16</div>
+          <div class="stat-label">Host Cities</div>
+          <div class="stat-hint">Open cities page <span class="stat-arrow">→</span></div>
+        </a>
+
+        <a class="stat-card glass tilt-card reveal" href="lessons.html">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Lessons</div>
+          <div class="stat-hint">Open lessons page <span class="stat-arrow">→</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-shell">
+        <div>© 2026 MatchMind</div>
+        <div>Soccer for new fans, designed like a premium product.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Milo floating window -->
+  <div id="miloWindow" class="milo-window glass">
+    <div class="milo-head">
+      <div class="milo-title">
+        <span class="dot"></span>
+        <span>Ask Milo</span>
+      </div>
+      <button class="milo-close" onclick="toggleMilo(false)">×</button>
+    </div>
+
+    <div class="milo-body">
+      <div id="milo-msgs" class="chat-msgs"></div>
+
+      <div class="chat-row">
+        <input id="milo-in" type="text" placeholder="What is offside? Why is 0-0 exciting?" />
+        <button id="milo-send">→</button>
+      </div>
+    </div>
   </div>
+
+  <button class="fab" onclick="toggleMilo()">
+    <span class="fab-label">Ask Milo</span>
+    ⚽
+  </button>
 
   <script>
     function scrollToSection(selector){
       const el = document.querySelector(selector);
-      if(el){
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    // Reveal on scroll
+    // reveal
     const revealEls = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -955,22 +1267,20 @@
 
     revealEls.forEach(el => revealObserver.observe(el));
 
-    // Animated counters
+    // counters
     const counters = document.querySelectorAll('[data-target]');
     const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if(!entry.isIntersecting) return;
         const el = entry.target;
         const target = parseInt(el.dataset.target, 10);
-        let current = 0;
         const duration = 1200;
         const start = performance.now();
 
         function update(ts){
           const progress = Math.min((ts - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
-          current = Math.floor(target * eased);
-          el.textContent = current;
+          el.textContent = Math.floor(target * eased);
           if(progress < 1){
             requestAnimationFrame(update);
           } else {
@@ -981,32 +1291,117 @@
         requestAnimationFrame(update);
         counterObserver.unobserve(el);
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.45 });
 
-    counters.forEach(counter => counterObserver.observe(counter));
+    counters.forEach(c => counterObserver.observe(c));
 
-    // Hover lighting and slight tilt
+    // hover light
     document.querySelectorAll('.tilt-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * -4;
-        const rotateY = ((x - centerX) / centerX) * 4;
-
-        card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         card.style.setProperty('--mx', `${x}px`);
         card.style.setProperty('--my', `${y}px`);
       });
-
       card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
         card.style.setProperty('--mx', '50%');
         card.style.setProperty('--my', '50%');
       });
+    });
+
+    // watch filters
+    function fw(type, btn){
+      document.querySelectorAll('.wtab').forEach(b => b.className = 'wtab off');
+      btn.className = 'wtab on';
+      document.querySelectorAll('.watch-card').forEach(c => {
+        c.style.display = (type === 'all' || c.dataset.t.includes(type)) ? 'flex' : 'none';
+      });
+    }
+
+    // Milo floating chat
+    const miloWindow = document.getElementById('miloWindow');
+    const miloMsgs = document.getElementById('milo-msgs');
+    const miloInput = document.getElementById('milo-in');
+    const miloSend = document.getElementById('milo-send');
+    let miloInitialized = false;
+
+    function toggleMilo(force){
+      const open = typeof force === 'boolean' ? force : !miloWindow.classList.contains('open');
+      miloWindow.classList.toggle('open', open);
+
+      if(open){
+        if(!miloInitialized){
+          addMiloMsg('b', "Hey there, I’m Milo. Ask me anything about soccer and I’ll explain it in plain English.");
+          miloInitialized = true;
+        }
+        setTimeout(() => miloInput.focus(), 120);
+      }
+    }
+
+    function addMiloMsg(who, text){
+      const d = document.createElement('div');
+      d.className = who === 'b' ? 'cm-b' : 'cm-u';
+      d.textContent = text;
+      miloMsgs.appendChild(d);
+      miloMsgs.scrollTop = miloMsgs.scrollHeight;
+    }
+
+    async function sendMilo(){
+      const q = miloInput.value.trim();
+      if(!q) return;
+
+      addMiloMsg('u', q);
+      miloInput.value = '';
+
+      const load = document.createElement('div');
+      load.className = 'cm-b';
+      load.style.opacity = '0.6';
+      load.textContent = 'Thinking...';
+      miloMsgs.appendChild(load);
+      miloMsgs.scrollTop = miloMsgs.scrollHeight;
+
+      try{
+        const res = await fetch('/api/chat', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            messages:[
+              {
+                role:'system',
+                content:'You are Milo, a friendly soccer explainer for American sports fans. Answer clearly using analogies to NFL, NBA, MLB, and NHL when helpful.'
+              },
+              { role:'user', content:q }
+            ]
+          })
+        });
+
+        const data = await res.json();
+        load.remove();
+
+        if(!res.ok){
+          const errText =
+            data?.error?.message ||
+            (typeof data?.error === 'string' ? data.error : JSON.stringify(data?.error || data));
+          addMiloMsg('b', 'Error: ' + errText);
+          return;
+        }
+
+        const reply = data?.choices?.[0]?.message?.content || 'No reply from Milo.';
+        addMiloMsg('b', reply);
+      }catch(e){
+        load.remove();
+        addMiloMsg('b', 'Network error: ' + e.message);
+      }
+    }
+
+    miloSend.addEventListener('click', sendMilo);
+    miloInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') sendMilo();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') toggleMilo(false);
     });
   </script>
 </body>
