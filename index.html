@@ -645,7 +645,86 @@
       font-size:.84rem;
     }
 
-    /* Floating Milo window */
+    .tool-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:160;
+      background:rgba(4,6,10,.55);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+
+    .tool-modal.open{
+      display:flex;
+    }
+
+    .tool-modal-box{
+      width:min(760px, 100%);
+      max-height:85vh;
+      overflow:auto;
+      border-radius:26px;
+      padding:22px;
+      background:linear-gradient(180deg, rgba(28,30,40,.96), rgba(18,20,28,.94));
+      border:1px solid rgba(255,255,255,.11);
+      box-shadow:0 30px 80px rgba(0,0,0,.42);
+    }
+
+    .tool-modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .tool-modal-title{
+      font-family:'Playfair Display',serif;
+      font-size:1.5rem;
+      letter-spacing:-.4px;
+    }
+
+    .tool-close{
+      width:38px;
+      height:38px;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      font-size:1rem;
+    }
+
+    .tool-close:hover{
+      background:rgba(255,255,255,.14);
+    }
+
+    .tool-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .tool-item{
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .tool-item h4{
+      margin-bottom:8px;
+      font-size:1rem;
+    }
+
+    .tool-item p{
+      color:rgba(255,255,255,.64);
+      line-height:1.7;
+      font-size:.9rem;
+    }
+
     .milo-window{
       position:fixed;
       right:24px;
@@ -1078,42 +1157,42 @@
       </div>
 
       <div class="feat-grid">
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('school-modal')">
           <div class="feat-ico">🎓</div>
           <h3>Soccer School</h3>
           <p>12 animated lessons. Offside to shootouts, explained using American sports analogies.</p>
           <div class="feat-arrow">Tap to explore →</div>
         </div>
 
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('live-modal')">
           <div class="feat-ico">🔴</div>
           <h3>Live Translator</h3>
           <p>Every match event explained in real time with plain English and sports analogies.</p>
           <div class="feat-arrow">Tap to explore →</div>
         </div>
 
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('quiz-modal')">
           <div class="feat-ico">🧠</div>
           <h3>Fan IQ Quiz</h3>
           <p>60 questions across three difficulty levels. Build your score from 0 to 1000.</p>
           <div class="feat-arrow">Tap to explore →</div>
         </div>
 
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('translator-modal')">
           <div class="feat-ico">🌍</div>
           <h3>Translation Hub</h3>
           <p>40 soccer terms decoded plus 20 fan phrases in English, Spanish, and French.</p>
           <div class="feat-arrow">Tap to explore →</div>
         </div>
 
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('pregame-modal')">
           <div class="feat-ico">🎭</div>
           <h3>Pre-Game Hype</h3>
           <p>Rivalry history, players to watch, and Milo’s predictions for marquee matches.</p>
           <div class="feat-arrow">Tap to explore →</div>
         </div>
 
-        <div class="feat-card glass-lite reveal tilt-card">
+        <div class="feat-card glass-lite reveal tilt-card" onclick="openToolModal('integrity-modal')">
           <div class="feat-ico">🕵️</div>
           <h3>Match Integrity</h3>
           <p>The dark side of soccer — scandals, match-fixing, and how FIFA fights back.</p>
@@ -1223,7 +1302,136 @@
     </div>
   </footer>
 
-  <!-- Milo floating window -->
+  <div id="school-modal" class="tool-modal" onclick="backdropClose(event, 'school-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🎓 Soccer School</div>
+        <button class="tool-close" onclick="closeToolModal('school-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>Offside</h4>
+          <p>The most misunderstood rule in soccer, broken down in plain English.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Cards</h4>
+          <p>Yellow cards, red cards, and why playing a man down changes everything.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Penalties & Shootouts</h4>
+          <p>Learn why penalty moments are some of the most dramatic in sports.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="live-modal" class="tool-modal" onclick="backdropClose(event, 'live-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🔴 Live Translator</div>
+        <button class="tool-close" onclick="closeToolModal('live-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>Real-time match moments</h4>
+          <p>Translate what just happened on screen into plain language fans instantly understand.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Explains fouls, cards, reviews</h4>
+          <p>Perfect for viewers who know something important happened but not why.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-modal" class="tool-modal" onclick="backdropClose(event, 'quiz-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🧠 Fan IQ Quiz</div>
+        <button class="tool-close" onclick="closeToolModal('quiz-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>Beginner Mode</h4>
+          <p>Test your understanding of offside, cards, stoppage time, and the basics.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Intermediate Mode</h4>
+          <p>Move into formations, tactics, and match strategy.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Expert Mode</h4>
+          <p>World Cup history, elite terminology, and advanced fan knowledge.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="translator-modal" class="tool-modal" onclick="backdropClose(event, 'translator-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🌍 Translation Hub</div>
+        <button class="tool-close" onclick="closeToolModal('translator-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>Soccer terms</h4>
+          <p>Offside, brace, clean sheet, nutmeg, press, build-up play, and more.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Fan language</h4>
+          <p>Common chants, phrases, and match-day expressions explained for newer audiences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pregame-modal" class="tool-modal" onclick="backdropClose(event, 'pregame-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🎭 Pre-Game Hype</div>
+        <button class="tool-close" onclick="closeToolModal('pregame-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>Rivalries</h4>
+          <p>Why certain matchups carry real emotion, history, and pressure.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Players to watch</h4>
+          <p>Quick spotlight on the stars and what makes them dangerous.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Milo’s predictions</h4>
+          <p>A lightweight, fan-friendly preview of what might happen and why it matters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="integrity-modal" class="tool-modal" onclick="backdropClose(event, 'integrity-modal')">
+    <div class="tool-modal-box">
+      <div class="tool-modal-head">
+        <div class="tool-modal-title">🕵️ Match Integrity</div>
+        <button class="tool-close" onclick="closeToolModal('integrity-modal')">✕</button>
+      </div>
+      <div class="tool-list">
+        <div class="tool-item">
+          <h4>What is match-fixing?</h4>
+          <p>A beginner-friendly explanation of how corruption can affect sports outcomes.</p>
+        </div>
+        <div class="tool-item">
+          <h4>Why it matters</h4>
+          <p>Helps new fans understand how fairness and trust shape the sport.</p>
+        </div>
+        <div class="tool-item">
+          <h4>How the sport fights back</h4>
+          <p>Monitoring systems, betting analysis, and stricter oversight now play a major role.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="miloWindow" class="milo-window glass">
     <div class="milo-head">
       <div class="milo-title">
@@ -1235,7 +1443,6 @@
 
     <div class="milo-body">
       <div id="milo-msgs" class="chat-msgs"></div>
-
       <div class="chat-row">
         <input id="milo-in" type="text" placeholder="What is offside? Why is 0-0 exciting?" />
         <button id="milo-send">→</button>
@@ -1254,7 +1461,6 @@
       if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    // reveal
     const revealEls = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1267,7 +1473,6 @@
 
     revealEls.forEach(el => revealObserver.observe(el));
 
-    // counters
     const counters = document.querySelectorAll('[data-target]');
     const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1295,7 +1500,6 @@
 
     counters.forEach(c => counterObserver.observe(c));
 
-    // hover light
     document.querySelectorAll('.tilt-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
@@ -1310,7 +1514,6 @@
       });
     });
 
-    // watch filters
     function fw(type, btn){
       document.querySelectorAll('.wtab').forEach(b => b.className = 'wtab off');
       btn.className = 'wtab on';
@@ -1319,7 +1522,28 @@
       });
     }
 
-    // Milo floating chat
+    function openToolModal(id){
+      const modal = document.getElementById(id);
+      if(modal){
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeToolModal(id){
+      const modal = document.getElementById(id);
+      if(modal){
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function backdropClose(event, id){
+      if(event.target.id === id){
+        closeToolModal(id);
+      }
+    }
+
     const miloWindow = document.getElementById('miloWindow');
     const miloMsgs = document.getElementById('milo-msgs');
     const miloInput = document.getElementById('milo-in');
@@ -1401,7 +1625,13 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape') toggleMilo(false);
+      if(e.key === 'Escape'){
+        document.querySelectorAll('.tool-modal.open').forEach(modal => {
+          modal.classList.remove('open');
+        });
+        document.body.style.overflow = '';
+        toggleMilo(false);
+      }
     });
   </script>
 </body>
