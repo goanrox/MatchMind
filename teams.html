@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchMind — Teams</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#18181f;
+      color:#fff;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+    body::before{
+      content:'';
+      position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
+        radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
+        radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
+        linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+      pointer-events:none;
+    }
+    .wrap{position:relative;z-index:1}
+    nav{
+      position:sticky;top:0;z-index:100;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;
+      background:rgba(18,16,22,.82);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo{
+      font-family:'Playfair Display',serif;
+      font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none;
+    }
+    .back-btn{
+      text-decoration:none;
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      padding:10px 16px;border-radius:12px;
+      font-size:.86rem;font-weight:600;
+    }
+    .page{
+      max-width:1180px;
+      margin:0 auto;
+      padding:42px 24px 70px;
+    }
+    .eyebrow{
+      font-size:.72rem;font-weight:700;letter-spacing:2.3px;text-transform:uppercase;
+      color:rgba(255,255,255,.28);margin-bottom:10px;
+    }
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.4rem,5vw,4.4rem);
+      line-height:1.02;
+      letter-spacing:-1px;
+      margin-bottom:16px;
+    }
+    .sub{
+      max-width:760px;
+      font-size:1rem;
+      line-height:1.75;
+      color:rgba(255,255,255,.48);
+      margin-bottom:26px;
+    }
+    .toolbar{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+      margin-bottom:30px;
+    }
+    .search{
+      flex:1;min-width:260px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:14px;
+      padding:13px 16px;
+      color:#fff;
+      font-family:'DM Sans',sans-serif;
+      font-size:.92rem;
+      outline:none;
+    }
+    .search::placeholder{color:rgba(255,255,255,.28)}
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{
+      border:none;cursor:pointer;
+      padding:9px 14px;border-radius:999px;
+      font-size:.82rem;font-weight:600;
+      color:rgba(255,255,255,.7);
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+      font-family:'DM Sans',sans-serif;
+    }
+    .pill.active{
+      background:rgba(255,255,255,.9);
+      color:#18181f;
+    }
+    .stats-strip{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-bottom:24px;
+    }
+    .mini-stat{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:16px;
+      padding:18px 16px;
+    }
+    .mini-stat-num{
+      font-family:'Playfair Display',serif;
+      font-size:1.8rem;
+      margin-bottom:4px;
+    }
+    .mini-stat-lbl{
+      font-size:.78rem;
+      color:rgba(255,255,255,.36);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+    .card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:18px;
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      transition:all .22s ease;
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.16);
+    }
+    .flag{
+      font-size:2rem;margin-bottom:12px;
+    }
+    .team-name{
+      font-size:1rem;font-weight:700;margin-bottom:6px;
+    }
+    .team-meta{
+      font-size:.83rem;line-height:1.55;color:rgba(255,255,255,.5);
+      margin-bottom:12px;
+    }
+    .tag{
+      display:inline-flex;
+      padding:4px 10px;border-radius:999px;
+      font-size:.68rem;font-weight:700;letter-spacing:.4px;
+      background:rgba(125,239,161,.12);color:#7defa1;
+    }
+    .empty{
+      text-align:center;
+      color:rgba(255,255,255,.35);
+      padding:28px 0;
+      font-size:.92rem;
+      display:none;
+    }
+    @media(max-width:1000px){
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .stats-strip{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:700px){
+      nav{padding:0 18px}
+      .page{padding:28px 18px 60px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){
+      .grid{grid-template-columns:1fr}
+      .stats-strip{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="nav-logo">⚽ MatchMind</a>
+      <a href="index.html" class="back-btn">← Back</a>
+    </nav>
+
+    <main class="page">
+      <p class="eyebrow">World Cup 2026</p>
+      <h1>Every team,<br>finally organized.</h1>
+      <p class="sub">
+        Browse participating nations by region, search by name, and build a cleaner way for new fans to understand the field. This page is ready for expansion when the full 48-team list is finalized.
+      </p>
+
+      <div class="stats-strip">
+        <div class="mini-stat"><div class="mini-stat-num">48</div><div class="mini-stat-lbl">Projected Teams</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">3</div><div class="mini-stat-lbl">Host Nations</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">6</div><div class="mini-stat-lbl">Regions</div></div>
+        <div class="mini-stat"><div class="mini-stat-num">1</div><div class="mini-stat-lbl">Global Tournament</div></div>
+      </div>
+
+      <div class="toolbar">
+        <input id="teamSearch" class="search" type="text" placeholder="Search a team… ex. Brazil, USA, France" />
+        <div class="pill-row">
+          <button class="pill active" data-filter="all">All</button>
+          <button class="pill" data-filter="concacaf">CONCACAF</button>
+          <button class="pill" data-filter="uefa">Europe</button>
+          <button class="pill" data-filter="conmebol">South America</button>
+          <button class="pill" data-filter="caf">Africa</button>
+          <button class="pill" data-filter="afc">Asia</button>
+        </div>
+      </div>
+
+      <div id="teamGrid" class="grid"></div>
+      <div id="emptyState" class="empty">No teams found for that search.</div>
+    </main>
+  </div>
+
+  <script>
+    const teams = [
+      { flag:"🇺🇸", name:"United States", region:"concacaf", meta:"Host nation · Growing talent pool · Home-field energy", tag:"Host Nation" },
+      { flag:"🇲🇽", name:"Mexico", region:"concacaf", meta:"Host nation · Passionate fan base · Historic World Cup presence", tag:"Host Nation" },
+      { flag:"🇨🇦", name:"Canada", region:"concacaf", meta:"Host nation · Fast-rising program · Young stars", tag:"Host Nation" },
+      { flag:"🇧🇷", name:"Brazil", region:"conmebol", meta:"Five-time world champions · Flair, depth, and global star power", tag:"Contender" },
+      { flag:"🇦🇷", name:"Argentina", region:"conmebol", meta:"Defending champions · Elite mentality · Tournament pedigree", tag:"Contender" },
+      { flag:"🇺🇾", name:"Uruguay", region:"conmebol", meta:"Historic giant · Aggressive style · Dangerous in knockout play", tag:"Dark Horse" },
+      { flag:"🇨🇴", name:"Colombia", region:"conmebol", meta:"Technical and energetic · Can surprise bigger teams", tag:"Threat" },
+      { flag:"🏴", name:"England", region:"uefa", meta:"Elite squad depth · Huge expectations · Always under pressure", tag:"Contender" },
+      { flag:"🇫🇷", name:"France", region:"uefa", meta:"World-class talent · Powerful attack · Built to win", tag:"Contender" },
+      { flag:"🇩🇪", name:"Germany", region:"uefa", meta:"Historic powerhouse · Structured play · Tournament DNA", tag:"Contender" },
+      { flag:"🇪🇸", name:"Spain", region:"uefa", meta:"Possession-focused · Technically gifted · Smart in buildup", tag:"Contender" },
+      { flag:"🇵🇹", name:"Portugal", region:"uefa", meta:"Star-driven side · Creative attackers · Big-match danger", tag:"Threat" },
+      { flag:"🇳🇱", name:"Netherlands", region:"uefa", meta:"Tactical and disciplined · Reliable tournament team", tag:"Threat" },
+      { flag:"🇮🇹", name:"Italy", region:"uefa", meta:"Historic champion · Defensive intelligence · Always respected", tag:"Historic Power" },
+      { flag:"🇧🇪", name:"Belgium", region:"uefa", meta:"Golden generation transitioning · Still dangerous", tag:"Threat" },
+      { flag:"🇭🇷", name:"Croatia", region:"uefa", meta:"Midfield quality · Overachieves on big stages", tag:"Dark Horse" },
+      { flag:"🇲🇦", name:"Morocco", region:"caf", meta:"Explosive transition play · Defensive resilience", tag:"Breakout Team" },
+      { flag:"🇸🇳", name:"Senegal", region:"caf", meta:"Athletic, disciplined, and dangerous in open play", tag:"Threat" },
+      { flag:"🇳🇬", name:"Nigeria", region:"caf", meta:"Physical talent · Fast attackers · High ceiling", tag:"Threat" },
+      { flag:"🇯🇵", name:"Japan", region:"afc", meta:"Disciplined shape · Smart pressing · Strong technical base", tag:"Breakout Team" },
+      { flag:"🇰🇷", name:"South Korea", region:"afc", meta:"Fast, direct, and fearless in transition", tag:"Threat" },
+      { flag:"🇦🇺", name:"Australia", region:"afc", meta:"Hard-working side · Tough to break down", tag:"Dark Horse" }
+    ];
+
+    let activeFilter = "all";
+
+    const grid = document.getElementById("teamGrid");
+    const search = document.getElementById("teamSearch");
+    const empty = document.getElementById("emptyState");
+    const pills = document.querySelectorAll(".pill");
+
+    function renderTeams() {
+      const q = search.value.trim().toLowerCase();
+      const filtered = teams.filter(team => {
+        const matchFilter = activeFilter === "all" || team.region === activeFilter;
+        const matchSearch =
+          team.name.toLowerCase().includes(q) ||
+          team.meta.toLowerCase().includes(q) ||
+          team.tag.toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+
+      grid.innerHTML = filtered.map(team => `
+        <div class="card">
+          <div class="flag">${team.flag}</div>
+          <div class="team-name">${team.name}</div>
+          <div class="team-meta">${team.meta}</div>
+          <span class="tag">${team.tag}</span>
+        </div>
+      `).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+    }
+
+    pills.forEach(btn => {
+      btn.addEventListener("click", () => {
+        pills.forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.dataset.filter;
+        renderTeams();
+      });
+    });
+
+    search.addEventListener("input", renderTeams);
+    renderTeams();
+  </script>
+</body>
+</html>
