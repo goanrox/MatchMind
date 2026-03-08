@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchMind — Host Cities</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#18181f;color:#fff;overflow-x:hidden;min-height:100vh;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
+        radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
+        radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
+        linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+      pointer-events:none;
+    }
+    .wrap{position:relative;z-index:1}
+    nav{
+      position:sticky;top:0;z-index:100;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;
+      background:rgba(18,16,22,.82);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none}
+    .back-btn{
+      text-decoration:none;color:#fff;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);padding:10px 16px;border-radius:12px;
+      font-size:.86rem;font-weight:600;
+    }
+    .page{max-width:1180px;margin:0 auto;padding:42px 24px 70px}
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:2.3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px}
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.4rem,5vw,4.4rem);
+      line-height:1.02;letter-spacing:-1px;margin-bottom:16px
+    }
+    .sub{
+      max-width:760px;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.48);
+      margin-bottom:26px
+    }
+    .toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:26px}
+    .search{
+      flex:1;min-width:260px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:14px;
+      padding:13px 16px;
+      color:#fff;font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;
+    }
+    .search::placeholder{color:rgba(255,255,255,.28)}
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{
+      border:none;cursor:pointer;padding:9px 14px;border-radius:999px;
+      font-size:.82rem;font-weight:600;
+      color:rgba(255,255,255,.7);
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+      font-family:'DM Sans',sans-serif;
+    }
+    .pill.active{background:rgba(255,255,255,.9);color:#18181f}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:18px;
+      transition:all .22s ease;
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.16);
+    }
+    .country{
+      font-size:.72rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+      color:rgba(255,255,255,.28);
+      margin-bottom:8px;
+    }
+    .city{
+      font-size:1rem;font-weight:700;margin-bottom:6px
+    }
+    .stadium{
+      font-size:.84rem;line-height:1.55;color:rgba(255,255,255,.5);margin-bottom:12px
+    }
+    .tag{
+      display:inline-flex;padding:4px 10px;border-radius:999px;
+      font-size:.68rem;font-weight:700;letter-spacing:.4px;
+      background:rgba(255,220,80,.12);color:#ffd850;
+    }
+    .empty{text-align:center;color:rgba(255,255,255,.35);padding:28px 0;font-size:.92rem;display:none}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:700px){
+      nav{padding:0 18px}
+      .page{padding:28px 18px 60px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="nav-logo">⚽ MatchMind</a>
+      <a href="index.html" class="back-btn">← Back</a>
+    </nav>
+
+    <main class="page">
+      <p class="eyebrow">Tournament Venues</p>
+      <h1>Host cities,<br>beautifully sorted.</h1>
+      <p class="sub">
+        Give fans a polished view of where the tournament is happening, across the United States, Canada, and Mexico.
+      </p>
+
+      <div class="toolbar">
+        <input id="citySearch" class="search" type="text" placeholder="Search city or stadium… ex. Dallas, Toronto, Azteca" />
+        <div class="pill-row">
+          <button class="pill active" data-country="all">All</button>
+          <button class="pill" data-country="usa">USA</button>
+          <button class="pill" data-country="canada">Canada</button>
+          <button class="pill" data-country="mexico">Mexico</button>
+        </div>
+      </div>
+
+      <div id="cityGrid" class="grid"></div>
+      <div id="emptyState" class="empty">No cities found for that search.</div>
+    </main>
+  </div>
+
+  <script>
+    const cities = [
+      { country:"usa", countryLabel:"USA", city:"New York / New Jersey", stadium:"MetLife Stadium", tag:"Final Venue" },
+      { country:"usa", countryLabel:"USA", city:"Los Angeles", stadium:"SoFi Stadium", tag:"Mega Venue" },
+      { country:"usa", countryLabel:"USA", city:"Dallas", stadium:"AT&T Stadium", tag:"Big Crowd" },
+      { country:"usa", countryLabel:"USA", city:"Miami", stadium:"Hard Rock Stadium", tag:"Global Hub" },
+      { country:"usa", countryLabel:"USA", city:"Atlanta", stadium:"Mercedes-Benz Stadium", tag:"Premium Venue" },
+      { country:"usa", countryLabel:"USA", city:"Houston", stadium:"NRG Stadium", tag:"Major Market" },
+      { country:"usa", countryLabel:"USA", city:"Seattle", stadium:"Lumen Field", tag:"Loud Crowd" },
+      { country:"usa", countryLabel:"USA", city:"Kansas City", stadium:"Arrowhead Stadium", tag:"Football Cathedral" },
+      { country:"usa", countryLabel:"USA", city:"Boston", stadium:"Gillette Stadium", tag:"Historic Region" },
+      { country:"usa", countryLabel:"USA", city:"Philadelphia", stadium:"Lincoln Financial Field", tag:"East Coast Stop" },
+      { country:"usa", countryLabel:"USA", city:"San Francisco Bay Area", stadium:"Levi's Stadium", tag:"Tech Hub" },
+      { country:"canada", countryLabel:"Canada", city:"Toronto", stadium:"BMO Field", tag:"Canadian Host" },
+      { country:"canada", countryLabel:"Canada", city:"Vancouver", stadium:"BC Place", tag:"Canadian Host" },
+      { country:"mexico", countryLabel:"Mexico", city:"Mexico City", stadium:"Estadio Azteca", tag:"Historic Venue" },
+      { country:"mexico", countryLabel:"Mexico", city:"Guadalajara", stadium:"Estadio Akron", tag:"Mexican Host" },
+      { country:"mexico", countryLabel:"Mexico", city:"Monterrey", stadium:"Estadio BBVA", tag:"Mexican Host" }
+    ];
+
+    let activeCountry = "all";
+
+    const cityGrid = document.getElementById("cityGrid");
+    const citySearch = document.getElementById("citySearch");
+    const emptyState = document.getElementById("emptyState");
+    const pills = document.querySelectorAll(".pill");
+
+    function renderCities() {
+      const q = citySearch.value.trim().toLowerCase();
+
+      const filtered = cities.filter(item => {
+        const matchCountry = activeCountry === "all" || item.country === activeCountry;
+        const matchSearch =
+          item.city.toLowerCase().includes(q) ||
+          item.stadium.toLowerCase().includes(q) ||
+          item.countryLabel.toLowerCase().includes(q) ||
+          item.tag.toLowerCase().includes(q);
+        return matchCountry && matchSearch;
+      });
+
+      cityGrid.innerHTML = filtered.map(item => `
+        <div class="card">
+          <div class="country">${item.countryLabel}</div>
+          <div class="city">${item.city}</div>
+          <div class="stadium">${item.stadium}</div>
+          <span class="tag">${item.tag}</span>
+        </div>
+      `).join("");
+
+      emptyState.style.display = filtered.length ? "none" : "block";
+    }
+
+    pills.forEach(btn => {
+      btn.addEventListener("click", () => {
+        pills.forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        activeCountry = btn.dataset.country;
+        renderCities();
+      });
+    });
+
+    citySearch.addEventListener("input", renderCities);
+    renderCities();
+  </script>
+</body>
+</html>
