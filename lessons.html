@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchMind — Lessons</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#18181f;color:#fff;overflow-x:hidden;min-height:100vh;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
+        radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
+        radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
+        linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+      pointer-events:none;
+    }
+    .wrap{position:relative;z-index:1}
+    nav{
+      position:sticky;top:0;z-index:100;height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 28px;
+      background:rgba(18,16,22,.82);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none}
+    .back-btn{
+      text-decoration:none;color:#fff;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);padding:10px 16px;border-radius:12px;
+      font-size:.86rem;font-weight:600;
+    }
+    .page{max-width:1180px;margin:0 auto;padding:42px 24px 70px}
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:2.3px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px}
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.4rem,5vw,4.4rem);
+      line-height:1.02;letter-spacing:-1px;margin-bottom:16px
+    }
+    .sub{
+      max-width:760px;font-size:1rem;line-height:1.75;color:rgba(255,255,255,.48);
+      margin-bottom:26px
+    }
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:20px;
+      transition:all .22s ease;
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      background:rgba(255,255,255,.09);
+      border-color:rgba(255,255,255,.16);
+    }
+    .lesson-num{
+      font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(255,255,255,.28);margin-bottom:10px;
+    }
+    .lesson-title{font-size:1rem;font-weight:700;margin-bottom:8px}
+    .lesson-body{font-size:.85rem;line-height:1.65;color:rgba(255,255,255,.52);margin-bottom:12px}
+    .lesson-tag{
+      display:inline-flex;padding:4px 10px;border-radius:999px;
+      font-size:.68rem;font-weight:700;letter-spacing:.4px;
+      background:rgba(125,239,161,.12);color:#7defa1;
+    }
+    @media(max-width:700px){
+      nav{padding:0 18px}
+      .page{padding:28px 18px 60px}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="nav-logo">⚽ MatchMind</a>
+      <a href="index.html" class="back-btn">← Back</a>
+    </nav>
+
+    <main class="page">
+      <p class="eyebrow">Learn the Game</p>
+      <h1>Lessons that make<br>soccer click.</h1>
+      <p class="sub">
+        A cleaner learning library for beginners. These cards can later link to full lesson pages, videos, or interactive explainers.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="lesson-num">Lesson 01</div>
+          <div class="lesson-title">The Offside Rule</div>
+          <div class="lesson-body">The most misunderstood rule in soccer, translated into plain language with familiar sports comparisons.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 02</div>
+          <div class="lesson-title">Yellow &amp; Red Cards</div>
+          <div class="lesson-body">Learn the difference between warnings, ejections, and why one card can completely flip a match.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 03</div>
+          <div class="lesson-title">Penalty Kicks</div>
+          <div class="lesson-body">Understand why penalties are such huge moments and why entire tournaments are decided by them.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 04</div>
+          <div class="lesson-title">VAR Explained</div>
+          <div class="lesson-body">Video review in soccer, when it appears, why it takes time, and why fans both love and hate it.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 05</div>
+          <div class="lesson-title">Stoppage Time</div>
+          <div class="lesson-body">Why matches go beyond 90 minutes and how referees decide how much time gets added.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 06</div>
+          <div class="lesson-title">Extra Time &amp; Shootouts</div>
+          <div class="lesson-body">The knockout-round drama: 120 minutes, penalties, and the most nerve-wracking endings in sports.</div>
+          <span class="lesson-tag">Key Moment</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 07</div>
+          <div class="lesson-title">Formations &amp; Tactics</div>
+          <div class="lesson-body">Break down numbers like 4-3-3 and 4-4-2 so fans understand shape, roles, and coaching decisions.</div>
+          <span class="lesson-tag">Intermediate</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 08</div>
+          <div class="lesson-title">Set Pieces</div>
+          <div class="lesson-body">Free kicks, corners, and dead-ball situations explained like scripted plays in American sports.</div>
+          <span class="lesson-tag">Intermediate</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 09</div>
+          <div class="lesson-title">Substitutions</div>
+          <div class="lesson-body">Why managers are so strategic with subs and how late changes can shift momentum.</div>
+          <span class="lesson-tag">Beginner</span>
+        </div>
+
+        <div class="card">
+          <div class="lesson-num">Lesson 10</div>
+          <div class="lesson-title">World Cup Format 2026</div>
+          <div class="lesson-body">A simple breakdown of groups, knockout rounds, host nations, and how the expanded tournament works.</div>
+          <span class="lesson-tag">Tournament</span>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
