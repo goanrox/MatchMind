@@ -1,1147 +1,1121 @@
-<!-- ========== MATCHMIND | index.html — fully self-contained ========== -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MatchMind — Soccer Just Got Easy</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:#18181f;color:#fff;overflow-x:hidden}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchMind — Soccer Just Got Easy</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:#18181f;color:#fff;overflow-x:hidden}
 
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
-    radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
-    radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
-    linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
-  pointer-events:none;
-}
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
+        radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
+        radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
+        linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+      pointer-events:none;
+    }
 
-.wrap{position:relative;z-index:1}
+    .wrap{position:relative;z-index:1}
 
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 48px;
-  background:rgba(18,16,22,.82);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
-.nav-links{display:flex;gap:4px;list-style:none}
-.nav-links a{padding:6px 14px;border-radius:20px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);text-decoration:none;transition:all .2s;cursor:pointer}
-.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.nav-cta{background:rgba(255,255,255,.9);color:#18181f;padding:8px 20px;border-radius:20px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
-.nav-cta:hover{background:#fff}
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;height:60px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 48px;
+      background:rgba(18,16,22,.82);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+    .nav-links{display:flex;gap:4px;list-style:none}
+    .nav-links a{padding:6px 14px;border-radius:20px;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.45);text-decoration:none;transition:all .2s;cursor:pointer}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+    .nav-cta{background:rgba(255,255,255,.9);color:#18181f;padding:8px 20px;border-radius:20px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+    .nav-cta:hover{background:#fff}
 
-/* SECTIONS */
-.sec{padding:88px 48px}
-.inner{max-width:1040px;margin:0 auto}
-.s-tag{font-size:.7rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
-.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.85rem,3vw,2.5rem);font-weight:600;line-height:1.12;color:#fff;margin-bottom:10px;letter-spacing:-.3px}
-.s-sub{font-size:.93rem;color:rgba(255,255,255,.4);line-height:1.72;max-width:480px}
+    .sec{padding:88px 48px}
+    .inner{max-width:1040px;margin:0 auto}
+    .s-tag{font-size:.7rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
+    .s-title{font-family:'Playfair Display',serif;font-size:clamp(1.85rem,3vw,2.5rem);font-weight:600;line-height:1.12;color:#fff;margin-bottom:10px;letter-spacing:-.3px}
+    .s-sub{font-size:.93rem;color:rgba(255,255,255,.4);line-height:1.72;max-width:480px}
 
-/* HERO */
-#hero{padding:152px 48px 88px;text-align:center}
-#hero .inner{display:flex;flex-direction:column;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:6px 16px;font-size:.76rem;font-weight:500;color:rgba(255,255,255,.6);margin-bottom:28px}
-.ldot{width:7px;height:7px;border-radius:50%;background:#7defa1;animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-#hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:600;line-height:1.06;letter-spacing:-1.5px;color:#fff;margin-bottom:20px}
-#hero h1 em{font-style:italic;color:rgba(255,255,255,.48)}
-.hero-sub{font-size:1rem;color:rgba(255,255,255,.42);line-height:1.72;max-width:500px;margin-bottom:36px}
-.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
-.btn-solid{background:rgba(255,255,255,.92);color:#18181f;padding:13px 28px;border-radius:13px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .2s;border:none;font-family:'DM Sans',sans-serif;cursor:pointer}
-.btn-solid:hover{background:#fff;transform:translateY(-1px)}
-.btn-ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.72);padding:13px 28px;border-radius:13px;font-size:.9rem;font-weight:500;text-decoration:none;transition:all .2s}
-.btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%}
-.stat-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:22px 16px;text-align:center}
-.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;color:#fff;line-height:1;margin-bottom:5px}
-.stat-lbl{font-size:.74rem;color:rgba(255,255,255,.35)}
+    #hero{padding:152px 48px 88px;text-align:center}
+    #hero .inner{display:flex;flex-direction:column;align-items:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:6px 16px;font-size:.76rem;font-weight:500;color:rgba(255,255,255,.6);margin-bottom:28px}
+    .ldot{width:7px;height:7px;border-radius:50%;background:#7defa1;animation:blink 2s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    #hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:600;line-height:1.06;letter-spacing:-1.5px;color:#fff;margin-bottom:20px}
+    #hero h1 em{font-style:italic;color:rgba(255,255,255,.48)}
+    .hero-sub{font-size:1rem;color:rgba(255,255,255,.42);line-height:1.72;max-width:500px;margin-bottom:36px}
+    .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+    .btn-solid{background:rgba(255,255,255,.92);color:#18181f;padding:13px 28px;border-radius:13px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .2s;border:none;font-family:'DM Sans',sans-serif;cursor:pointer}
+    .btn-solid:hover{background:#fff;transform:translateY(-1px)}
+    .btn-ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.72);padding:13px 28px;border-radius:13px;font-size:.9rem;font-weight:500;text-decoration:none;transition:all .2s}
+    .btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%}
+    .stat-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:22px 16px;text-align:center}
+    .stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;color:#fff;line-height:1;margin-bottom:5px}
+    .stat-lbl{font-size:.74rem;color:rgba(255,255,255,.35)}
 
-/* PAIN CARDS */
-#pain{padding:0 48px 88px}
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.pain-card{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);cursor:pointer;min-height:260px;transition:border-color .3s,transform .3s}
-.pain-card:hover{border-color:rgba(255,255,255,.22);transform:translateY(-4px)}
-.pain-front{padding:28px 24px;display:flex;flex-direction:column;justify-content:flex-end;height:100%;transition:opacity .35s}
-.pain-card:hover .pain-front{opacity:0}
-.pain-emoji{font-size:2.2rem;margin-bottom:12px}
-.pain-q{font-size:.92rem;font-weight:600;color:rgba(255,255,255,.85);line-height:1.45;margin-bottom:8px}
-.pain-hint{font-size:.75rem;color:rgba(255,255,255,.28)}
-.pain-back{position:absolute;inset:0;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s;pointer-events:none}
-.pain-card:hover .pain-back{opacity:1;transform:translateY(0);pointer-events:auto}
-.pain-answer-tag{font-size:.66rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.32)}
-.pain-answer{font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.6;font-weight:500}
-.pain-analogy{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:11px 13px}
-.pain-analogy .al{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
-.pain-analogy p{font-size:.8rem;color:rgba(255,255,255,.68);line-height:1.5}
+    #pain{padding:0 48px 88px}
+    .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+    .pain-card{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);cursor:pointer;min-height:260px;transition:border-color .3s,transform .3s}
+    .pain-card:hover{border-color:rgba(255,255,255,.22);transform:translateY(-4px)}
+    .pain-front{padding:28px 24px;display:flex;flex-direction:column;justify-content:flex-end;height:100%;transition:opacity .35s}
+    .pain-card:hover .pain-front{opacity:0}
+    .pain-emoji{font-size:2.2rem;margin-bottom:12px}
+    .pain-q{font-size:.92rem;font-weight:600;color:rgba(255,255,255,.85);line-height:1.45;margin-bottom:8px}
+    .pain-hint{font-size:.75rem;color:rgba(255,255,255,.28)}
+    .pain-back{position:absolute;inset:0;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s;pointer-events:none}
+    .pain-card:hover .pain-back{opacity:1;transform:translateY(0);pointer-events:auto}
+    .pain-answer-tag{font-size:.66rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.32)}
+    .pain-answer{font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.6;font-weight:500}
+    .pain-analogy{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:11px 13px}
+    .pain-analogy .al{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
+    .pain-analogy p{font-size:.8rem;color:rgba(255,255,255,.68);line-height:1.5}
 
-/* INFO CARDS */
-#info{padding:0 48px 88px}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.info-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:18px;padding:26px 22px;display:flex;flex-direction:column;gap:13px;transition:all .25s}
-.info-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-3px)}
-.info-header{display:flex;align-items:center;gap:12px}
-.info-ico{width:40px;height:40px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.info-card h3{font-size:.95rem;font-weight:600}
-.info-body{font-size:.81rem;color:rgba(255,255,255,.5);line-height:1.65}
-.info-divider{height:1px;background:rgba(255,255,255,.07)}
-.info-analogy{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 13px}
-.info-analogy .al{font-size:.63rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px}
-.info-analogy p{font-size:.79rem;color:rgba(255,255,255,.62);line-height:1.5}
-.info-pill{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:8px;width:fit-content}
-.pill-green{background:rgba(125,239,161,.12);color:#7defa1}
-.pill-yellow{background:rgba(255,220,80,.12);color:#ffd850}
-.pill-blue{background:rgba(100,180,255,.12);color:#64b4ff}
+    #info{padding:0 48px 88px}
+    .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+    .info-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:18px;padding:26px 22px;display:flex;flex-direction:column;gap:13px;transition:all .25s}
+    .info-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-3px)}
+    .info-header{display:flex;align-items:center;gap:12px}
+    .info-ico{width:40px;height:40px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+    .info-card h3{font-size:.95rem;font-weight:600}
+    .info-body{font-size:.81rem;color:rgba(255,255,255,.5);line-height:1.65}
+    .info-divider{height:1px;background:rgba(255,255,255,.07)}
+    .info-analogy{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 13px}
+    .info-analogy .al{font-size:.63rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px}
+    .info-analogy p{font-size:.79rem;color:rgba(255,255,255,.62);line-height:1.5}
+    .info-pill{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:8px;width:fit-content}
+    .pill-green{background:rgba(125,239,161,.12);color:#7defa1}
+    .pill-yellow{background:rgba(255,220,80,.12);color:#ffd850}
+    .pill-blue{background:rgba(100,180,255,.12);color:#64b4ff}
 
-/* FEATURE CARDS — clickable, open modals */
-#features{padding:0 48px 88px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.feat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:26px 22px;color:#fff;transition:all .22s;display:flex;flex-direction:column;gap:8px;cursor:pointer}
-.feat-card:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.2);transform:translateY(-3px)}
-.feat-ico{width:40px;height:40px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.feat-card h3{font-size:.92rem;font-weight:600}
-.feat-card p{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55}
-.feat-arrow{font-size:.75rem;color:rgba(255,255,255,.25);margin-top:4px}
+    #features{padding:0 48px 88px}
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+    .feat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:26px 22px;color:#fff;transition:all .22s;display:flex;flex-direction:column;gap:8px;cursor:pointer}
+    .feat-card:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.2);transform:translateY(-3px)}
+    .feat-ico{width:40px;height:40px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .feat-card h3{font-size:.92rem;font-weight:600}
+    .feat-card p{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55}
+    .feat-arrow{font-size:.75rem;color:rgba(255,255,255,.25);margin-top:4px}
 
-/* WATCH */
-#watch{padding:0 48px 88px}
-.tab-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.wtab{padding:7px 18px;border-radius:22px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
-.wtab.on{background:rgba(255,255,255,.88);color:#18181f}
-.wtab.off{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)}
-.wtab.off:hover{background:rgba(255,255,255,.12);color:#fff}
-.watch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.watch-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:14px;text-decoration:none;color:#fff;transition:all .2s}
-.watch-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16)}
-.w-ico{width:42px;height:42px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.w-body h3{font-size:.9rem;font-weight:600;margin-bottom:4px}
-.w-body p{font-size:.77rem;color:rgba(255,255,255,.4);line-height:1.5;margin-bottom:8px}
-.badge{display:inline-block;font-size:.67rem;font-weight:600;letter-spacing:.3px;padding:3px 9px;border-radius:6px}
-.b-free{background:rgba(125,239,161,.13);color:#7defa1}
-.b-paid{background:rgba(255,210,100,.12);color:#ffd264}
+    #watch{padding:0 48px 88px}
+    .tab-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+    .wtab{padding:7px 18px;border-radius:22px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+    .wtab.on{background:rgba(255,255,255,.88);color:#18181f}
+    .wtab.off{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)}
+    .wtab.off:hover{background:rgba(255,255,255,.12);color:#fff}
+    .watch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .watch-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:14px;text-decoration:none;color:#fff;transition:all .2s}
+    .watch-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16)}
+    .w-ico{width:42px;height:42px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+    .w-body h3{font-size:.9rem;font-weight:600;margin-bottom:4px}
+    .w-body p{font-size:.77rem;color:rgba(255,255,255,.4);line-height:1.5;margin-bottom:8px}
+    .badge{display:inline-block;font-size:.67rem;font-weight:600;letter-spacing:.3px;padding:3px 9px;border-radius:6px}
+    .b-free{background:rgba(125,239,161,.13);color:#7defa1}
+    .b-paid{background:rgba(255,210,100,.12);color:#ffd264}
 
-/* FOOTER */
-footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;background:rgba(10,10,16,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:1}
-.ft-inner{max-width:1040px;margin:0 auto}
-.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:36px}
-.ft-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:#fff;margin-bottom:10px}
-.ft-tag{font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.7}
-.ft-col-h{font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:14px}
-.ft-col ul{list-style:none}
-.ft-col li{margin-bottom:10px}
-.ft-col a{font-size:.84rem;color:rgba(255,255,255,.42);text-decoration:none;transition:color .2s;cursor:pointer}
-.ft-col a:hover{color:rgba(255,255,255,.82)}
-.ft-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.ft-bottom p{font-size:.74rem;color:rgba(255,255,255,.2)}
+    footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;background:rgba(10,10,16,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:1}
+    .ft-inner{max-width:1040px;margin:0 auto}
+    .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:36px}
+    .ft-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:#fff;margin-bottom:10px}
+    .ft-tag{font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.7}
+    .ft-col-h{font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:14px}
+    .ft-col ul{list-style:none}
+    .ft-col li{margin-bottom:10px}
+    .ft-col a{font-size:.84rem;color:rgba(255,255,255,.42);text-decoration:none;transition:color .2s;cursor:pointer}
+    .ft-col a:hover{color:rgba(255,255,255,.82)}
+    .ft-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .ft-bottom p{font-size:.74rem;color:rgba(255,255,255,.2)}
 
-/* ════════════════════════════════════
-   FULL-SCREEN MODAL SYSTEM
-════════════════════════════════════ */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.5);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  overflow-y:auto;
-  padding:20px;
-}
-.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
-.modal-box{
-  background:#1c1a24;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:24px;
-  width:100%;max-width:780px;
-  margin:auto;
-  animation:modalIn .3s cubic-bezier(.4,0,.2,1);
-  overflow:hidden;
-}
-@keyframes modalIn{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
-.modal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:22px 28px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.04);
-}
-.modal-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:10px}
-.modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.09);border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
-.modal-close:hover{background:rgba(255,255,255,.18)}
-.modal-body{padding:28px}
+    .modal-overlay{
+      display:none;position:fixed;inset:0;z-index:500;
+      background:rgba(0,0,0,.5);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      overflow-y:auto;
+      padding:20px;
+    }
+    .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+    .modal-box{
+      background:#1c1a24;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      width:100%;max-width:780px;
+      margin:auto;
+      animation:modalIn .3s cubic-bezier(.4,0,.2,1);
+      overflow:hidden;
+    }
+    @keyframes modalIn{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
+    .modal-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:22px 28px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+    }
+    .modal-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:10px}
+    .modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.09);border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+    .modal-close:hover{background:rgba(255,255,255,.18)}
+    .modal-body{padding:28px}
 
-/* Modal content helpers */
-.m-section{margin-bottom:24px}
-.m-section:last-child{margin-bottom:0}
-.m-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px}
-.m-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:18px 20px;margin-bottom:10px}
-.m-card:last-child{margin-bottom:0}
-.m-card h4{font-size:.92rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.m-card p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6}
-.m-analogy{background:rgba(255,255,255,.05);border-left:2px solid rgba(255,255,255,.2);border-radius:0 10px 10px 0;padding:10px 14px;margin-top:10px;font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.55}
-.m-analogy strong{color:rgba(255,255,255,.85);font-weight:600}
-.m-divider{height:1px;background:rgba(255,255,255,.07);margin:20px 0}
+    .m-section{margin-bottom:24px}
+    .m-section:last-child{margin-bottom:0}
+    .m-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:10px}
+    .m-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:18px 20px;margin-bottom:10px}
+    .m-card:last-child{margin-bottom:0}
+    .m-card h4{font-size:.92rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .m-card p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6}
+    .m-analogy{background:rgba(255,255,255,.05);border-left:2px solid rgba(255,255,255,.2);border-radius:0 10px 10px 0;padding:10px 14px;margin-top:10px;font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.55}
+    .m-analogy strong{color:rgba(255,255,255,.85);font-weight:600}
+    .m-divider{height:1px;background:rgba(255,255,255,.07);margin:20px 0}
 
-/* Quiz */
-.quiz-q{font-size:.96rem;font-weight:600;color:#fff;margin-bottom:16px;line-height:1.5}
-.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.quiz-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 16px;color:rgba(255,255,255,.8);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
-.quiz-btn:hover{background:rgba(255,255,255,.13);color:#fff}
-.quiz-btn.correct{background:rgba(125,239,161,.15);border-color:#7defa1;color:#7defa1}
-.quiz-btn.wrong{background:rgba(255,90,90,.12);border-color:rgba(255,90,90,.4);color:rgba(255,120,120,.9)}
-.quiz-feedback{font-size:.84rem;padding:12px 16px;border-radius:10px;line-height:1.5;margin-bottom:12px}
-.quiz-feedback.good{background:rgba(125,239,161,.12);color:#7defa1}
-.quiz-feedback.bad{background:rgba(255,90,90,.1);color:rgba(255,130,130,.9)}
-.quiz-next{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:10px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.quiz-next:hover{background:#fff}
-.quiz-score{font-size:.82rem;color:rgba(255,255,255,.4);margin-left:12px}
+    .quiz-q{font-size:.96rem;font-weight:600;color:#fff;margin-bottom:16px;line-height:1.5}
+    .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+    .quiz-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 16px;color:rgba(255,255,255,.8);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
+    .quiz-btn:hover{background:rgba(255,255,255,.13);color:#fff}
+    .quiz-btn.correct{background:rgba(125,239,161,.15);border-color:#7defa1;color:#7defa1}
+    .quiz-btn.wrong{background:rgba(255,90,90,.12);border-color:rgba(255,90,90,.4);color:rgba(255,120,120,.9)}
+    .quiz-feedback{font-size:.84rem;padding:12px 16px;border-radius:10px;line-height:1.5;margin-bottom:12px}
+    .quiz-feedback.good{background:rgba(125,239,161,.12);color:#7defa1}
+    .quiz-feedback.bad{background:rgba(255,90,90,.1);color:rgba(255,130,130,.9)}
+    .quiz-next{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:10px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+    .quiz-next:hover{background:#fff}
+    .quiz-score{font-size:.82rem;color:rgba(255,255,255,.4);margin-left:12px}
 
-/* Translator search */
-.search-box{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;margin-bottom:18px;transition:border-color .2s}
-.search-box:focus{border-color:rgba(255,255,255,.3)}
-.search-box::placeholder{color:rgba(255,255,255,.28)}
-.term-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px 18px;margin-bottom:10px}
-.term-name{font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px}
-.term-def{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.55;margin-bottom:8px}
-.term-analogy{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.5;font-style:italic}
-.term-diff{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:6px;margin-top:6px}
-.diff-b{background:rgba(125,239,161,.12);color:#7defa1}
-.diff-i{background:rgba(255,220,80,.1);color:#ffd850}
-.diff-a{background:rgba(255,100,100,.12);color:rgba(255,140,140,.9)}
+    .search-box{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;margin-bottom:18px;transition:border-color .2s}
+    .search-box:focus{border-color:rgba(255,255,255,.3)}
+    .search-box::placeholder{color:rgba(255,255,255,.28)}
+    .term-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+    .term-name{font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px}
+    .term-def{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.55;margin-bottom:8px}
+    .term-analogy{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.5;font-style:italic}
+    .term-diff{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:6px;margin-top:6px}
+    .diff-b{background:rgba(125,239,161,.12);color:#7defa1}
+    .diff-i{background:rgba(255,220,80,.1);color:#ffd850}
+    .diff-a{background:rgba(255,100,100,.12);color:rgba(255,140,140,.9)}
 
-/* Live match */
-.scoreboard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:20px}
-.score-teams{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px}
-.score-team{font-size:1rem;font-weight:600}
-.score-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:#fff}
-.score-min{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:4px}
-.event-feed{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
-.event-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:14px 16px}
-.event-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.event-icon{font-size:1.2rem}
-.event-min{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.35);min-width:32px}
-.event-title{font-size:.88rem;font-weight:600;color:#fff}
-.event-milo{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,.05);border-radius:8px;margin-top:6px}
-.event-new{border-color:rgba(125,239,161,.3);animation:fadeIn .5s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.sim-btn{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:11px;padding:11px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-bottom:16px}
-.sim-btn:hover{background:#fff}
-.sim-btn:disabled{background:rgba(255,255,255,.3);color:rgba(0,0,0,.5);cursor:not-allowed}
+    .scoreboard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:20px}
+    .score-teams{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px}
+    .score-team{font-size:1rem;font-weight:600}
+    .score-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:#fff}
+    .score-min{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:4px}
+    .event-feed{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+    .event-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:14px 16px}
+    .event-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+    .event-icon{font-size:1.2rem}
+    .event-min{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.35);min-width:32px}
+    .event-title{font-size:.88rem;font-weight:600;color:#fff}
+    .event-milo{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,.05);border-radius:8px;margin-top:6px}
+    .event-new{border-color:rgba(125,239,161,.3);animation:fadeIn .5s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .sim-btn{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:11px;padding:11px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-bottom:16px}
+    .sim-btn:hover{background:#fff}
+    .sim-btn:disabled{background:rgba(255,255,255,.3);color:rgba(0,0,0,.5);cursor:not-allowed}
 
-/* Pregame */
-.match-select{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:20px;cursor:pointer}
-.match-select option{background:#1c1a24;color:#fff}
-.hype-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
-.hype-header{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;background:rgba(255,255,255,.04)}
-.hype-vs{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
-.hype-sub{font-size:.78rem;color:rgba(255,255,255,.38)}
-.hype-body{padding:22px 24px;display:flex;flex-direction:column;gap:16px}
-.hype-row{display:flex;flex-direction:column;gap:6px}
-.hype-row-label{font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.hype-row p{font-size:.86rem;color:rgba(255,255,255,.72);line-height:1.6}
-.hype-meter{display:flex;align-items:center;gap:12px;margin-top:4px}
-.hype-bar{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
-.hype-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,rgba(255,210,80,.6),rgba(255,120,50,.8));transition:width .8s cubic-bezier(.4,0,.2,1)}
-.hype-val{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.7);min-width:36px;text-align:right}
+    .match-select{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:20px;cursor:pointer}
+    .match-select option{background:#1c1a24;color:#fff}
+    .hype-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
+    .hype-header{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;background:rgba(255,255,255,.04)}
+    .hype-vs{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
+    .hype-sub{font-size:.78rem;color:rgba(255,255,255,.38)}
+    .hype-body{padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+    .hype-row{display:flex;flex-direction:column;gap:6px}
+    .hype-row-label{font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28)}
+    .hype-row p{font-size:.86rem;color:rgba(255,255,255,.72);line-height:1.6}
+    .hype-meter{display:flex;align-items:center;gap:12px;margin-top:4px}
+    .hype-bar{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+    .hype-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,rgba(255,210,80,.6),rgba(255,120,50,.8));transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .hype-val{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.7);min-width:36px;text-align:right}
 
-/* Milo chat in modal */
-.chat-msgs{height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
-.cm-b,.cm-u{padding:9px 13px;border-radius:12px;font-size:.83rem;line-height:1.5;max-width:88%}
-.cm-b{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);align-self:flex-start}
-.cm-u{background:rgba(255,255,255,.15);align-self:flex-end}
-.chat-row{display:flex;gap:8px}
-.chat-row input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:9px 13px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
-.chat-row input:focus{border-color:rgba(255,255,255,.28)}
-.chat-row input::placeholder{color:rgba(255,255,255,.26)}
-.chat-row button{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:9px 16px;font-weight:700;font-size:.83rem;cursor:pointer;transition:background .2s;font-family:'DM Sans',sans-serif}
-.chat-row button:hover{background:#fff}
+    .chat-msgs{height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+    .cm-b,.cm-u{padding:9px 13px;border-radius:12px;font-size:.83rem;line-height:1.5;max-width:88%;white-space:pre-wrap}
+    .cm-b{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);align-self:flex-start}
+    .cm-u{background:rgba(255,255,255,.15);align-self:flex-end}
+    .chat-row{display:flex;gap:8px}
+    .chat-row input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:9px 13px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
+    .chat-row input:focus{border-color:rgba(255,255,255,.28)}
+    .chat-row input::placeholder{color:rgba(255,255,255,.26)}
+    .chat-row button{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:9px 16px;font-weight:700;font-size:.83rem;cursor:pointer;transition:background .2s;font-family:'DM Sans',sans-serif}
+    .chat-row button:hover{background:#fff}
 
-/* FAB */
-#milo-fab{position:fixed;bottom:28px;right:28px;z-index:200;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;box-shadow:0 8px 28px rgba(0,0,0,.4);transition:all .2s}
-#milo-fab:hover{background:rgba(255,255,255,.2);transform:scale(1.06)}
+    #milo-fab{position:fixed;bottom:28px;right:28px;z-index:200;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;box-shadow:0 8px 28px rgba(0,0,0,.4);transition:all .2s}
+    #milo-fab:hover{background:rgba(255,255,255,.2);transform:scale(1.06)}
 
-/* RESPONSIVE */
-@media(max-width:900px){.pain-grid,.info-grid,.feat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){
-  nav{padding:0 20px}.nav-links{display:none}
-  #hero,.sec,#pain,#info,#features,#watch{padding-left:20px;padding-right:20px}
-  #hero{padding-top:110px}
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-  .pain-grid,.info-grid,.feat-grid{grid-template-columns:1fr}
-  .watch-grid{grid-template-columns:1fr}
-  .ft-grid{grid-template-columns:1fr;gap:28px}
-  footer{padding-left:20px;padding-right:20px}
-  .quiz-opts{grid-template-columns:1fr}
-  .modal-overlay{padding:12px}
-  .modal-body{padding:20px}
-}
-</style>
+    @media(max-width:900px){.pain-grid,.info-grid,.feat-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){
+      nav{padding:0 20px}.nav-links{display:none}
+      #hero,.sec,#pain,#info,#features,#watch{padding-left:20px;padding-right:20px}
+      #hero{padding-top:110px}
+      .stats-row{grid-template-columns:repeat(2,1fr)}
+      .pain-grid,.info-grid,.feat-grid{grid-template-columns:1fr}
+      .watch-grid{grid-template-columns:1fr}
+      .ft-grid{grid-template-columns:1fr;gap:28px}
+      footer{padding-left:20px;padding-right:20px}
+      .quiz-opts{grid-template-columns:1fr}
+      .modal-overlay{padding:12px}
+      .modal-body{padding:20px}
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <nav>
+      <a href="#" class="nav-logo">⚽ MatchMind</a>
+      <ul class="nav-links">
+        <li><a onclick="scrollToSection('#pain')">Why MatchMind</a></li>
+        <li><a onclick="scrollToSection('#info')">Soccer 101</a></li>
+        <li><a onclick="scrollToSection('#features')">Features</a></li>
+        <li><a onclick="scrollToSection('#watch')">Watch</a></li>
+      </ul>
+      <button class="nav-cta" onclick="openModal('milo-modal')">Ask Milo ⚽</button>
+    </nav>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">⚽ MatchMind</a>
-  <ul class="nav-links">
-    <li><a onclick="scrollTo('#pain')">Why MatchMind</a></li>
-    <li><a onclick="scrollTo('#info')">Soccer 101</a></li>
-    <li><a onclick="openModal('feat-modal')">Features</a></li>
-    <li><a onclick="scrollTo('#watch')">Watch</a></li>
-  </ul>
-  <button class="nav-cta" onclick="openModal('milo-modal')">Ask Milo ⚽</button>
-</nav>
-
-<!-- HERO -->
-<section id="hero" class="sec">
-  <div class="inner">
-    <div class="hero-badge"><span class="ldot"></span>World Cup 2026 · USA · Canada · Mexico</div>
-    <h1>Soccer,<br><em>finally</em> explained.</h1>
-    <p class="hero-sub">The smart fan companion for World Cup 2026. MatchMind translates every rule, play, and moment into plain American English — in real time.</p>
-    <div class="btn-row">
-      <button class="btn-solid" onclick="openModal('school-modal')">Start Learning Free</button>
-      <a href="#pain" class="btn-ghost">How It Works ↓</a>
-    </div>
-    <div class="stats-row">
-      <div class="stat-box"><div class="stat-num" data-target="48">0</div><div class="stat-lbl">Teams</div></div>
-      <div class="stat-box"><div class="stat-num" data-target="104">0</div><div class="stat-lbl">Matches</div></div>
-      <div class="stat-box"><div class="stat-num" data-target="16">0</div><div class="stat-lbl">Host Cities</div></div>
-      <div class="stat-box"><div class="stat-num" data-target="12">0</div><div class="stat-lbl">Lessons</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PAIN CARDS -->
-<section id="pain">
-  <div class="inner">
-    <p class="s-tag">Sound familiar?</p>
-    <h2 class="s-title">Every American's<br>soccer confusion</h2>
-    <p class="s-sub">Hover each card for the real answer — explained using sports you already love.</p>
-    <div class="pain-grid">
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">😕</div><div class="pain-q">"Why is everyone celebrating a 0-0 tie??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">A 0-0 game is often a tactical war — two defenses refusing to crack. Keeping a clean sheet away from home is a massive result; it means the return leg is on your terms.</div><div class="pain-analogy"><div class="al">🏈 American Analogy</div><p>Like a 3-0 NFL game where the defense dominated every drive — fans of the winning defense go wild even though no one scored.</p></div></div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">😵</div><div class="pain-q">"What even is offside? I've asked 10 times."</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">You're offside if you're past the last defender at the exact moment your teammate passes to you — giving you an unfair head start toward goal.</div><div class="pain-analogy"><div class="al">🏒 American Analogy</div><p>Exactly like being in the crease before the puck in hockey — you can't be there before the play arrives. Same concept, different sport.</p></div></div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">🤷</div><div class="pain-q">"Why did the clock go past 90 minutes??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">The clock never officially stops — it just keeps running. The ref announces "stoppage time" at the end to make up for minutes lost to injuries, subs, and VAR.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like the NBA adding back timeout time at the end of a quarter — except the ref eyeballs it and holds up a board showing "+4 minutes."</p></div></div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">😤</div><div class="pain-q">"Why did the game just stop for a VIDEO REPLAY??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's VAR — Video Assistant Referee. Officials watch every play on multiple angles and flag the ref if there's a clear error on goals, penalties, or red cards.</div><div class="pain-analogy"><div class="al">🏈 American Analogy</div><p>Exactly like NFL instant replay — the ref walks to a pitchside monitor, watches the footage, then makes the final call. Fans hate the 2-minute wait. It's necessary.</p></div></div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">😳</div><div class="pain-q">"Why did they get a 1-on-1 shot after a foul??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's a penalty kick — awarded when a player is fouled inside the 18-yard box. One player vs the goalkeeper from 12 yards. Kickers score about 75% of the time.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like a technical foul free throw — except it's a full breakaway with enormous pressure. Entire World Cups have been won and lost by them.</p></div></div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-front"><div class="pain-emoji">😂</div><div class="pain-q">"Why is he rolling around like he's dying??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
-        <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's "simulation" — players sometimes exaggerate contact to win free kicks. It's controversial and refs increasingly book players for it. Not every fall is fake though.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like an NBA player flopping to draw a charge — some are real, some theatrical. Soccer players just tend to stay down longer and look more dramatic about it.</p></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOCCER 101 -->
-<section id="info">
-  <div class="inner">
-    <p class="s-tag">Soccer 101</p>
-    <h2 class="s-title">The rules, explained<br>like American sports</h2>
-    <p class="s-sub">Six things every new fan needs to understand before kick-off. Read them once and you'll get the game.</p>
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">⏱️</div><h3>How Time Works</h3></div>
-        <p class="info-body">Two 45-minute halves with a running clock that never stops. The ref adds "stoppage time" at the end of each half for delays. Matches almost always run 92–97 minutes total.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">🏀 Like in basketball</div><p>Imagine the NBA clock running through fouls and timeouts — then the ref added 4 minutes at the end to make up for all of it.</p></div>
-        <span class="info-pill pill-green">✓ Beginner</span>
-      </div>
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">🟨</div><h3>Yellow &amp; Red Cards</h3></div>
-        <p class="info-body">Yellow card = formal warning. Two yellows in one game = automatic red. A red means immediate ejection AND your team plays shorthanded (10 vs 11) for the rest of the match. No replacement allowed.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">🏀 Like in basketball</div><p>Two technical fouls and you're gone — except your whole team suffers by playing one man down for the rest of the game. No equivalent in American sports.</p></div>
-        <span class="info-pill pill-yellow">⚠ Know This</span>
-      </div>
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">📊</div><h3>How Standings Work</h3></div>
-        <p class="info-body">Win = 3 points. Draw = 1 point each. Loss = 0. The top 2 teams from each group of 4 advance to the knockout round. It's only 3 games — every single match matters enormously.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">⚾ Like in baseball</div><p>Like a 3-game series where the division winner AND wild card both advance — except there's absolutely no second chance if you lose two.</p></div>
-        <span class="info-pill pill-green">✓ Beginner</span>
-      </div>
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">🏆</div><h3>Extra Time &amp; Shootouts</h3></div>
-        <p class="info-body">Tied after 90 minutes in a knockout game? Two more 15-minute periods (extra time). Still level? Five players each take penalty kicks alternating. If tied after five — sudden death kicks continue until someone misses.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">🏒 Like in hockey</div><p>OT period then a shootout — except everyone's sobbing regardless of the outcome and a shootout deciding a World Cup is genuinely traumatic.</p></div>
-        <span class="info-pill pill-blue">★ Key Moment</span>
-      </div>
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">📐</div><h3>Formations Explained</h3></div>
-        <p class="info-body">Teams line up in formations like 4-3-3 (4 defenders, 3 midfielders, 3 forwards). The goalkeeper is always separate. Coaches switch formations mid-game based on the score and opponent.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">🏈 Like in football</div><p>Offensive and defensive play schemes — a 4-3-3 is aggressive, a 5-4-1 "parks the bus." Coaches adjust exactly like an NFL play-caller at halftime.</p></div>
-        <span class="info-pill pill-yellow">⚠ Intermediate</span>
-      </div>
-      <div class="info-card">
-        <div class="info-header"><div class="info-ico">🎯</div><h3>Set Pieces &amp; Dead Balls</h3></div>
-        <p class="info-body">Set pieces are pre-planned plays from dead ball situations: free kicks, corner kicks, and throw-ins. Teams practice elaborate routines for these — they account for roughly 30% of all top-level goals.</p>
-        <div class="info-divider"></div>
-        <div class="info-analogy"><div class="al">🏈 Like in football</div><p>Scripted plays from a dead ball — a corner kick is an inbound play, a free kick is either a field goal attempt or a trick play depending on the distance.</p></div>
-        <span class="info-pill pill-blue">★ Key Moment</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="inner">
-    <p class="s-tag">Everything you need</p>
-    <h2 class="s-title">Six tools. One app.</h2>
-    <p class="s-sub">From total beginner to game-day expert — everything you need to actually enjoy the World Cup.</p>
-    <div class="feat-grid">
-      <div class="feat-card" onclick="openModal('school-modal')">
-        <div class="feat-ico">🎓</div><h3>Soccer School</h3>
-        <p>12 animated lessons. Offside to shootouts, explained using American sports analogies.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-      <div class="feat-card" onclick="openModal('live-modal')">
-        <div class="feat-ico">🔴</div><h3>Live Translator</h3>
-        <p>Every match event explained in real time with plain English and sports analogies.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-      <div class="feat-card" onclick="openModal('quiz-modal')">
-        <div class="feat-ico">🧠</div><h3>Fan IQ Quiz</h3>
-        <p>60 questions across three difficulty levels. Build your score from 0 to 1000.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-      <div class="feat-card" onclick="openModal('translator-modal')">
-        <div class="feat-ico">🌍</div><h3>Translation Hub</h3>
-        <p>40 soccer terms decoded + 20 fan phrases in English, Spanish, and French.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-      <div class="feat-card" onclick="openModal('pregame-modal')">
-        <div class="feat-ico">🎭</div><h3>Pre-Game Hype</h3>
-        <p>Rivalry history, players to watch, and Milo's predictions for 10 marquee matches.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-      <div class="feat-card" onclick="openModal('integrity-modal')">
-        <div class="feat-ico">🕵️</div><h3>Match Integrity</h3>
-        <p>The dark side of soccer — scandals, match-fixing, and how FIFA fights back.</p>
-        <div class="feat-arrow">Tap to explore →</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WATCH -->
-<section id="watch">
-  <div class="inner">
-    <p class="s-tag">How to watch</p>
-    <h2 class="s-title">World Cup 2026<br>in the USA</h2>
-    <p class="s-sub" style="margin-bottom:28px">Multiple ways to watch every match — many of them completely free.</p>
-    <div class="tab-row">
-      <button class="wtab on" onclick="fw('all',this)">All Options</button>
-      <button class="wtab off" onclick="fw('free',this)">Free</button>
-      <button class="wtab off" onclick="fw('stream',this)">Streaming</button>
-      <button class="wtab off" onclick="fw('es',this)">En Español</button>
-    </div>
-    <div class="watch-grid">
-      <div class="watch-card" data-t="free"><div class="w-ico">📺</div><div class="w-body"><h3>Fox Sports / FS1</h3><p>Primary English-language broadcaster for 2026. Free with cable, antenna, or any live TV streaming service.</p><span class="badge b-free">✓ Free with cable</span></div></div>
-      <div class="watch-card" data-t="free es"><div class="w-ico">📡</div><div class="w-body"><h3>Telemundo</h3><p>Spanish-language OTA coverage. Free over-the-air antenna reception in most major US markets.</p><span class="badge b-free">✓ Free over-the-air</span></div></div>
-      <div class="watch-card" data-t="stream"><div class="w-ico">🎬</div><div class="w-body"><h3>Fubo TV</h3><p>Best cord-cutter bundle. Fox Sports, FS1, Telemundo, and Universo all in one subscription.</p><span class="badge b-paid">★ Best streaming bundle</span></div></div>
-      <div class="watch-card" data-t="free stream es"><div class="w-ico">🌍</div><div class="w-body"><h3>ViX</h3><p>Free Spanish-language streaming app. Watch live matches without any cable subscription required.</p><span class="badge b-free">✓ Free app</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="ft-inner">
-    <div class="ft-grid">
-      <div><div class="ft-name">⚽ MatchMind</div><p class="ft-tag">Soccer for Dummies,<br>but make it cool.<br><br>Your AI-powered companion<br>for World Cup 2026.</p></div>
-      <div class="ft-col"><div class="ft-col-h">Learn</div><ul>
-        <li><a onclick="openModal('school-modal')">Soccer School</a></li>
-        <li><a onclick="openModal('quiz-modal')">Fan IQ Quiz</a></li>
-        <li><a onclick="openModal('translator-modal')">Jargon Translator</a></li>
-        <li><a onclick="openModal('pregame-modal')">Pre-Game Hype</a></li>
-        <li><a onclick="openModal('integrity-modal')">Match Integrity</a></li>
-      </ul></div>
-      <div class="ft-col"><div class="ft-col-h">Tools</div><ul>
-        <li><a onclick="openModal('live-modal')">Live Translator</a></li>
-        <li><a onclick="openModal('milo-modal')">Ask Milo</a></li>
-        <li><a onclick="openModal('quiz-modal')">Take the Quiz</a></li>
-        <li><a onclick="openModal('pregame-modal')">Match Hype</a></li>
-      </ul></div>
-    </div>
-    <div class="ft-bottom">
-      <p>© 2026 MatchMind. Built for the World Cup. Made in the USA.</p>
-      <p>Not affiliated with FIFA. Educational platform only.</p>
-    </div>
-  </div>
-</footer>
-</div>
-
-<!-- FAB -->
-<div id="milo-fab" onclick="openModal('milo-modal')" title="Ask Milo">⚽</div>
-
-<!-- ══════════════════════════════════════════════
-     MODALS
-══════════════════════════════════════════════ -->
-
-<!-- SOCCER SCHOOL -->
-<div class="modal-overlay" id="school-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🎓 Soccer School</h2>
-    <button class="modal-close" onclick="closeModal('school-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <p style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">12 lessons that explain soccer using American sports. Tap any lesson to read it.</p>
-
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>1. ⚠️ The Offside Rule</h4>
-      <p style="display:none">You're offside if you're past the second-to-last defender (usually the last outfield player) when the ball is played to you. The rule prevents "goal hanging." Timing is everything — if you're level, you're onside.<br><br><strong>American Analogy:</strong> Like being in the crease before the puck in hockey. You can't camp ahead of the play. The linesman's flag goes up, the goal is disallowed, and play restarts with the defending team.<br><br><strong>Exception:</strong> You can't be offside from a corner kick, throw-in, or goal kick. And being in your own half is always fine.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>2. 🟨 Yellow &amp; Red Cards</h4>
-      <p style="display:none">Yellow = caution/warning. Second yellow in one game = automatic red. Red = immediate ejection. Your team plays 10 vs 11 for the rest of the match — no substitution allowed to replace the sent-off player.<br><br><strong>Direct red cards</strong> are given for violent conduct, serious foul play, denying an obvious goal-scoring opportunity (DOGSO), or spitting.<br><br><strong>American Analogy:</strong> Two technical fouls in the NBA ejects you — but in soccer, your whole team suffers the 10-man disadvantage for the rest of the game. No parallel in American sports.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>3. 🎯 Penalty Kicks</h4>
-      <p style="display:none">A penalty is awarded when a player is fouled inside the opponent's 18-yard penalty box. The kick is taken from the penalty spot — 12 yards from goal — one-on-one with the goalkeeper. All other players stand outside the box.<br><br>The keeper must stay on the line until the ball is kicked. Kickers score approximately 75–78% of penalties at the highest level.<br><br><strong>American Analogy:</strong> Like a free throw — but it's a full breakaway and far more dramatic. The entire crowd holds its breath. World Cups are decided by these.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>4. 📺 VAR Explained</h4>
-      <p style="display:none">VAR (Video Assistant Referee) is a team of officials watching every play on multiple camera feeds. They can alert the on-field referee to potential errors in four categories: goals, penalty decisions, direct red cards, and mistaken identity.<br><br>The on-field referee can then go to a pitchside monitor to review the footage and make a final call. The process typically takes 1–3 minutes.<br><br><strong>American Analogy:</strong> Exactly like the NFL replay official in the booth, or an NHL situation room call from Toronto. Same concept — officiating support via video review.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>5. ⏱️ Stoppage Time</h4>
-      <p style="display:none">The referee tracks time lost during the half to injuries, substitutions, goal celebrations, VAR reviews, and time-wasting. At the end of the half, the fourth official holds up a board showing the minimum added time (e.g., "+5 minutes").<br><br>The ref can play longer than announced if events (another injury, a goal, VAR review) occur during stoppage time itself. This is why matches sometimes go to 97, 99, or even 103 minutes.<br><br><strong>American Analogy:</strong> Like NBA makeup time — except the amount isn't precise and the ref decides it on the fly, based on everything that happened during the half.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>6. 🏆 Extra Time &amp; Shootouts</h4>
-      <p style="display:none">In knockout rounds, if the score is level after 90 minutes, two extra 15-minute periods are played (30 minutes total). There is no "golden goal" — both periods must be completed.<br><br>If still level after 120 minutes, a penalty shootout decides the match. Five players per team alternate kicks. If tied after five each, sudden death continues until one team scores and the other misses.<br><br><strong>American Analogy:</strong> Hockey overtime then a shootout — except the stakes are infinitely higher and grown adults openly cry when their team loses on penalties.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>7. 📐 Formations &amp; Tactics</h4>
-      <p style="display:none">A formation describes where the 10 outfield players are positioned. Numbers go back-to-front: 4-3-3 means 4 defenders, 3 midfielders, 3 forwards. The goalkeeper is always separate and not counted.<br><br><strong>Common formations:</strong><br>• 4-3-3: Attacking, wide, used by Barcelona and Liverpool<br>• 4-4-2: Balanced classic, easy to understand<br>• 3-5-2: Wing-heavy, unpredictable<br>• 5-4-1: Ultra-defensive "park the bus"<br><br><strong>American Analogy:</strong> NFL offensive/defensive schemes — coaches switch mid-game just like a play-caller adjusts based on the score and opponent.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>8. 🔄 Substitutions</h4>
-      <p style="display:none">Teams can make up to 5 substitutions per game from a bench of up to 15 players (varies by competition). Subs can only be made during a stoppage in play. Once a player comes off, they cannot return.<br><br>In extra time, an additional (6th) substitute is allowed. Substitutions are often tactical — bringing on a faster attacker when chasing the game, or a defensive midfielder to protect a lead.<br><br><strong>American Analogy:</strong> Like a basketball substitution — except you only get 5 all game and taking a player off is permanent. Managers agonize over every one.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>9. 🏁 Corner Kicks</h4>
-      <p style="display:none">A corner kick is awarded when the ball crosses the goal line (not between the posts) and was last touched by a defending player. The attacking team places the ball in the quarter-circle arc in the corner of the field and kicks it in.<br><br>Teams often practice elaborate corner routines — near-post runs, blockers, back-post headers. Approximately 2–3 goals per game at major tournaments come from corners.<br><br><strong>American Analogy:</strong> Like an inbound play in basketball after the ball goes out of bounds off the defense — you get possession and run a set play.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>10. 📋 Group Stage &amp; Knockout</h4>
-      <p style="display:none">In 2026, 48 teams are split into 12 groups of 4. Each team plays the other 3 teams once. Points: Win=3, Draw=1, Loss=0. The top 2 from each group (plus 8 best third-place teams) advance to the Round of 32.<br><br>From there it's single-elimination. One loss and you go home. The bracket proceeds: Round of 32 → Round of 16 → Quarterfinals → Semifinals → Final.<br><br><strong>American Analogy:</strong> MLB divisional race (group stage) then March Madness single-elimination (knockout). Except with 3.5 billion viewers watching the Final.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>11. 🧤 The Goalkeeper's Rules</h4>
-      <p style="display:none">The goalkeeper is the only player allowed to use their hands — but only inside their own penalty box. Outside the box, they're treated like any outfield player.<br><br>Goalkeepers cannot pick up a ball deliberately passed back to them by a teammate's foot (back-pass rule). They have 6 seconds to release the ball once holding it. They wear a different colored jersey to distinguish them from both teams.<br><br><strong>American Analogy:</strong> Like the one designated hitter position — specific rules that only apply to one player on the field, and violating them costs your team.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>12. 🌍 World Cup Format 2026</h4>
-      <p style="display:none">For the first time ever, the 2026 World Cup features 48 teams — expanded from 32. It's hosted across 3 countries (USA, Canada, Mexico) and 16 cities. The USA has 11 host cities alone.<br><br><strong>Key cities:</strong> New York/NJ, Los Angeles, Dallas, San Francisco, Seattle, Boston, Miami, Atlanta, Houston, Kansas City, Philadelphia (USA) + Toronto, Vancouver (Canada) + Mexico City, Guadalajara, Monterrey (Mexico).<br><br>The Final will be held at MetLife Stadium in East Rutherford, NJ on July 19, 2026 — the largest World Cup Final venue ever.</p>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- LIVE MATCH -->
-<div class="modal-overlay" id="live-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🔴 Live Match Translator</h2>
-    <button class="modal-close" onclick="closeModal('live-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <div class="scoreboard">
-      <div class="score-teams">
-        <div class="score-team">🇺🇸 USA</div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div class="score-num" id="score-home">0</div>
-          <div style="font-size:1rem;color:rgba(255,255,255,.3)">—</div>
-          <div class="score-num" id="score-away">0</div>
+    <section id="hero" class="sec">
+      <div class="inner">
+        <div class="hero-badge"><span class="ldot"></span>World Cup 2026 · USA · Canada · Mexico</div>
+        <h1>Soccer,<br><em>finally</em> explained.</h1>
+        <p class="hero-sub">The smart fan companion for World Cup 2026. MatchMind translates every rule, play, and moment into plain American English — in real time.</p>
+        <div class="btn-row">
+          <button class="btn-solid" onclick="openModal('school-modal')">Start Learning Free</button>
+          <a href="#pain" class="btn-ghost">How It Works ↓</a>
         </div>
-        <div class="score-team">🇧🇷 Brazil</div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-num" data-target="48">0</div><div class="stat-lbl">Teams</div></div>
+          <div class="stat-box"><div class="stat-num" data-target="104">0</div><div class="stat-lbl">Matches</div></div>
+          <div class="stat-box"><div class="stat-num" data-target="16">0</div><div class="stat-lbl">Host Cities</div></div>
+          <div class="stat-box"><div class="stat-num" data-target="12">0</div><div class="stat-lbl">Lessons</div></div>
+        </div>
       </div>
-      <div class="score-min" id="score-min">Not started</div>
-    </div>
+    </section>
 
-    <button class="sim-btn" id="sim-btn" onclick="startSim()">▶ Simulate Live Match</button>
-
-    <div class="event-feed" id="event-feed">
-      <div style="text-align:center;padding:24px;color:rgba(255,255,255,.3);font-size:.85rem">Hit simulate to watch the match unfold with real-time Milo translations ↑</div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- FAN IQ QUIZ -->
-<div class="modal-overlay" id="quiz-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🧠 Fan IQ Quiz</h2>
-    <button class="modal-close" onclick="closeModal('quiz-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
-      <div style="display:flex;gap:8px">
-        <button class="wtab on" onclick="setDiff('beginner',this)" id="diff-beginner">🟢 Beginner</button>
-        <button class="wtab off" onclick="setDiff('intermediate',this)" id="diff-intermediate">🟡 Intermediate</button>
-        <button class="wtab off" onclick="setDiff('expert',this)" id="diff-expert">🔴 Expert</button>
-      </div>
-      <span class="quiz-score" id="quiz-score-display">Score: 0 pts</span>
-    </div>
-    <div id="quiz-area"></div>
-  </div>
-</div>
-</div>
-
-<!-- TRANSLATOR -->
-<div class="modal-overlay" id="translator-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🌍 Jargon Translator</h2>
-    <button class="modal-close" onclick="closeModal('translator-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <input class="search-box" id="term-search" type="text" placeholder="Search any soccer term… e.g. 'offside', 'nutmeg', 'brace'" oninput="filterTerms()">
-    <div id="terms-list"></div>
-  </div>
-</div>
-</div>
-
-<!-- PRE-GAME HYPE -->
-<div class="modal-overlay" id="pregame-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🎭 Pre-Game Hype</h2>
-    <button class="modal-close" onclick="closeModal('pregame-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <select class="match-select" id="matchup-select" onchange="showMatchup()">
-      <option value="">— Select a matchup —</option>
-      <option value="0">🇺🇸 USA vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option>
-      <option value="1">🇲🇽 Mexico vs 🇦🇷 Argentina</option>
-      <option value="2">🇫🇷 France vs 🇩🇪 Germany</option>
-      <option value="3">🇪🇸 Spain vs 🇧🇷 Brazil</option>
-      <option value="4">🇺🇸 USA vs 🇲🇽 Mexico</option>
-      <option value="5">🇵🇹 Portugal vs 🇫🇷 France</option>
-      <option value="6">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇪🇸 Spain</option>
-      <option value="7">🇧🇷 Brazil vs 🇫🇷 France</option>
-      <option value="8">🇩🇪 Germany vs 🇧🇷 Brazil</option>
-      <option value="9">🇦🇷 Argentina vs 🇫🇷 France</option>
-    </select>
-    <div id="hype-display"></div>
-  </div>
-</div>
-</div>
-
-<!-- MATCH INTEGRITY -->
-<div class="modal-overlay" id="integrity-modal">
-<div class="modal-box">
-  <div class="modal-header">
-    <h2>🕵️ Match Integrity</h2>
-    <button class="modal-close" onclick="closeModal('integrity-modal')">×</button>
-  </div>
-  <div class="modal-body">
-    <div class="m-card">
-      <h4>🎰 What is Match-Fixing?</h4>
-      <p>Match-fixing occurs when players, referees, or officials are bribed to influence the outcome of a game for gambling profits. Underground betting syndicates — primarily based in Southeast Asia — run operations worth billions annually. Referees may be targeted to make key calls at specific moments (a yellow card at the 30th minute, a penalty in the second half) that affect betting markets without obviously determining the final score.<br><br>FIFA, Interpol, and Sportradar operate 24/7 monitoring of betting lines globally. Unusual betting spikes before games are flagged and investigated.</p>
-    </div>
-    <div class="m-card">
-      <h4>🇮🇹 Calciopoli 2006 — Italy's Biggest Scandal</h4>
-      <p>In 2006, wiretapped phone recordings revealed that Juventus director Luciano Moggi had been systematically influencing referee assignments in Serie A — Italy's top division. Moggi selected favorable referees for key matches and arranged for hostile officials to be assigned to rivals.<br><br>The fallout: Juventus were stripped of two Serie A titles and relegated to Serie B. AC Milan, Fiorentina, Lazio, and Reggina were all docked points. It remains the most significant corruption scandal in European club football history, verified by the Italian Football Federation (FIGC).</p>
-    </div>
-    <div class="m-card">
-      <h4>👀 Red Flags — How to Spot a Suspicious Game</h4>
-      <p>Watch for: unusual betting line movements in the hours before kick-off; obvious unforced errors by normally reliable players; goalkeeper positioning that defies basic logic on easy shots; a team not pressing despite high stakes; a scoreline that mirrors suspicious pre-match odds; or any reported news of a player's financial difficulties or gambling debts.<br><br>None of these alone prove fixing — but combinations of multiple flags during the same game are what Sportradar's Early Warning System is designed to catch.</p>
-    </div>
-    <div class="m-card">
-      <h4>🛡️ How FIFA &amp; Sportradar Fight Back</h4>
-      <p>Sportradar monitors over 60,000 matches per year across 500+ competitions using algorithmic detection of abnormal betting patterns. FIFA's Integrity Unit operates a confidential whistleblower hotline. All players and officials at World Cup 2026 undergo anti-corruption briefings before the tournament.<br><br>Penalties for proven match-fixing include lifetime bans from all football activity. Several lower-league European players have received lifetime bans in recent years. The deterrent is real — but so is the money involved at the highest level.</p>
-    </div>
-    <div class="m-card">
-      <h4>📜 Famous World Cup Controversies</h4>
-      <p><strong>1966:</strong> England's 3rd goal vs Germany — linesman Tofiq Bahramov awarded a goal that may not have crossed the line. Still debated 60 years later.<br><br><strong>1986:</strong> Maradona's "Hand of God" — scored with his fist, never admitted it until years later. Argentina beat England and went on to win the tournament.<br><br><strong>2002:</strong> South Korea's run to the semifinals — referee decisions against Italy and Spain are still widely questioned by historians.<br><br><strong>2010:</strong> Frank Lampard's ghost goal vs Germany — ball clearly crossed the line, not given. Directly led to the introduction of goal-line technology.<br><br><strong>2022:</strong> Qatar hosting rights — a US Department of Justice investigation found evidence of bribery in the 2010 FIFA vote that awarded Qatar the World Cup.</p>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ASK MILO -->
-<div class="modal-overlay" id="milo-modal">
-<div class="modal-box" style="max-width:480px">
-  <div class="modal-header">
-    <h2>⚽ Ask Milo</h2>
-    <button class="modal-close" onclick="closeModal('milo-modal')">×</button>
-  </div>
-  <div class="modal-body">
-
-    <p style="font-size:.83rem;color:rgba(255,255,255,.4);margin-bottom:14px">Ask Milo anything about soccer — he'll explain it using American sports you already know.</p>
-    <div class="chat-msgs" id="milo-msgs"></div>
-    <div class="chat-row">
-      <input id="milo-in" type="text" placeholder="What is VAR? What's offside?…" onkeydown="if(event.key==='Enter')sendMilo()">
-      <button onclick="sendMilo()">→</button>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     ALL JAVASCRIPT
-══════════════════════════════════════════════ -->
-<script>
-
-/* ── MODAL SYSTEM ── */
-function openModal(id){
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow='hidden';
-  if(id==='quiz-modal'&&!quizInitialized){initQuiz();quizInitialized=true}
-  if(id==='translator-modal'&&!termsInitialized){renderTerms();termsInitialized=true}
-  if(id==='milo-modal'&&!miloInitialized){
-    addMiloMsg('b',"Hey! I'm Milo ⚽ Paste your free Groq API key above and ask me anything about soccer — I'll explain it using American sports you already know!");
-    miloInitialized=true;
-  }
-  // focus input if present
-  setTimeout(()=>{
-    const inp=document.querySelector('#'+id+' input');
-    if(inp)inp.focus();
-  },200);
-}
-function closeModal(id){
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow='';
-}
-// close on overlay click
-document.querySelectorAll('.modal-overlay').forEach(el=>{
-  el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)});
-});
-
-/* ── SCROLL HELPER ── */
-function scrollTo(sel){document.querySelector(sel)?.scrollIntoView({behavior:'smooth'})}
-
-/* ── COUNTERS ── */
-const cObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const el=e.target,target=+el.dataset.target;
-    let v=0;const step=Math.max(1,Math.ceil(target/55));
-    const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=v;if(v>=target)clearInterval(t)},24);
-    cObs.unobserve(el);
-  });
-},{threshold:.5});
-document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
-
-/* ── WATCH FILTER ── */
-function fw(type,btn){
-  document.querySelectorAll('.wtab').forEach(b=>b.className='wtab off');
-  btn.className='wtab on';
-  document.querySelectorAll('.watch-card').forEach(c=>{
-    c.style.display=(type==='all'||c.dataset.t.includes(type))?'flex':'none';
-  });
-}
-
-/* ── LESSON TOGGLE ── */
-function toggleLesson(card){
-  const p=card.querySelector('p');
-  const open=p.style.display==='block';
-  p.style.display=open?'none':'block';
-  card.style.background=open?'rgba(255,255,255,.06)':'rgba(255,255,255,.1)';
-}
-
-/* ══════════════════════════════
-   LIVE MATCH SIMULATOR
-══════════════════════════════ */
-const EVENTS=[
-  {min:"5'",  icon:"🟨", title:"Yellow Card — Brazil",        milo:"Brazil's midfielder got a yellow card for a reckless tackle. Like a technical foul in basketball — one more and he's ejected for the game."},
-  {min:"12'", icon:"⚽", title:"Corner Kick — USA",            milo:"USA earns a corner kick after a defender blocks the shot over the line. Like an inbound play in basketball — USA gets the ball from the corner arc and runs a set play."},
-  {min:"23'", icon:"⚽", title:"GOAL! USA 1–0 Brazil 🇺🇸",     milo:"USA SCORES! Pulisic with a header from the corner — exactly the set piece routine they practiced. USA leads 1–0!", scoreHome:1},
-  {min:"31'", icon:"📺", title:"VAR Review — checking goal",   milo:"The goal is being checked by VAR. Like NFL replay review — officials watch multiple camera angles to verify there was no offside or handball. Takes about 2 minutes."},
-  {min:"34'", icon:"✅", title:"VAR Confirmed — goal stands",  milo:"Goal confirmed! After 2 minutes of review, the VAR team found no issues. USA still leads 1–0. The crowd exhales."},
-  {min:"44'", icon:"🧤", title:"Incredible Save — Brazil GK",  milo:"Brazil's goalkeeper made a diving save to keep it 1–0. That's called a 'clean sheet in jeopardy' — the keeper kept his team in the game."},
-  {min:"45+3'",icon:"🔔",title:"Half Time — USA 1–0 Brazil",  milo:"Half time! USA leads Brazil 1–0. 15 minute break, then 45 more minutes. USA is playing the perfect game — score and defend."},
-  {min:"51'", icon:"🔄", title:"Substitution — Brazil",        milo:"Brazil makes a substitution — bringing on a fresh player. Like a basketball sub, but each team only gets 5 total all game. Brazil is trying to change the game."},
-  {min:"58'", icon:"⚽", title:"GOAL! USA 1–1 Brazil 🇧🇷",     milo:"Brazil equalizes! Vinicius Jr cuts inside and slots into the corner. Game tied 1–1. That's called 'pulling level' — Brazil were the better team in this half.", scoreHome:1, scoreAway:1},
-  {min:"63'", icon:"🦵", title:"Foul — USA midfielder",        milo:"Foul given against USA just outside the box. Brazil get a free kick in a dangerous position — about 22 yards from goal. Like a free throw opportunity but from distance."},
-  {min:"64'", icon:"⚡", title:"Free Kick — Brazil, 22 yds",   milo:"Dangerous free kick for Brazil. The wall of USA defenders lines up 10 yards away. Brazil's specialist will try to curl it over or around the wall into the top corner."},
-  {min:"71'", icon:"🟥", title:"RED CARD — USA Defender",      milo:"USA defender gets a RED CARD for a last-man foul — denying an obvious goal. He's ejected AND USA now plays 10 vs 11 for the rest of the game. Massive moment."},
-  {min:"78'", icon:"⚽", title:"GOAL! USA 1–2 Brazil 🇧🇷",     milo:"Brazil takes the lead! Stunning free kick curls into the top corner. 2–1 Brazil. With USA down to 10 men, this feels decisive. 12 minutes left.", scoreHome:1, scoreAway:2},
-  {min:"87'", icon:"❌", title:"Disallowed — USA goal ruled out",milo:"USA thought they'd equalized but VAR ruled it offside by inches. The attacker's shoulder was past the last defender when the ball was played. Heartbreaking."},
-  {min:"90+6'",icon:"🔔",title:"Full Time — Brazil wins 2–1", milo:"FULL TIME. Brazil wins 2–1 in a dramatic match. USA played brilliantly with 11 men but couldn't hold on after the red card. That's soccer — one moment changes everything."},
-];
-let simIdx=0,simTimer=null;
-function startSim(){
-  const btn=document.getElementById('sim-btn');
-  const feed=document.getElementById('event-feed');
-  if(simIdx===0){feed.innerHTML='';document.getElementById('score-home').textContent='0';document.getElementById('score-away').textContent='0';document.getElementById('score-min').textContent='0\'';}
-  btn.disabled=true;btn.textContent='⏳ Match in progress…';
-  function playNext(){
-    if(simIdx>=EVENTS.length){btn.textContent='↺ Watch Again';btn.disabled=false;simIdx=0;return}
-    const ev=EVENTS[simIdx++];
-    document.getElementById('score-min').textContent=ev.min;
-    if(ev.scoreHome!==undefined)document.getElementById('score-home').textContent=ev.scoreHome;
-    if(ev.scoreAway!==undefined)document.getElementById('score-away').textContent=ev.scoreAway;
-    const card=document.createElement('div');
-    card.className='event-card event-new';
-    card.innerHTML=`<div class="event-top"><span class="event-icon">${ev.icon}</span><span class="event-min">${ev.min}</span><span class="event-title">${ev.title}</span></div><div class="event-milo">⚽ Milo: ${ev.milo}</div>`;
-    feed.insertBefore(card,feed.firstChild);
-    simTimer=setTimeout(playNext,3800);
-  }
-  playNext();
-}
-
-/* ══════════════════════════════
-   QUIZ ENGINE
-══════════════════════════════ */
-const QUESTIONS={
-  beginner:[
-    {q:"How many players does each team have on the field?",opts:["9","10","11","12"],ans:2},
-    {q:"How long is a standard soccer game?",opts:["80 minutes","85 minutes","90 minutes","100 minutes"],ans:2},
-    {q:"What does a yellow card mean?",opts:["Player ejected","Official warning","Penalty kick","Free kick"],ans:1},
-    {q:"What is a 'hat-trick'?",opts:["One goal","Two goals","Three goals","Four goals"],ans:2},
-    {q:"What does 'clean sheet' mean?",opts:["A new jersey","No goals conceded","A yellow card","A corner kick"],ans:1},
-    {q:"Which country has won the most World Cups?",opts:["Germany","Argentina","Brazil","Italy"],ans:2},
-    {q:"What is a 'brace'?",opts:["A foul","Two goals by one player","A diving save","A corner"],ans:1},
-    {q:"How many substitutions can a team make in a match?",opts:["3","4","5","6"],ans:2},
-    {q:"How many teams are in World Cup 2026?",opts:["32","40","48","64"],ans:2},
-    {q:"What color card gets a player sent off immediately?",opts:["Yellow","Orange","Red","Blue"],ans:2},
-  ],
-  intermediate:[
-    {q:"What does 'parking the bus' mean?",opts:["Attacking play","Extreme defensive setup","Time wasting","A corner tactic"],ans:1},
-    {q:"What is 'tiki-taka'?",opts:["Long ball style","Short passing possession game","Counter-attack","High press"],ans:1},
-    {q:"What does a '4-3-3' formation mean?",opts:["4 forwards, 3 mids, 3 defenders","4 defenders, 3 mids, 3 forwards","3 defenders, 4 mids, 3 forwards","4 defenders, 3 forwards, 3 mids"],ans:1},
-    {q:"What is a 'False 9'?",opts:["Fake jersey number","Striker who drops deep into midfield","Defensive midfielder","Backup goalkeeper"],ans:1},
-    {q:"What does 'pressing' mean in soccer?",opts:["Ironing jerseys","Aggressively chasing the ball when opponents have it","Slow buildup play","Defending deep"],ans:1},
-    {q:"What is 'goal difference'?",opts:["Score at halftime","Goals scored minus goals conceded","Penalty shootout score","Away goals"],ans:1},
-    {q:"What is a 'set piece'?",opts:["A fixed formation","Dead ball situation like free kick or corner","A substitution","Half-time talk"],ans:1},
-    {q:"What does 'aggregate score' mean?",opts:["Total goals over 2 legs","Average goals per game","Penalty score","Away goals only"],ans:0},
-    {q:"What is the 'Golden Boot' award?",opts:["Best goalkeeper","Top scorer","Best young player","Best team"],ans:1},
-    {q:"How many teams qualify from each group in 2026?",opts:["1","2","3","4"],ans:1},
-  ],
-  expert:[
-    {q:"Which country hosted the very first World Cup in 1930?",opts:["Brazil","France","Uruguay","Italy"],ans:2},
-    {q:"Who scored the famous 'Hand of God' goal?",opts:["Pelé","Ronaldo","Maradona","Zidane"],ans:2},
-    {q:"What year did the USA last host the World Cup before 2026?",opts:["1990","1994","1998","2002"],ans:1},
-    {q:"Who won the Golden Boot at the 2022 World Cup?",opts:["Messi","Neymar","Mbappé","Benzema"],ans:2},
-    {q:"What was the scoreline in the infamous 2014 Germany vs Brazil semifinal?",opts:["5-1","6-0","7-1","8-2"],ans:2},
-    {q:"Who is the all-time World Cup top scorer?",opts:["Ronaldo","Messi","Miroslav Klose","Pelé"],ans:2},
-    {q:"Which player won the Golden Ball (best player) at the 2022 World Cup?",opts:["Mbappé","Messi","Modric","Benzema"],ans:1},
-    {q:"How many times has France won the World Cup?",opts:["1","2","3","0"],ans:1},
-    {q:"What does FIFA stand for?",opts:["Federation Internationale de Football Athletics","Federation Internationale de Football Association","Federal International Football Association","Foundation International Football Alliance"],ans:1},
-    {q:"Which confederation has won the most World Cups overall?",opts:["UEFA (Europe)","CONMEBOL (South America)","CONCACAF (North America)","AFC (Asia)"],ans:1},
-  ]
-};
-let quizInitialized=false,quizDiff='beginner',quizIdx=0,quizScore=0,quizAnswered=false;
-function initQuiz(){quizDiff='beginner';quizIdx=0;quizScore=0;renderQuiz()}
-function setDiff(d,btn){
-  document.querySelectorAll('#quiz-modal .wtab').forEach(b=>b.className='wtab off');
-  btn.className='wtab on';
-  quizDiff=d;quizIdx=0;quizScore=0;quizAnswered=false;
-  document.getElementById('quiz-score-display').textContent='Score: 0 pts';
-  renderQuiz();
-}
-function renderQuiz(){
-  const qs=QUESTIONS[quizDiff];
-  if(quizIdx>=qs.length){
-    const pct=Math.round((quizScore/(qs.length*10))*100);
-    const grade=pct>=80?'🥇':pct>=60?'🥈':'🥉';
-    document.getElementById('quiz-area').innerHTML=`<div style="text-align:center;padding:24px"><div style="font-size:3rem;margin-bottom:12px">${grade}</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;margin-bottom:8px">${quizScore}/${qs.length*10} points</div><div style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">${pct}% correct — ${pct>=80?'Soccer expert!':pct>=60?'Good knowledge!':'Keep learning!'}</div><button class="quiz-next" onclick="quizIdx=0;quizScore=0;document.getElementById('quiz-score-display').textContent='Score: 0 pts';renderQuiz()">Try Again</button></div>`;
-    return;
-  }
-  const q=qs[quizIdx];
-  quizAnswered=false;
-  document.getElementById('quiz-area').innerHTML=`
-    <div style="font-size:.76rem;color:rgba(255,255,255,.3);margin-bottom:10px">Question ${quizIdx+1} of ${qs.length} · ${quizDiff.charAt(0).toUpperCase()+quizDiff.slice(1)}</div>
-    <div class="quiz-q">${q.q}</div>
-    <div class="quiz-opts" id="quiz-opts">
-      ${q.opts.map((o,i)=>`<button class="quiz-btn" onclick="answerQuiz(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
-    </div>
-    <div id="quiz-fb" style="display:none"></div>
-    <div id="quiz-next-wrap" style="display:none;margin-top:8px"><button class="quiz-next" onclick="quizIdx++;renderQuiz()">${quizIdx+1<qs.length?'Next Question →':'See Results'}</button></div>
-  `;
-}
-function answerQuiz(chosen,correct,btn){
-  if(quizAnswered)return;quizAnswered=true;
-  const btns=document.querySelectorAll('.quiz-btn');
-  btns.forEach((b,i)=>{if(i===correct)b.classList.add('correct')});
-  const fb=document.getElementById('quiz-fb');
-  if(chosen===correct){
-    quizScore+=10;btn.classList.add('correct');
-    fb.className='quiz-feedback good';fb.textContent='✓ Correct! +10 points';
-    document.getElementById('quiz-score-display').textContent=`Score: ${quizScore} pts`;
-  }else{
-    btn.classList.add('wrong');
-    fb.className='quiz-feedback bad';
-    fb.textContent=`✗ The correct answer was: ${String.fromCharCode(65+correct)}. ${QUESTIONS[quizDiff][quizIdx].opts[correct]}`;
-  }
-  fb.style.display='block';
-  document.getElementById('quiz-next-wrap').style.display='block';
-}
-
-/* ══════════════════════════════
-   JARGON TRANSLATOR
-══════════════════════════════ */
-const TERMS=[
-  {name:"Offside",def:"A player is in an offside position if they are nearer to the opponent's goal than both the ball and the second-to-last defender when the ball is played to them.",analogy:"Hockey: being in the crease before the puck. You can't be ahead of the play.",diff:"b"},
-  {name:"Nutmeg",def:"Kicking the ball through an opponent's legs and collecting it on the other side.",analogy:"Basketball: a behind-the-back pass through a defender's legs. Extremely embarrassing to concede.",diff:"b"},
-  {name:"Bicycle Kick",def:"An acrobatic overhead kick where the player throws their body backwards and kicks the ball over their own head.",analogy:"Baseball: a behind-the-back catch. Technically spectacular, crowd goes absolutely wild.",diff:"b"},
-  {name:"Through Ball",def:"A pass played into space behind the defensive line for a teammate to run onto.",analogy:"Football: a perfectly-timed touchdown pass where the receiver runs a route into open space.",diff:"b"},
-  {name:"Pressing",def:"Aggressively chasing the ball and pressuring opponents when they have possession, trying to win the ball back quickly.",analogy:"Basketball: full-court press. Exhausting for the pressing team if it doesn't work.",diff:"i"},
-  {name:"False 9",def:"A striker who drops deep into midfield rather than staying up front, creating confusion in the opposing defense.",analogy:"Football: a running back who lines up as a receiver. The defense doesn't know whether to follow them or hold position.",diff:"a"},
-  {name:"Sweeper",def:"The deepest defender who covers behind the defensive line, acting as a last line before the goalkeeper.",analogy:"Hockey: a defenseman who hangs back to protect against odd-man rushes.",diff:"i"},
-  {name:"Brace",def:"When one player scores exactly two goals in a single match.",analogy:"Baseball: going 2-for-2 with two home runs. Good but not quite hat-trick territory.",diff:"b"},
-  {name:"Hat-trick",def:"When one player scores three goals in a single match.",analogy:"Rare and celebrated in every sport. In cricket (where the term originates) it was three wickets in three balls. In soccer it earns the player the match ball.",diff:"b"},
-  {name:"Clean Sheet",def:"When a goalkeeper (and team) does not concede any goals during an entire match.",analogy:"Baseball no-hitter or hockey shutout. Goalkeepers obsess over these the way pitchers obsess over ERA.",diff:"b"},
-  {name:"Howler",def:"A catastrophic mistake by a goalkeeper — typically a shot they should easily save but fumble into the net.",analogy:"Baseball: an error on a routine ground ball that allows a run to score. Career-defining moment of shame.",diff:"b"},
-  {name:"Aggregate",def:"The combined total of goals scored across two legs of a knockout tie. The team with the higher total advances.",analogy:"Total points in a best-of-two series — if you lose the first game 2-0, you need to win the second by 3 or more.",diff:"i"},
-  {name:"Gegenpressing",def:"Immediately counter-pressing the opponent after losing the ball, before they can organize. Popularized by Jürgen Klopp.",analogy:"Basketball: a full-court press that activates the instant your team turns over the ball. No transition allowed.",diff:"a"},
-  {name:"Tiki-Taka",def:"A style of play based on short, quick passes, maintaining possession and creating space through movement.",analogy:"NBA: a team that never rushes, works the ball patiently in the half-court until the defense breaks down.",diff:"i"},
-  {name:"Park the Bus",def:"An ultra-defensive strategy where a team packs players behind the ball to prevent the opponent from scoring.",analogy:"Football: preventing mode with all 11 players in the defensive backfield. Not pretty but often effective.",diff:"i"},
-  {name:"High Press",def:"Pressing the opponent very high up the pitch — near their own goal — to force mistakes in dangerous areas.",analogy:"Basketball: a full-court press starting from the opponent's baseline as soon as they inbound.",diff:"i"},
-  {name:"Counter-Attack",def:"Rapidly attacking after winning the ball from the opponent, before they can reorganize defensively.",analogy:"Basketball fast break — win the ball, get it up the court as fast as possible before the defense sets up.",diff:"b"},
-  {name:"Own Goal",def:"When a player accidentally knocks the ball into their own net, giving the opposition a goal.",analogy:"In any sport, scoring on your own team. In soccer it's credited to the opposition, not the unfortunate player.",diff:"b"},
-  {name:"Set Piece",def:"Any dead ball situation from which play is restarted — corner kicks, free kicks, throw-ins, penalty kicks.",analogy:"Football: scripted plays from a dead ball. Teams practice elaborate set piece routines for hours every week.",diff:"b"},
-  {name:"Golden Boot",def:"The award given to the top scorer (most goals) at a World Cup tournament.",analogy:"Like the MLB home run or RBI title — the stat that crowns the most lethal attacker of the tournament.",diff:"b"},
-  {name:"Golden Glove",def:"The award given to the best goalkeeper at the World Cup.",analogy:"Like the MLB Cy Young Award for pitchers — recognizing the best shot-stopper of the tournament.",diff:"b"},
-  {name:"Worldie",def:"British slang for an absolutely spectacular, stunning goal. Something that makes the crowd erupt instantly.",analogy:"A walk-off grand slam in the World Series. The kind of goal that gets replayed forever.",diff:"b"},
-  {name:"Bottling It",def:"British slang for a team collapsing and losing a game or trophy they were expected to win.",analogy:"MLB: blowing a 3-1 series lead. In English soccer culture, certain clubs are legendary for bottling big moments.",diff:"i"},
-  {name:"Clinical",def:"Describing a player or team that is ruthlessly efficient in converting scoring chances — no wasted opportunities.",analogy:"Basketball: a player who shoots 60% from the field. Every shot counts, nothing is wasted.",diff:"i"},
-  {name:"First Touch",def:"A player's ability to control the ball cleanly and set it up for their next action the instant it arrives.",analogy:"Fielding in baseball — a clean first touch sets up your throw. A heavy first touch loses you a second to recover.",diff:"i"},
-  {name:"Libero",def:"A sweeper or free-roaming defender in Italian tactical tradition — one who is not man-marking but covering space.",analogy:"Hockey defenseman who plays in the neutral zone, covering for partners rather than taking a direct assignment.",diff:"a"},
-  {name:"Derby",def:"A match between two local rival clubs from the same city or region. The most heated fixtures in soccer.",analogy:"Yankees vs Red Sox, Lakers vs Clippers, Bears vs Packers. Pure local rivalry, maximum intensity.",diff:"b"},
-  {name:"El Clásico",def:"The rivalry match between Real Madrid and FC Barcelona — the most watched club game in the world.",analogy:"Yankees vs Red Sox on the grandest possible scale — two Spanish global superpowers, watched by 650 million people.",diff:"b"},
-  {name:"Relegation",def:"When the worst-performing teams in a league are dropped to a lower division at the end of the season.",analogy:"No American sport has this. Imagine if the worst 3 NBA teams got demoted to the G-League every year. It's brutal.",diff:"i"},
-  {name:"VAR",def:"Video Assistant Referee — officials using video technology to review potential refereeing errors in goals, penalties, red cards, and mistaken identity.",analogy:"NFL instant replay or the NHL situation room — officiating support via multi-angle video review.",diff:"b"},
-];
-let termsInitialized=false;
-function renderTerms(filter=''){
-  const list=document.getElementById('terms-list');
-  const filtered=filter?TERMS.filter(t=>t.name.toLowerCase().includes(filter.toLowerCase())||t.def.toLowerCase().includes(filter.toLowerCase())):TERMS;
-  list.innerHTML=filtered.length?filtered.map(t=>`
-    <div class="term-card">
-      <div class="term-name">${t.name} <span class="term-diff ${t.diff==='b'?'diff-b':t.diff==='i'?'diff-i':'diff-a'}">${t.diff==='b'?'Beginner':t.diff==='i'?'Intermediate':'Advanced'}</span></div>
-      <div class="term-def">${t.def}</div>
-      <div class="term-analogy">🏈 ${t.analogy}</div>
-    </div>`).join(''):'<p style="color:rgba(255,255,255,.3);font-size:.85rem;padding:12px 0">No terms found for that search.</p>';
-}
-function filterTerms(){
-  renderTerms(document.getElementById('term-search').value);
-}
-
-/* ══════════════════════════════
-   PRE-GAME HYPE
-══════════════════════════════ */
-const MATCHUPS=[
-  {title:"🇺🇸 USA vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",rivalry:"These two met famously in 1950 when the USA shocked England 1-0 in one of the biggest World Cup upsets ever. They drew 1-1 in 2010. England have never beaten the USA at a World Cup.",player:"Christian Pulisic (USA) — plays for AC Milan, America's best player, this is his generation's defining moment.",stake:"Both teams need points to advance from a tough group. A win here is massive for momentum and bragging rights.",prediction:"🎯 Milo says: USA draw 1-1. Pulisic scores, England equalize late. Heart attacks all around.",hype:90},
-  {title:"🇲🇽 Mexico vs 🇦🇷 Argentina",rivalry:"Mexico and Argentina have met 6 times at World Cups and Mexico has NEVER won. Argentina have won the last 5 clashes. The heartbreak is historic.",player:"Lautaro Martínez (Argentina) — Inter Milan striker who scored the winning penalty in the 2022 final. Ice in his veins.",stake:"CONMEBOL pride. Mexico needs to prove they belong on the same field as the world champions.",prediction:"🎯 Milo says: Argentina 2-0. Clinical and ruthless as always. Mexico will be brave but outclassed.",hype:80},
-  {title:"🇫🇷 France vs 🇩🇪 Germany",rivalry:"The greatest European rivalry. They've met at 4 World Cups. Pure quality, maximum tension, always a classic.",player:"Kylian Mbappé (France) — the fastest player in the world at 25, already a World Cup winner. This is his tournament.",stake:"Group A dominance — winner likely tops the group and gets an easier knockout path.",prediction:"🎯 Milo says: France 2-1. Mbappé gets a goal and an assist. Germany fight hard but lose.",hype:100},
-  {title:"🇪🇸 Spain vs 🇧🇷 Brazil",rivalry:"Two of the most technically gifted nations ever. Both are tournament favorites every single time they enter.",player:"Vinicius Jr (Brazil) — Real Madrid's electrifying winger. When on form, completely unplayable. His celebrations are as famous as his goals.",stake:"A potential Final preview. Both teams among the top 3 favorites to win the whole tournament.",prediction:"🎯 Milo says: 1-1 draw. Too good to separate. Both teams saving their best for later.",hype:90},
-  {title:"🇺🇸 USA vs 🇲🇽 Mexico",rivalry:"El Clásico de CONCACAF — the most intense rivalry in North American soccer. They're playing on shared home turf in 2026 for the first time ever.",player:"Folarin Balogun (USA) — born in New York, chose USA over England. Fast, clinical, hungry to prove himself.",stake:"CONCACAF bragging rights AND group stage points. The host nation absolutely cannot lose this one.",prediction:"🎯 Milo says: USA 2-1 in a physical battle. The home crowd makes the difference.",hype:100},
-  {title:"🇵🇹 Portugal vs 🇫🇷 France",rivalry:"Mbappé vs Ronaldo. Two of the greatest players ever on the same field. The Ronaldo farewell tour meets Mbappé's prime.",player:"Cristiano Ronaldo (Portugal) — 5-time Ballon d'Or. Possibly his final World Cup game ever. Every touch is history.",stake:"Potentially a knockout stage preview between two tournament favorites.",prediction:"🎯 Milo says: France 2-1. Youth wins. Mbappé edges Ronaldo in their last dance.",hype:100},
-  {title:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇪🇸 Spain",rivalry:"Euro 2024 Final rematch — Spain beat England 2-1 in Berlin. England are desperate for revenge. Spain are defending European champions.",player:"Pedri (Spain) — Barcelona's midfield maestro, 21 years old, plays like a 10-year veteran. Controls every game.",stake:"Two tournament favorites. The winner announces themselves as the team to beat.",prediction:"🎯 Milo says: Spain 2-0. England bottle it again. Pedri runs the show.",hype:90},
-  {title:"🇧🇷 Brazil vs 🇫🇷 France",rivalry:"The 1998 World Cup Final rematch — France beat Brazil 3-0 on home soil. Brazil still want revenge 28 years later.",player:"Rodrygo (Brazil) — Real Madrid's Brazilian forward, big game performer with Champions League experience.",stake:"A potential Final preview. The two most-supported teams on earth. Billions watching.",prediction:"🎯 Milo says: Brazil 2-1 after extra time. Revenge is a dish served cold.",hype:100},
-  {title:"🇩🇪 Germany vs 🇧🇷 Brazil",rivalry:"NEVER FORGET. 7-1. Germany destroyed Brazil 7-1 in the 2014 semifinal on Brazilian soil. The Mineirazo. Brazil have waited 12 years.",player:"Florian Wirtz (Germany) — Bayer Leverkusen's 21-year-old genius, named best young player in Europe 2024.",stake:"The ultimate revenge match. Brazil needs to erase the worst memory in their football history.",prediction:"🎯 Milo says: Brazil wins 3-1. Revenge complete. The healing finally begins.",hype:100},
-  {title:"🇦🇷 Argentina vs 🇫🇷 France",rivalry:"THE rematch of the greatest World Cup Final ever played. France led 2-0, Argentina equalized, France equalized in extra time, Argentina won on penalties. Mbappé scored a hat-trick and still lost.",player:"Lionel Messi (Argentina) — the GOAT. World Cup winner. Playing his final World Cup. Every touch is history.",stake:"Argentina defending champions. France seeking revenge. The entire world stops.",prediction:"🎯 Milo says: Too close to call. 1-1 AET, Argentina on penalties again. History repeats.",hype:110},
-];
-function showMatchup(){
-  const idx=document.getElementById('matchup-select').value;
-  if(idx===''){document.getElementById('hype-display').innerHTML='';return}
-  const m=MATCHUPS[+idx];
-  const hyp=Math.min(m.hype,100);
-  document.getElementById('hype-display').innerHTML=`
-    <div class="hype-card">
-      <div class="hype-header"><div class="hype-vs">${m.title}</div><div class="hype-sub">World Cup 2026</div></div>
-      <div class="hype-body">
-        <div class="hype-row"><div class="hype-row-label">The Rivalry</div><p>${m.rivalry}</p></div>
-        <div class="hype-row"><div class="hype-row-label">Player to Watch</div><p>${m.player}</p></div>
-        <div class="hype-row"><div class="hype-row-label">What's at Stake</div><p>${m.stake}</p></div>
-        <div class="hype-row"><div class="hype-row-label">Milo's Prediction</div><p>${m.prediction}</p></div>
-        <div class="hype-row">
-          <div class="hype-row-label">Hype-O-Meter ${m.hype>=100?'🔥':''}</div>
-          <div class="hype-meter">
-            <div class="hype-bar"><div class="hype-fill" style="width:0%" data-w="${hyp}%"></div></div>
-            <div class="hype-val">${m.hype}/10</div>
+    <section id="pain">
+      <div class="inner">
+        <p class="s-tag">Sound familiar?</p>
+        <h2 class="s-title">Every American's<br>soccer confusion</h2>
+        <p class="s-sub">Hover each card for the real answer — explained using sports you already love.</p>
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">😕</div><div class="pain-q">"Why is everyone celebrating a 0-0 tie??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">A 0-0 game is often a tactical war — two defenses refusing to crack. Keeping a clean sheet away from home is a massive result; it means the return leg is on your terms.</div><div class="pain-analogy"><div class="al">🏈 American Analogy</div><p>Like a 3-0 NFL game where the defense dominated every drive — fans of the winning defense go wild even though no one scored.</p></div></div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">😵</div><div class="pain-q">"What even is offside? I've asked 10 times."</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">You're offside if you're past the last defender at the exact moment your teammate passes to you — giving you an unfair head start toward goal.</div><div class="pain-analogy"><div class="al">🏒 American Analogy</div><p>Exactly like being in the crease before the puck in hockey — you can't be there before the play arrives. Same concept, different sport.</p></div></div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">🤷</div><div class="pain-q">"Why did the clock go past 90 minutes??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">The clock never officially stops — it just keeps running. The ref announces "stoppage time" at the end to make up for minutes lost to injuries, subs, and VAR.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like the NBA adding back timeout time at the end of a quarter — except the ref eyeballs it and holds up a board showing "+4 minutes."</p></div></div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">😤</div><div class="pain-q">"Why did the game just stop for a VIDEO REPLAY??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's VAR — Video Assistant Referee. Officials watch every play on multiple angles and flag the ref if there's a clear error on goals, penalties, or red cards.</div><div class="pain-analogy"><div class="al">🏈 American Analogy</div><p>Exactly like NFL instant replay — the ref walks to a pitchside monitor, watches the footage, then makes the final call. Fans hate the 2-minute wait. It's necessary.</p></div></div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">😳</div><div class="pain-q">"Why did they get a 1-on-1 shot after a foul??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's a penalty kick — awarded when a player is fouled inside the 18-yard box. One player vs the goalkeeper from 12 yards. Kickers score about 75% of the time.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like a technical foul free throw — except it's a full breakaway with enormous pressure. Entire World Cups have been won and lost by them.</p></div></div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-front"><div class="pain-emoji">😂</div><div class="pain-q">"Why is he rolling around like he's dying??"</div><div class="pain-hint">↑ Hover for the answer</div></div>
+            <div class="pain-back"><div class="pain-answer-tag">The Answer</div><div class="pain-answer">That's "simulation" — players sometimes exaggerate contact to win free kicks. It's controversial and refs increasingly book players for it. Not every fall is fake though.</div><div class="pain-analogy"><div class="al">🏀 American Analogy</div><p>Like an NBA player flopping to draw a charge — some are real, some theatrical. Soccer players just tend to stay down longer and look more dramatic about it.</p></div></div>
           </div>
         </div>
       </div>
-    </div>`;
-  // animate hype bar
-  setTimeout(()=>{
-    const fill=document.querySelector('.hype-fill');
-    if(fill)fill.style.width=fill.dataset.w;
-  },80);
-}
+    </section>
 
-/* ══════════════════════════════
-   ASK MILO
-══════════════════════════════ */
-<script>
-// ================== UTILITIES, MODALS, OTHER FEATURES (keep your existing code above) ==================
+    <section id="info">
+      <div class="inner">
+        <p class="s-tag">Soccer 101</p>
+        <h2 class="s-title">The rules, explained<br>like American sports</h2>
+        <p class="s-sub">Six things every new fan needs to understand before kick-off. Read them once and you'll get the game.</p>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">⏱️</div><h3>How Time Works</h3></div>
+            <p class="info-body">Two 45-minute halves with a running clock that never stops. The ref adds "stoppage time" at the end of each half for delays. Matches almost always run 92–97 minutes total.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">🏀 Like in basketball</div><p>Imagine the NBA clock running through fouls and timeouts — then the ref added 4 minutes at the end to make up for all of it.</p></div>
+            <span class="info-pill pill-green">✓ Beginner</span>
+          </div>
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">🟨</div><h3>Yellow &amp; Red Cards</h3></div>
+            <p class="info-body">Yellow card = formal warning. Two yellows in one game = automatic red. A red means immediate ejection AND your team plays shorthanded (10 vs 11) for the rest of the match. No replacement allowed.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">🏀 Like in basketball</div><p>Two technical fouls and you're gone — except your whole team suffers by playing one man down for the rest of the game. No equivalent in American sports.</p></div>
+            <span class="info-pill pill-yellow">⚠ Know This</span>
+          </div>
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">📊</div><h3>How Standings Work</h3></div>
+            <p class="info-body">Win = 3 points. Draw = 1 point each. Loss = 0. The top 2 teams from each group of 4 advance to the knockout round. It's only 3 games — every single match matters enormously.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">⚾ Like in baseball</div><p>Like a 3-game series where the division winner AND wild card both advance — except there's absolutely no second chance if you lose two.</p></div>
+            <span class="info-pill pill-green">✓ Beginner</span>
+          </div>
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">🏆</div><h3>Extra Time &amp; Shootouts</h3></div>
+            <p class="info-body">Tied after 90 minutes in a knockout game? Two more 15-minute periods (extra time). Still level? Five players each take penalty kicks alternating. If tied after five — sudden death kicks continue until someone misses.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">🏒 Like in hockey</div><p>OT period then a shootout — except everyone's sobbing regardless of the outcome and a shootout deciding a World Cup is genuinely traumatic.</p></div>
+            <span class="info-pill pill-blue">★ Key Moment</span>
+          </div>
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">📐</div><h3>Formations Explained</h3></div>
+            <p class="info-body">Teams line up in formations like 4-3-3 (4 defenders, 3 midfielders, 3 forwards). The goalkeeper is always separate. Coaches switch formations mid-game based on the score and opponent.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">🏈 Like in football</div><p>Offensive and defensive play schemes — a 4-3-3 is aggressive, a 5-4-1 "parks the bus." Coaches adjust exactly like an NFL play-caller at halftime.</p></div>
+            <span class="info-pill pill-yellow">⚠ Intermediate</span>
+          </div>
+          <div class="info-card">
+            <div class="info-header"><div class="info-ico">🎯</div><h3>Set Pieces &amp; Dead Balls</h3></div>
+            <p class="info-body">Set pieces are pre-planned plays from dead ball situations: free kicks, corner kicks, and throw-ins. Teams practice elaborate routines for these — they account for roughly 30% of all top-level goals.</p>
+            <div class="info-divider"></div>
+            <div class="info-analogy"><div class="al">🏈 Like in football</div><p>Scripted plays from a dead ball — a corner kick is an inbound play, a free kick is either a field goal attempt or a trick play depending on the distance.</p></div>
+            <span class="info-pill pill-blue">★ Key Moment</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-// ... keep ALL your existing JS above this point (scroll, counters, lessons, quiz, translator, live match, etc.)
+    <section id="features">
+      <div class="inner">
+        <p class="s-tag">Everything you need</p>
+        <h2 class="s-title">Six tools. One app.</h2>
+        <p class="s-sub">From total beginner to game-day expert — everything you need to actually enjoy the World Cup.</p>
+        <div class="feat-grid">
+          <div class="feat-card" onclick="openModal('school-modal')">
+            <div class="feat-ico">🎓</div><h3>Soccer School</h3>
+            <p>12 animated lessons. Offside to shootouts, explained using American sports analogies.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+          <div class="feat-card" onclick="openModal('live-modal')">
+            <div class="feat-ico">🔴</div><h3>Live Translator</h3>
+            <p>Every match event explained in real time with plain English and sports analogies.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+          <div class="feat-card" onclick="openModal('quiz-modal')">
+            <div class="feat-ico">🧠</div><h3>Fan IQ Quiz</h3>
+            <p>60 questions across three difficulty levels. Build your score from 0 to 1000.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+          <div class="feat-card" onclick="openModal('translator-modal')">
+            <div class="feat-ico">🌍</div><h3>Translation Hub</h3>
+            <p>40 soccer terms decoded + 20 fan phrases in English, Spanish, and French.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+          <div class="feat-card" onclick="openModal('pregame-modal')">
+            <div class="feat-ico">🎭</div><h3>Pre-Game Hype</h3>
+            <p>Rivalry history, players to watch, and Milo's predictions for 10 marquee matches.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+          <div class="feat-card" onclick="openModal('integrity-modal')">
+            <div class="feat-ico">🕵️</div><h3>Match Integrity</h3>
+            <p>The dark side of soccer — scandals, match-fixing, and how FIFA fights back.</p>
+            <div class="feat-arrow">Tap to explore →</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-// ================== ASK MILO (Groq-powered) ==================
+    <section id="watch">
+      <div class="inner">
+        <p class="s-tag">How to watch</p>
+        <h2 class="s-title">World Cup 2026<br>in the USA</h2>
+        <p class="s-sub" style="margin-bottom:28px">Multiple ways to watch every match — many of them completely free.</p>
+        <div class="tab-row">
+          <button class="wtab on" onclick="fw('all',this)">All Options</button>
+          <button class="wtab off" onclick="fw('free',this)">Free</button>
+          <button class="wtab off" onclick="fw('stream',this)">Streaming</button>
+          <button class="wtab off" onclick="fw('es',this)">En Español</button>
+        </div>
+        <div class="watch-grid">
+          <div class="watch-card" data-t="free"><div class="w-ico">📺</div><div class="w-body"><h3>Fox Sports / FS1</h3><p>Primary English-language broadcaster for 2026. Free with cable, antenna, or any live TV streaming service.</p><span class="badge b-free">✓ Free with cable</span></div></div>
+          <div class="watch-card" data-t="free es"><div class="w-ico">📡</div><div class="w-body"><h3>Telemundo</h3><p>Spanish-language OTA coverage. Free over-the-air antenna reception in most major US markets.</p><span class="badge b-free">✓ Free over-the-air</span></div></div>
+          <div class="watch-card" data-t="stream"><div class="w-ico">🎬</div><div class="w-body"><h3>Fubo TV</h3><p>Best cord-cutter bundle. Fox Sports, FS1, Telemundo, and Universo all in one subscription.</p><span class="badge b-paid">★ Best streaming bundle</span></div></div>
+          <div class="watch-card" data-t="free stream es"><div class="w-ico">🌍</div><div class="w-body"><h3>ViX</h3><p>Free Spanish-language streaming app. Watch live matches without any cable subscription required.</p><span class="badge b-free">✓ Free app</span></div></div>
+        </div>
+      </div>
+    </section>
 
-let miloInitialized = false;
+    <footer>
+      <div class="ft-inner">
+        <div class="ft-grid">
+          <div><div class="ft-name">⚽ MatchMind</div><p class="ft-tag">Soccer for Dummies,<br>but make it cool.<br><br>Your AI-powered companion<br>for World Cup 2026.</p></div>
+          <div class="ft-col"><div class="ft-col-h">Learn</div><ul>
+            <li><a onclick="openModal('school-modal')">Soccer School</a></li>
+            <li><a onclick="openModal('quiz-modal')">Fan IQ Quiz</a></li>
+            <li><a onclick="openModal('translator-modal')">Jargon Translator</a></li>
+            <li><a onclick="openModal('pregame-modal')">Pre-Game Hype</a></li>
+            <li><a onclick="openModal('integrity-modal')">Match Integrity</a></li>
+          </ul></div>
+          <div class="ft-col"><div class="ft-col-h">Tools</div><ul>
+            <li><a onclick="openModal('live-modal')">Live Translator</a></li>
+            <li><a onclick="openModal('milo-modal')">Ask Milo</a></li>
+            <li><a onclick="openModal('quiz-modal')">Take the Quiz</a></li>
+            <li><a onclick="openModal('pregame-modal')">Match Hype</a></li>
+          </ul></div>
+        </div>
+        <div class="ft-bottom">
+          <p>© 2026 MatchMind. Built for the World Cup. Made in the USA.</p>
+          <p>Not affiliated with FIFA. Educational platform only.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
 
-// Reuse Milo's existing message bubble styles
-function addMiloMsg(who, text) {
-  const msgs = document.getElementById('milo-msgs');
-  if (!msgs) return;
+  <div id="milo-fab" onclick="openModal('milo-modal')" title="Ask Milo">⚽</div>
 
-  const d = document.createElement('div');
-  d.className = who === 'b' ? 'cm-b' : 'cm-u';
-  d.textContent = text;
-  msgs.appendChild(d);
-  msgs.scrollTop = msgs.scrollHeight;
-}
+  <div class="modal-overlay" id="school-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🎓 Soccer School</h2>
+        <button class="modal-close" onclick="closeModal('school-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">12 lessons that explain soccer using American sports. Tap any lesson to read it.</p>
 
-async function sendMilo() {
-  const inp = document.getElementById('milo-in');
-  const msgs = document.getElementById('milo-msgs');
-  if (!inp || !msgs) return;
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>1. ⚠️ The Offside Rule</h4>
+          <p style="display:none">You're offside if you're past the second-to-last defender (usually the last outfield player) when the ball is played to you. The rule prevents "goal hanging." Timing is everything — if you're level, you're onside.<br><br><strong>American Analogy:</strong> Like being in the crease before the puck in hockey. You can't camp ahead of the play. The linesman's flag goes up, the goal is disallowed, and play restarts with the defending team.<br><br><strong>Exception:</strong> You can't be offside from a corner kick, throw-in, or goal kick. And being in your own half is always fine.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>2. 🟨 Yellow &amp; Red Cards</h4>
+          <p style="display:none">Yellow = caution/warning. Second yellow in one game = automatic red. Red = immediate ejection. Your team plays 10 vs 11 for the rest of the match — no substitution allowed to replace the sent-off player.<br><br><strong>Direct red cards</strong> are given for violent conduct, serious foul play, denying an obvious goal-scoring opportunity (DOGSO), or spitting.<br><br><strong>American Analogy:</strong> Two technical fouls in the NBA ejects you — but in soccer, your whole team suffers the 10-man disadvantage for the rest of the game. No parallel in American sports.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>3. 🎯 Penalty Kicks</h4>
+          <p style="display:none">A penalty is awarded when a player is fouled inside the opponent's 18-yard penalty box. The kick is taken from the penalty spot — 12 yards from goal — one-on-one with the goalkeeper. All other players stand outside the box.<br><br>The keeper must stay on the line until the ball is kicked. Kickers score approximately 75–78% of penalties at the highest level.<br><br><strong>American Analogy:</strong> Like a free throw — but it's a full breakaway and far more dramatic. The entire crowd holds its breath. World Cups are decided by these.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>4. 📺 VAR Explained</h4>
+          <p style="display:none">VAR (Video Assistant Referee) is a team of officials watching every play on multiple camera feeds. They can alert the on-field referee to potential errors in four categories: goals, penalty decisions, direct red cards, and mistaken identity.<br><br>The on-field referee can then go to a pitchside monitor to review the footage and make a final call. The process typically takes 1–3 minutes.<br><br><strong>American Analogy:</strong> Exactly like the NFL replay official in the booth, or an NHL situation room call from Toronto. Same concept — officiating support via video review.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>5. ⏱️ Stoppage Time</h4>
+          <p style="display:none">The referee tracks time lost during the half to injuries, substitutions, goal celebrations, VAR reviews, and time-wasting. At the end of the half, the fourth official holds up a board showing the minimum added time (e.g., "+5 minutes").<br><br>The ref can play longer than announced if events (another injury, a goal, VAR review) occur during stoppage time itself. This is why matches sometimes go to 97, 99, or even 103 minutes.<br><br><strong>American Analogy:</strong> Like NBA makeup time — except the amount isn't precise and the ref decides it on the fly, based on everything that happened during the half.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>6. 🏆 Extra Time &amp; Shootouts</h4>
+          <p style="display:none">In knockout rounds, if the score is level after 90 minutes, two extra 15-minute periods are played (30 minutes total). There is no "golden goal" — both periods must be completed.<br><br>If still level after 120 minutes, a penalty shootout decides the match. Five players per team alternate kicks. If tied after five each, sudden death continues until one team scores and the other misses.<br><br><strong>American Analogy:</strong> Hockey overtime then a shootout — except the stakes are infinitely higher and grown adults openly cry when their team loses on penalties.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>7. 📐 Formations &amp; Tactics</h4>
+          <p style="display:none">A formation describes where the 10 outfield players are positioned. Numbers go back-to-front: 4-3-3 means 4 defenders, 3 midfielders, 3 forwards. The goalkeeper is always separate and not counted.<br><br><strong>Common formations:</strong><br>• 4-3-3: Attacking, wide, used by Barcelona and Liverpool<br>• 4-4-2: Balanced classic, easy to understand<br>• 3-5-2: Wing-heavy, unpredictable<br>• 5-4-1: Ultra-defensive "park the bus"<br><br><strong>American Analogy:</strong> NFL offensive/defensive schemes — coaches switch mid-game just like a play-caller adjusts based on the score and opponent.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>8. 🔄 Substitutions</h4>
+          <p style="display:none">Teams can make up to 5 substitutions per game from a bench of up to 15 players (varies by competition). Subs can only be made during a stoppage in play. Once a player comes off, they cannot return.<br><br>In extra time, an additional (6th) substitute is allowed. Substitutions are often tactical — bringing on a faster attacker when chasing the game, or a defensive midfielder to protect a lead.<br><br><strong>American Analogy:</strong> Like a basketball substitution — except you only get 5 all game and taking a player off is permanent. Managers agonize over every one.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>9. 🏁 Corner Kicks</h4>
+          <p style="display:none">A corner kick is awarded when the ball crosses the goal line (not between the posts) and was last touched by a defending player. The attacking team places the ball in the quarter-circle arc in the corner of the field and kicks it in.<br><br>Teams often practice elaborate corner routines — near-post runs, blockers, back-post headers. Approximately 2–3 goals per game at major tournaments come from corners.<br><br><strong>American Analogy:</strong> Like an inbound play in basketball after the ball goes out of bounds off the defense — you get possession and run a set play.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>10. 📋 Group Stage &amp; Knockout</h4>
+          <p style="display:none">In 2026, 48 teams are split into 12 groups of 4. Each team plays the other 3 teams once. Points: Win=3, Draw=1, Loss=0. The top 2 from each group (plus 8 best third-place teams) advance to the Round of 32.<br><br>From there it's single-elimination. One loss and you go home. The bracket proceeds: Round of 32 → Round of 16 → Quarterfinals → Semifinals → Final.<br><br><strong>American Analogy:</strong> MLB divisional race (group stage) then March Madness single-elimination (knockout). Except with 3.5 billion viewers watching the Final.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>11. 🧤 The Goalkeeper's Rules</h4>
+          <p style="display:none">The goalkeeper is the only player allowed to use their hands — but only inside their own penalty box. Outside the box, they're treated like any outfield player.<br><br>Goalkeepers cannot pick up a ball deliberately passed back to them by a teammate's foot (back-pass rule). They have 6 seconds to release the ball once holding it. They wear a different colored jersey to distinguish them from both teams.<br><br><strong>American Analogy:</strong> Like the one designated hitter position — specific rules that only apply to one player on the field, and violating them costs your team.</p>
+        </div>
+        <div class="m-card" onclick="toggleLesson(this)">
+          <h4>12. 🌍 World Cup Format 2026</h4>
+          <p style="display:none">For the first time ever, the 2026 World Cup features 48 teams — expanded from 32. It's hosted across 3 countries (USA, Canada, Mexico) and 16 cities. The USA has 11 host cities alone.<br><br><strong>Key cities:</strong> New York/NJ, Los Angeles, Dallas, San Francisco, Seattle, Boston, Miami, Atlanta, Houston, Kansas City, Philadelphia (USA) + Toronto, Vancouver (Canada) + Mexico City, Guadalajara, Monterrey (Mexico).<br><br>The Final will be held at MetLife Stadium in East Rutherford, NJ on July 19, 2026 — the largest World Cup Final venue ever.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  const q = inp.value.trim();
-  if (!q) return;
+  <div class="modal-overlay" id="live-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🔴 Live Match Translator</h2>
+        <button class="modal-close" onclick="closeModal('live-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="scoreboard">
+          <div class="score-teams">
+            <div class="score-team">🇺🇸 USA</div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="score-num" id="score-home">0</div>
+              <div style="font-size:1rem;color:rgba(255,255,255,.3)">—</div>
+              <div class="score-num" id="score-away">0</div>
+            </div>
+            <div class="score-team">🇧🇷 Brazil</div>
+          </div>
+          <div class="score-min" id="score-min">Not started</div>
+        </div>
 
-  // user bubble
-  addMiloMsg('u', q);
-  inp.value = '';
+        <button class="sim-btn" id="sim-btn" onclick="startSim()">▶ Simulate Live Match</button>
 
-  // loading bubble
-  const load = document.createElement('div');
-  load.className = 'cm-b';
-  load.style.opacity = 0.5;
-  load.textContent = 'Thinking...';
-  msgs.appendChild(load);
-  msgs.scrollTop = msgs.scrollHeight;
+        <div class="event-feed" id="event-feed">
+          <div style="text-align:center;padding:24px;color:rgba(255,255,255,.3);font-size:.85rem">Hit simulate to watch the match unfold with real-time Milo translations ↑</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are Milo, a friendly soccer explainer for American sports fans. ' +
-              'Answer clearly using analogies to NFL, NBA, MLB, NHL when helpful.'
-          },
-          { role: 'user', content: q }
-        ]
-      })
-    });
+  <div class="modal-overlay" id="quiz-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🧠 Fan IQ Quiz</h2>
+        <button class="modal-close" onclick="closeModal('quiz-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+          <div style="display:flex;gap:8px">
+            <button class="wtab on" onclick="setDiff('beginner',this)" id="diff-beginner">🟢 Beginner</button>
+            <button class="wtab off" onclick="setDiff('intermediate',this)" id="diff-intermediate">🟡 Intermediate</button>
+            <button class="wtab off" onclick="setDiff('expert',this)" id="diff-expert">🔴 Expert</button>
+          </div>
+          <span class="quiz-score" id="quiz-score-display">Score: 0 pts</span>
+        </div>
+        <div id="quiz-area"></div>
+      </div>
+    </div>
+  </div>
 
-    const data = await res.json();
-    load.remove();
+  <div class="modal-overlay" id="translator-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🌍 Jargon Translator</h2>
+        <button class="modal-close" onclick="closeModal('translator-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <input class="search-box" id="term-search" type="text" placeholder="Search any soccer term… e.g. 'offside', 'nutmeg', 'brace'" oninput="filterTerms()" />
+        <div id="terms-list"></div>
+      </div>
+    </div>
+  </div>
 
-    if (!res.ok) {
-      const errText =
-        data.error?.message ||
-        (typeof data.error === 'string'
-          ? data.error
-          : JSON.stringify(data.error || data));
-      addMiloMsg('b', 'Error: ' + errText);
-      return;
+  <div class="modal-overlay" id="pregame-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🎭 Pre-Game Hype</h2>
+        <button class="modal-close" onclick="closeModal('pregame-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <select class="match-select" id="matchup-select" onchange="showMatchup()">
+          <option value="">— Select a matchup —</option>
+          <option value="0">🇺🇸 USA vs 🏴 England</option>
+          <option value="1">🇲🇽 Mexico vs 🇦🇷 Argentina</option>
+          <option value="2">🇫🇷 France vs 🇩🇪 Germany</option>
+          <option value="3">🇪🇸 Spain vs 🇧🇷 Brazil</option>
+          <option value="4">🇺🇸 USA vs 🇲🇽 Mexico</option>
+          <option value="5">🇵🇹 Portugal vs 🇫🇷 France</option>
+          <option value="6">🏴 England vs 🇪🇸 Spain</option>
+          <option value="7">🇧🇷 Brazil vs 🇫🇷 France</option>
+          <option value="8">🇩🇪 Germany vs 🇧🇷 Brazil</option>
+          <option value="9">🇦🇷 Argentina vs 🇫🇷 France</option>
+        </select>
+        <div id="hype-display"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="integrity-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>🕵️ Match Integrity</h2>
+        <button class="modal-close" onclick="closeModal('integrity-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="m-card">
+          <h4>🎰 What is Match-Fixing?</h4>
+          <p>Match-fixing occurs when players, referees, or officials are bribed to influence the outcome of a game for gambling profits. Underground betting syndicates — primarily based in Southeast Asia — run operations worth billions annually. Referees may be targeted to make key calls at specific moments (a yellow card at the 30th minute, a penalty in the second half) that affect betting markets without obviously determining the final score.<br><br>FIFA, Interpol, and Sportradar operate 24/7 monitoring of betting lines globally. Unusual betting spikes before games are flagged and investigated.</p>
+        </div>
+        <div class="m-card">
+          <h4>🇮🇹 Calciopoli 2006 — Italy's Biggest Scandal</h4>
+          <p>In 2006, wiretapped phone recordings revealed that Juventus director Luciano Moggi had been systematically influencing referee assignments in Serie A — Italy's top division. Moggi selected favorable referees for key matches and arranged for hostile officials to be assigned to rivals.<br><br>The fallout: Juventus were stripped of two Serie A titles and relegated to Serie B. AC Milan, Fiorentina, Lazio, and Reggina were all docked points. It remains the most significant corruption scandal in European club football history, verified by the Italian Football Federation (FIGC).</p>
+        </div>
+        <div class="m-card">
+          <h4>👀 Red Flags — How to Spot a Suspicious Game</h4>
+          <p>Watch for: unusual betting line movements in the hours before kick-off; obvious unforced errors by normally reliable players; goalkeeper positioning that defies basic logic on easy shots; a team not pressing despite high stakes; a scoreline that mirrors suspicious pre-match odds; or any reported news of a player's financial difficulties or gambling debts.<br><br>None of these alone prove fixing — but combinations of multiple flags during the same game are what Sportradar's Early Warning System is designed to catch.</p>
+        </div>
+        <div class="m-card">
+          <h4>🛡️ How FIFA &amp; Sportradar Fight Back</h4>
+          <p>Sportradar monitors over 60,000 matches per year across 500+ competitions using algorithmic detection of abnormal betting patterns. FIFA's Integrity Unit operates a confidential whistleblower hotline. All players and officials at World Cup 2026 undergo anti-corruption briefings before the tournament.<br><br>Penalties for proven match-fixing include lifetime bans from all football activity. Several lower-league European players have received lifetime bans in recent years. The deterrent is real — but so is the money involved at the highest level.</p>
+        </div>
+        <div class="m-card">
+          <h4>📜 Famous World Cup Controversies</h4>
+          <p><strong>1966:</strong> England's 3rd goal vs Germany — linesman Tofiq Bahramov awarded a goal that may not have crossed the line. Still debated 60 years later.<br><br><strong>1986:</strong> Maradona's "Hand of God" — scored with his fist, never admitted it until years later. Argentina beat England and went on to win the tournament.<br><br><strong>2002:</strong> South Korea's run to the semifinals — referee decisions against Italy and Spain are still widely questioned by historians.<br><br><strong>2010:</strong> Frank Lampard's ghost goal vs Germany — ball clearly crossed the line, not given. Directly led to the introduction of goal-line technology.<br><br><strong>2022:</strong> Qatar hosting rights — a US Department of Justice investigation found evidence of bribery in the 2010 FIFA vote that awarded Qatar the World Cup.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="milo-modal">
+    <div class="modal-box" style="max-width:480px">
+      <div class="modal-header">
+        <h2>⚽ Ask Milo</h2>
+        <button class="modal-close" onclick="closeModal('milo-modal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:.83rem;color:rgba(255,255,255,.4);margin-bottom:14px">Ask Milo anything about soccer — he'll explain it using American sports you already know.</p>
+        <div class="chat-msgs" id="milo-msgs"></div>
+        <div class="chat-row">
+          <input id="milo-in" type="text" placeholder="What is VAR? What's offside?…" onkeydown="if(event.key==='Enter') sendMilo()" />
+          <button id="milo-send" onclick="sendMilo()">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      el.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      if (id === 'quiz-modal' && !quizInitialized) {
+        initQuiz();
+        quizInitialized = true;
+      }
+
+      if (id === 'translator-modal' && !termsInitialized) {
+        renderTerms();
+        termsInitialized = true;
+      }
+
+      if (id === 'milo-modal' && !miloInitialized) {
+        addMiloMsg(
+          'b',
+          "Hey there, I'm Milo, your go-to guide for all things soccer. Ask me anything you're confused about, and I'll explain it using sports you already know."
+        );
+        miloInitialized = true;
+      }
+
+      setTimeout(() => {
+        const inp = document.querySelector('#' + id + ' input');
+        if (inp) inp.focus();
+      }, 200);
     }
 
-    const reply =
-      data.choices?.[0]?.message?.content || 'No reply from Groq.';
-    addMiloMsg('b', reply);
-  } catch (e) {
-    load.remove();
-    addMiloMsg('b', 'Network error: ' + e.message);
-  }
-}
+    function closeModal(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-// ============= MODAL OPEN/CLOSE (Milo hook added) =============
-
-// If you already have openModal/closeModal functions, keep them;
-// just make sure they include this Milo initialization logic.
-// If not, use this full version:
-
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  el.classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  // special behavior for Milo modal: first-time greeting
-  if (id === 'milo-modal' && !miloInitialized) {
-    addMiloMsg(
-      'b',
-      "Hey there, I'm Milo, your go‑to guide for all things soccer. " +
-        "Ask me anything you're confused about, and I'll explain it using sports you already know."
-    );
-    miloInitialized = true;
-  }
-}
-
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  el.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// close on backdrop click
-document.addEventListener('click', (e) => {
-  const overlay = e.target.closest('.modal-overlay');
-  if (overlay && e.target === overlay) {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-// Esc to close
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document
-      .querySelectorAll('.modal-overlay.open')
-      .forEach((m) => m.classList.remove('open'));
-    document.body.style.overflow = '';
-  }
-});
-
-// ============= Milo input Enter key handler =============
-
-// If your HTML input already has onkeydown="if (event.key === 'Enter') sendMilo()"
-// you can keep that. This listener just adds a backup.
-
-document.addEventListener('DOMContentLoaded', () => {
-  const mi = document.getElementById('milo-in');
-  const btn = document.getElementById('milo-send'); // optional if you add an id to the button
-
-  if (mi) {
-    mi.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') sendMilo();
+    document.querySelectorAll('.modal-overlay').forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target === el) closeModal(el.id);
+      });
     });
-  }
-  if (btn) {
-    btn.addEventListener('click', sendMilo);
-  }
-});
 
-</script>
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+        document.body.style.overflow = '';
+      }
+    });
+
+    function scrollToSection(sel){
+      document.querySelector(sel)?.scrollIntoView({behavior:'smooth'});
+    }
+
+    const cObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = +el.dataset.target;
+        let v = 0;
+        const step = Math.max(1, Math.ceil(target / 55));
+        const t = setInterval(() => {
+          v = Math.min(v + step, target);
+          el.textContent = v;
+          if (v >= target) clearInterval(t);
+        }, 24);
+        cObs.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-target]').forEach(el => cObs.observe(el));
+
+    function fw(type, btn){
+      document.querySelectorAll('.wtab').forEach(b => b.className = 'wtab off');
+      btn.className = 'wtab on';
+      document.querySelectorAll('.watch-card').forEach(c => {
+        c.style.display = (type === 'all' || c.dataset.t.includes(type)) ? 'flex' : 'none';
+      });
+    }
+
+    function toggleLesson(card){
+      const p = card.querySelector('p');
+      const isOpen = p.style.display === 'block';
+      p.style.display = isOpen ? 'none' : 'block';
+      card.style.background = isOpen ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.1)';
+    }
+
+    const EVENTS = [
+      {min:"5'",icon:"🟨",title:"Yellow Card — Brazil",milo:"Brazil's midfielder got a yellow card for a reckless tackle. Like a technical foul in basketball — one more and he's ejected for the game."},
+      {min:"12'",icon:"⚽",title:"Corner Kick — USA",milo:"USA earns a corner kick after a defender blocks the shot over the line. Like an inbound play in basketball — USA gets the ball from the corner arc and runs a set play."},
+      {min:"23'",icon:"⚽",title:"GOAL! USA 1–0 Brazil 🇺🇸",milo:"USA SCORES! Pulisic with a header from the corner — exactly the set piece routine they practiced. USA leads 1–0!",scoreHome:1},
+      {min:"31'",icon:"📺",title:"VAR Review — checking goal",milo:"The goal is being checked by VAR. Like NFL replay review — officials watch multiple camera angles to verify there was no offside or handball. Takes about 2 minutes."},
+      {min:"34'",icon:"✅",title:"VAR Confirmed — goal stands",milo:"Goal confirmed! After 2 minutes of review, the VAR team found no issues. USA still leads 1–0. The crowd exhales."},
+      {min:"44'",icon:"🧤",title:"Incredible Save — Brazil GK",milo:"Brazil's goalkeeper made a diving save to keep it 1–0. That's called a 'clean sheet in jeopardy' — the keeper kept his team in the game."},
+      {min:"45+3'",icon:"🔔",title:"Half Time — USA 1–0 Brazil",milo:"Half time! USA leads Brazil 1–0. 15 minute break, then 45 more minutes. USA is playing the perfect game — score and defend."},
+      {min:"51'",icon:"🔄",title:"Substitution — Brazil",milo:"Brazil makes a substitution — bringing on a fresh player. Like a basketball sub, but each team only gets 5 total all game. Brazil is trying to change the game."},
+      {min:"58'",icon:"⚽",title:"GOAL! USA 1–1 Brazil 🇧🇷",milo:"Brazil equalizes! Vinicius Jr cuts inside and slots into the corner. Game tied 1–1. That's called 'pulling level' — Brazil were the better team in this half.",scoreHome:1,scoreAway:1},
+      {min:"63'",icon:"🦵",title:"Foul — USA midfielder",milo:"Foul given against USA just outside the box. Brazil get a free kick in a dangerous position — about 22 yards from goal. Like a free throw opportunity but from distance."},
+      {min:"64'",icon:"⚡",title:"Free Kick — Brazil, 22 yds",milo:"Dangerous free kick for Brazil. The wall of USA defenders lines up 10 yards away. Brazil's specialist will try to curl it over or around the wall into the top corner."},
+      {min:"71'",icon:"🟥",title:"RED CARD — USA Defender",milo:"USA defender gets a RED CARD for a last-man foul — denying an obvious goal. He's ejected AND USA now plays 10 vs 11 for the rest of the game. Massive moment."},
+      {min:"78'",icon:"⚽",title:"GOAL! USA 1–2 Brazil 🇧🇷",milo:"Brazil takes the lead! Stunning free kick curls into the top corner. 2–1 Brazil. With USA down to 10 men, this feels decisive. 12 minutes left.",scoreHome:1,scoreAway:2},
+      {min:"87'",icon:"❌",title:"Disallowed — USA goal ruled out",milo:"USA thought they'd equalized but VAR ruled it offside by inches. The attacker's shoulder was past the last defender when the ball was played. Heartbreaking."},
+      {min:"90+6'",icon:"🔔",title:"Full Time — Brazil wins 2–1",milo:"FULL TIME. Brazil wins 2–1 in a dramatic match. USA played brilliantly with 11 men but couldn't hold on after the red card. That's soccer — one moment changes everything."}
+    ];
+
+    let simIdx = 0;
+    let simTimer = null;
+
+    function startSim(){
+      const btn = document.getElementById('sim-btn');
+      const feed = document.getElementById('event-feed');
+
+      if (simTimer) {
+        clearTimeout(simTimer);
+        simTimer = null;
+      }
+
+      if (simIdx === 0) {
+        feed.innerHTML = '';
+        document.getElementById('score-home').textContent = '0';
+        document.getElementById('score-away').textContent = '0';
+        document.getElementById('score-min').textContent = "0'";
+      }
+
+      btn.disabled = true;
+      btn.textContent = '⏳ Match in progress…';
+
+      function playNext(){
+        if (simIdx >= EVENTS.length) {
+          btn.textContent = '↺ Watch Again';
+          btn.disabled = false;
+          simIdx = 0;
+          simTimer = null;
+          return;
+        }
+
+        const ev = EVENTS[simIdx++];
+        document.getElementById('score-min').textContent = ev.min;
+        if (ev.scoreHome !== undefined) document.getElementById('score-home').textContent = ev.scoreHome;
+        if (ev.scoreAway !== undefined) document.getElementById('score-away').textContent = ev.scoreAway;
+
+        const card = document.createElement('div');
+        card.className = 'event-card event-new';
+        card.innerHTML = `<div class="event-top"><span class="event-icon">${ev.icon}</span><span class="event-min">${ev.min}</span><span class="event-title">${ev.title}</span></div><div class="event-milo">⚽ Milo: ${ev.milo}</div>`;
+        feed.insertBefore(card, feed.firstChild);
+        simTimer = setTimeout(playNext, 3800);
+      }
+
+      playNext();
+    }
+
+    const QUESTIONS = {
+      beginner:[
+        {q:"How many players does each team have on the field?",opts:["9","10","11","12"],ans:2},
+        {q:"How long is a standard soccer game?",opts:["80 minutes","85 minutes","90 minutes","100 minutes"],ans:2},
+        {q:"What does a yellow card mean?",opts:["Player ejected","Official warning","Penalty kick","Free kick"],ans:1},
+        {q:"What is a 'hat-trick'?",opts:["One goal","Two goals","Three goals","Four goals"],ans:2},
+        {q:"What does 'clean sheet' mean?",opts:["A new jersey","No goals conceded","A yellow card","A corner kick"],ans:1},
+        {q:"Which country has won the most World Cups?",opts:["Germany","Argentina","Brazil","Italy"],ans:2},
+        {q:"What is a 'brace'?",opts:["A foul","Two goals by one player","A diving save","A corner"],ans:1},
+        {q:"How many substitutions can a team make in a match?",opts:["3","4","5","6"],ans:2},
+        {q:"How many teams are in World Cup 2026?",opts:["32","40","48","64"],ans:2},
+        {q:"What color card gets a player sent off immediately?",opts:["Yellow","Orange","Red","Blue"],ans:2}
+      ],
+      intermediate:[
+        {q:"What does 'parking the bus' mean?",opts:["Attacking play","Extreme defensive setup","Time wasting","A corner tactic"],ans:1},
+        {q:"What is 'tiki-taka'?",opts:["Long ball style","Short passing possession game","Counter-attack","High press"],ans:1},
+        {q:"What does a '4-3-3' formation mean?",opts:["4 forwards, 3 mids, 3 defenders","4 defenders, 3 mids, 3 forwards","3 defenders, 4 mids, 3 forwards","4 defenders, 3 forwards, 3 mids"],ans:1},
+        {q:"What is a 'False 9'?",opts:["Fake jersey number","Striker who drops deep into midfield","Defensive midfielder","Backup goalkeeper"],ans:1},
+        {q:"What does 'pressing' mean in soccer?",opts:["Ironing jerseys","Aggressively chasing the ball when opponents have it","Slow buildup play","Defending deep"],ans:1},
+        {q:"What is 'goal difference'?",opts:["Score at halftime","Goals scored minus goals conceded","Penalty shootout score","Away goals"],ans:1},
+        {q:"What is a 'set piece'?",opts:["A fixed formation","Dead ball situation like free kick or corner","A substitution","Half-time talk"],ans:1},
+        {q:"What does 'aggregate score' mean?",opts:["Total goals over 2 legs","Average goals per game","Penalty score","Away goals only"],ans:0},
+        {q:"What is the 'Golden Boot' award?",opts:["Best goalkeeper","Top scorer","Best young player","Best team"],ans:1},
+        {q:"How many teams qualify from each group in 2026?",opts:["1","2","3","4"],ans:1}
+      ],
+      expert:[
+        {q:"Which country hosted the very first World Cup in 1930?",opts:["Brazil","France","Uruguay","Italy"],ans:2},
+        {q:"Who scored the famous 'Hand of God' goal?",opts:["Pelé","Ronaldo","Maradona","Zidane"],ans:2},
+        {q:"What year did the USA last host the World Cup before 2026?",opts:["1990","1994","1998","2002"],ans:1},
+        {q:"Who won the Golden Boot at the 2022 World Cup?",opts:["Messi","Neymar","Mbappé","Benzema"],ans:2},
+        {q:"What was the scoreline in the infamous 2014 Germany vs Brazil semifinal?",opts:["5-1","6-0","7-1","8-2"],ans:2},
+        {q:"Who is the all-time World Cup top scorer?",opts:["Ronaldo","Messi","Miroslav Klose","Pelé"],ans:2},
+        {q:"Which player won the Golden Ball (best player) at the 2022 World Cup?",opts:["Mbappé","Messi","Modric","Benzema"],ans:1},
+        {q:"How many times has France won the World Cup?",opts:["1","2","3","0"],ans:1},
+        {q:"What does FIFA stand for?",opts:["Federation Internationale de Football Athletics","Federation Internationale de Football Association","Federal International Football Association","Foundation International Football Alliance"],ans:1},
+        {q:"Which confederation has won the most World Cups overall?",opts:["UEFA (Europe)","CONMEBOL (South America)","CONCACAF (North America)","AFC (Asia)"],ans:1}
+      ]
+    };
+
+    let quizInitialized = false;
+    let quizDiff = 'beginner';
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function initQuiz(){
+      quizDiff = 'beginner';
+      quizIdx = 0;
+      quizScore = 0;
+      quizAnswered = false;
+      document.getElementById('quiz-score-display').textContent = 'Score: 0 pts';
+      document.querySelectorAll('#quiz-modal .wtab').forEach(b => b.className = 'wtab off');
+      document.getElementById('diff-beginner').className = 'wtab on';
+      renderQuiz();
+    }
+
+    function setDiff(d, btn){
+      document.querySelectorAll('#quiz-modal .wtab').forEach(b => b.className = 'wtab off');
+      btn.className = 'wtab on';
+      quizDiff = d;
+      quizIdx = 0;
+      quizScore = 0;
+      quizAnswered = false;
+      document.getElementById('quiz-score-display').textContent = 'Score: 0 pts';
+      renderQuiz();
+    }
+
+    function renderQuiz(){
+      const qs = QUESTIONS[quizDiff];
+
+      if (quizIdx >= qs.length) {
+        const pct = Math.round((quizScore / (qs.length * 10)) * 100);
+        const grade = pct >= 80 ? '🥇' : pct >= 60 ? '🥈' : '🥉';
+        document.getElementById('quiz-area').innerHTML = `<div style="text-align:center;padding:24px"><div style="font-size:3rem;margin-bottom:12px">${grade}</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;margin-bottom:8px">${quizScore}/${qs.length*10} points</div><div style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">${pct}% correct — ${pct>=80?'Soccer expert!':pct>=60?'Good knowledge!':'Keep learning!'}</div><button class="quiz-next" onclick="quizIdx=0;quizScore=0;document.getElementById('quiz-score-display').textContent='Score: 0 pts';renderQuiz()">Try Again</button></div>`;
+        return;
+      }
+
+      const q = qs[quizIdx];
+      quizAnswered = false;
+
+      document.getElementById('quiz-area').innerHTML = `
+        <div style="font-size:.76rem;color:rgba(255,255,255,.3);margin-bottom:10px">Question ${quizIdx+1} of ${qs.length} · ${quizDiff.charAt(0).toUpperCase()+quizDiff.slice(1)}</div>
+        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-opts" id="quiz-opts">
+          ${q.opts.map((o,i)=>`<button class="quiz-btn" onclick="answerQuiz(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div id="quiz-fb" style="display:none"></div>
+        <div id="quiz-next-wrap" style="display:none;margin-top:8px"><button class="quiz-next" onclick="quizIdx++;renderQuiz()">${quizIdx+1<qs.length?'Next Question →':'See Results'}</button></div>
+      `;
+    }
+
+    function answerQuiz(chosen, correct, btn){
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const btns = document.querySelectorAll('.quiz-btn');
+      btns.forEach((b,i) => {
+        if (i === correct) b.classList.add('correct');
+      });
+
+      const fb = document.getElementById('quiz-fb');
+
+      if (chosen === correct) {
+        quizScore += 10;
+        btn.classList.add('correct');
+        fb.className = 'quiz-feedback good';
+        fb.textContent = '✓ Correct! +10 points';
+        document.getElementById('quiz-score-display').textContent = `Score: ${quizScore} pts`;
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'quiz-feedback bad';
+        fb.textContent = `✗ The correct answer was: ${String.fromCharCode(65+correct)}. ${QUESTIONS[quizDiff][quizIdx].opts[correct]}`;
+      }
+
+      fb.style.display = 'block';
+      document.getElementById('quiz-next-wrap').style.display = 'block';
+    }
+
+    const TERMS = [
+      {name:"Offside",def:"A player is in an offside position if they are nearer to the opponent's goal than both the ball and the second-to-last defender when the ball is played to them.",analogy:"Hockey: being in the crease before the puck. You can't be ahead of the play.",diff:"b"},
+      {name:"Nutmeg",def:"Kicking the ball through an opponent's legs and collecting it on the other side.",analogy:"Basketball: a behind-the-back pass through a defender's legs. Extremely embarrassing to concede.",diff:"b"},
+      {name:"Bicycle Kick",def:"An acrobatic overhead kick where the player throws their body backwards and kicks the ball over their own head.",analogy:"Baseball: a behind-the-back catch. Technically spectacular, crowd goes absolutely wild.",diff:"b"},
+      {name:"Through Ball",def:"A pass played into space behind the defensive line for a teammate to run onto.",analogy:"Football: a perfectly-timed touchdown pass where the receiver runs a route into open space.",diff:"b"},
+      {name:"Pressing",def:"Aggressively chasing the ball and pressuring opponents when they have possession, trying to win the ball back quickly.",analogy:"Basketball: full-court press. Exhausting for the pressing team if it doesn't work.",diff:"i"},
+      {name:"False 9",def:"A striker who drops deep into midfield rather than staying up front, creating confusion in the opposing defense.",analogy:"Football: a running back who lines up as a receiver. The defense doesn't know whether to follow them or hold position.",diff:"a"},
+      {name:"Sweeper",def:"The deepest defender who covers behind the defensive line, acting as a last line before the goalkeeper.",analogy:"Hockey: a defenseman who hangs back to protect against odd-man rushes.",diff:"i"},
+      {name:"Brace",def:"When one player scores exactly two goals in a single match.",analogy:"Baseball: going 2-for-2 with two home runs. Good but not quite hat-trick territory.",diff:"b"},
+      {name:"Hat-trick",def:"When one player scores three goals in a single match.",analogy:"Rare and celebrated in every sport. In cricket (where the term originates) it was three wickets in three balls. In soccer it earns the player the match ball.",diff:"b"},
+      {name:"Clean Sheet",def:"When a goalkeeper (and team) does not concede any goals during an entire match.",analogy:"Baseball no-hitter or hockey shutout. Goalkeepers obsess over these the way pitchers obsess over ERA.",diff:"b"},
+      {name:"Howler",def:"A catastrophic mistake by a goalkeeper — typically a shot they should easily save but fumble into the net.",analogy:"Baseball: an error on a routine ground ball that allows a run to score. Career-defining moment of shame.",diff:"b"},
+      {name:"Aggregate",def:"The combined total of goals scored across two legs of a knockout tie. The team with the higher total advances.",analogy:"Total points in a best-of-two series — if you lose the first game 2-0, you need to win the second by 3 or more.",diff:"i"},
+      {name:"Gegenpressing",def:"Immediately counter-pressing the opponent after losing the ball, before they can organize. Popularized by Jürgen Klopp.",analogy:"Basketball: a full-court press that activates the instant your team turns over the ball. No transition allowed.",diff:"a"},
+      {name:"Tiki-Taka",def:"A style of play based on short, quick passes, maintaining possession and creating space through movement.",analogy:"NBA: a team that never rushes, works the ball patiently in the half-court until the defense breaks down.",diff:"i"},
+      {name:"Park the Bus",def:"An ultra-defensive strategy where a team packs players behind the ball to prevent the opponent from scoring.",analogy:"Football: preventing mode with all 11 players in the defensive backfield. Not pretty but often effective.",diff:"i"},
+      {name:"High Press",def:"Pressing the opponent very high up the pitch — near their own goal — to force mistakes in dangerous areas.",analogy:"Basketball: a full-court press starting from the opponent's baseline as soon as they inbound.",diff:"i"},
+      {name:"Counter-Attack",def:"Rapidly attacking after winning the ball from the opponent, before they can reorganize defensively.",analogy:"Basketball fast break — win the ball, get it up the court as fast as possible before the defense sets up.",diff:"b"},
+      {name:"Own Goal",def:"When a player accidentally knocks the ball into their own net, giving the opposition a goal.",analogy:"In any sport, scoring on your own team. In soccer it's credited to the opposition, not the unfortunate player.",diff:"b"},
+      {name:"Set Piece",def:"Any dead ball situation from which play is restarted — corner kicks, free kicks, throw-ins, penalty kicks.",analogy:"Football: scripted plays from a dead ball. Teams practice elaborate set piece routines for hours every week.",diff:"b"},
+      {name:"Golden Boot",def:"The award given to the top scorer (most goals) at a World Cup tournament.",analogy:"Like the MLB home run or RBI title — the stat that crowns the most lethal attacker of the tournament.",diff:"b"},
+      {name:"Golden Glove",def:"The award given to the best goalkeeper at the World Cup.",analogy:"Like the MLB Cy Young Award for pitchers — recognizing the best shot-stopper of the tournament.",diff:"b"},
+      {name:"Worldie",def:"British slang for an absolutely spectacular, stunning goal. Something that makes the crowd erupt instantly.",analogy:"A walk-off grand slam in the World Series. The kind of goal that gets replayed forever.",diff:"b"},
+      {name:"Bottling It",def:"British slang for a team collapsing and losing a game or trophy they were expected to win.",analogy:"MLB: blowing a 3-1 series lead. In English soccer culture, certain clubs are legendary for bottling big moments.",diff:"i"},
+      {name:"Clinical",def:"Describing a player or team that is ruthlessly efficient in converting scoring chances — no wasted opportunities.",analogy:"Basketball: a player who shoots 60% from the field. Every shot counts, nothing is wasted.",diff:"i"},
+      {name:"First Touch",def:"A player's ability to control the ball cleanly and set it up for their next action the instant it arrives.",analogy:"Fielding in baseball — a clean first touch sets up your throw. A heavy first touch loses you a second to recover.",diff:"i"},
+      {name:"Libero",def:"A sweeper or free-roaming defender in Italian tactical tradition — one who is not man-marking but covering space.",analogy:"Hockey defenseman who plays in the neutral zone, covering for partners rather than taking a direct assignment.",diff:"a"},
+      {name:"Derby",def:"A match between two local rival clubs from the same city or region. The most heated fixtures in soccer.",analogy:"Yankees vs Red Sox, Lakers vs Clippers, Bears vs Packers. Pure local rivalry, maximum intensity.",diff:"b"},
+      {name:"El Clásico",def:"The rivalry match between Real Madrid and FC Barcelona — the most watched club game in the world.",analogy:"Yankees vs Red Sox on the grandest possible scale — two Spanish global superpowers, watched by 650 million people.",diff:"b"},
+      {name:"Relegation",def:"When the worst-performing teams in a league are dropped to a lower division at the end of the season.",analogy:"No American sport has this. Imagine if the worst 3 NBA teams got demoted to the G-League every year. It's brutal.",diff:"i"},
+      {name:"VAR",def:"Video Assistant Referee — officials using video technology to review potential refereeing errors in goals, penalties, red cards, and mistaken identity.",analogy:"NFL instant replay or the NHL situation room — officiating support via multi-angle video review.",diff:"b"}
+    ];
+
+    let termsInitialized = false;
+
+    function renderTerms(filter = ''){
+      const list = document.getElementById('terms-list');
+      const filtered = filter
+        ? TERMS.filter(t => t.name.toLowerCase().includes(filter.toLowerCase()) || t.def.toLowerCase().includes(filter.toLowerCase()))
+        : TERMS;
+
+      list.innerHTML = filtered.length
+        ? filtered.map(t => `
+          <div class="term-card">
+            <div class="term-name">${t.name} <span class="term-diff ${t.diff==='b'?'diff-b':t.diff==='i'?'diff-i':'diff-a'}">${t.diff==='b'?'Beginner':t.diff==='i'?'Intermediate':'Advanced'}</span></div>
+            <div class="term-def">${t.def}</div>
+            <div class="term-analogy">🏈 ${t.analogy}</div>
+          </div>
+        `).join('')
+        : '<p style="color:rgba(255,255,255,.3);font-size:.85rem;padding:12px 0">No terms found for that search.</p>';
+    }
+
+    function filterTerms(){
+      renderTerms(document.getElementById('term-search').value);
+    }
+
+    const MATCHUPS = [
+      {title:"🇺🇸 USA vs 🏴 England",rivalry:"These two met famously in 1950 when the USA shocked England 1-0 in one of the biggest World Cup upsets ever. They drew 1-1 in 2010. England have never beaten the USA at a World Cup.",player:"Christian Pulisic (USA) — plays for AC Milan, America's best player, this is his generation's defining moment.",stake:"Both teams need points to advance from a tough group. A win here is massive for momentum and bragging rights.",prediction:"🎯 Milo says: USA draw 1-1. Pulisic scores, England equalize late. Heart attacks all around.",hype:90},
+      {title:"🇲🇽 Mexico vs 🇦🇷 Argentina",rivalry:"Mexico and Argentina have met 6 times at World Cups and Mexico has NEVER won. Argentina have won the last 5 clashes. The heartbreak is historic.",player:"Lautaro Martínez (Argentina) — Inter Milan striker who scored the winning penalty in the 2022 final. Ice in his veins.",stake:"CONMEBOL pride. Mexico needs to prove they belong on the same field as the world champions.",prediction:"🎯 Milo says: Argentina 2-0. Clinical and ruthless as always. Mexico will be brave but outclassed.",hype:80},
+      {title:"🇫🇷 France vs 🇩🇪 Germany",rivalry:"The greatest European rivalry. They've met at 4 World Cups. Pure quality, maximum tension, always a classic.",player:"Kylian Mbappé (France) — the fastest player in the world at 25, already a World Cup winner. This is his tournament.",stake:"Group A dominance — winner likely tops the group and gets an easier knockout path.",prediction:"🎯 Milo says: France 2-1. Mbappé gets a goal and an assist. Germany fight hard but lose.",hype:100},
+      {title:"🇪🇸 Spain vs 🇧🇷 Brazil",rivalry:"Two of the most technically gifted nations ever. Both are tournament favorites every single time they enter.",player:"Vinicius Jr (Brazil) — Real Madrid's electrifying winger. When on form, completely unplayable. His celebrations are as famous as his goals.",stake:"A potential Final preview. Both teams among the top 3 favorites to win the whole tournament.",prediction:"🎯 Milo says: 1-1 draw. Too good to separate. Both teams saving their best for later.",hype:90},
+      {title:"🇺🇸 USA vs 🇲🇽 Mexico",rivalry:"El Clásico de CONCACAF — the most intense rivalry in North American soccer. They're playing on shared home turf in 2026 for the first time ever.",player:"Folarin Balogun (USA) — born in New York, chose USA over England. Fast, clinical, hungry to prove himself.",stake:"CONCACAF bragging rights AND group stage points. The host nation absolutely cannot lose this one.",prediction:"🎯 Milo says: USA 2-1 in a physical battle. The home crowd makes the difference.",hype:100},
+      {title:"🇵🇹 Portugal vs 🇫🇷 France",rivalry:"Mbappé vs Ronaldo. Two of the greatest players ever on the same field. The Ronaldo farewell tour meets Mbappé's prime.",player:"Cristiano Ronaldo (Portugal) — 5-time Ballon d'Or. Possibly his final World Cup game ever. Every touch is history.",stake:"Potentially a knockout stage preview between two tournament favorites.",prediction:"🎯 Milo says: France 2-1. Youth wins. Mbappé edges Ronaldo in their last dance.",hype:100},
+      {title:"🏴 England vs 🇪🇸 Spain",rivalry:"Euro 2024 Final rematch — Spain beat England 2-1 in Berlin. England are desperate for revenge. Spain are defending European champions.",player:"Pedri (Spain) — Barcelona's midfield maestro, 21 years old, plays like a 10-year veteran. Controls every game.",stake:"Two tournament favorites. The winner announces themselves as the team to beat.",prediction:"🎯 Milo says: Spain 2-0. England bottle it again. Pedri runs the show.",hype:90},
+      {title:"🇧🇷 Brazil vs 🇫🇷 France",rivalry:"The 1998 World Cup Final rematch — France beat Brazil 3-0 on home soil. Brazil still want revenge 28 years later.",player:"Rodrygo (Brazil) — Real Madrid's Brazilian forward, big game performer with Champions League experience.",stake:"A potential Final preview. The two most-supported teams on earth. Billions watching.",prediction:"🎯 Milo says: Brazil 2-1 after extra time. Revenge is a dish served cold.",hype:100},
+      {title:"🇩🇪 Germany vs 🇧🇷 Brazil",rivalry:"NEVER FORGET. 7-1. Germany destroyed Brazil 7-1 in the 2014 semifinal on Brazilian soil. The Mineirazo. Brazil have waited 12 years.",player:"Florian Wirtz (Germany) — Bayer Leverkusen's 21-year-old genius, named best young player in Europe 2024.",stake:"The ultimate revenge match. Brazil needs to erase the worst memory in their football history.",prediction:"🎯 Milo says: Brazil wins 3-1. Revenge complete. The healing finally begins.",hype:100},
+      {title:"🇦🇷 Argentina vs 🇫🇷 France",rivalry:"THE rematch of the greatest World Cup Final ever played. France led 2-0, Argentina equalized, France equalized in extra time, Argentina won on penalties. Mbappé scored a hat-trick and still lost.",player:"Lionel Messi (Argentina) — the GOAT. World Cup winner. Playing his final World Cup. Every touch is history.",stake:"Argentina defending champions. France seeking revenge. The entire world stops.",prediction:"🎯 Milo says: Too close to call. 1-1 AET, Argentina on penalties again. History repeats.",hype:110}
+    ];
+
+    function showMatchup(){
+      const idx = document.getElementById('matchup-select').value;
+      if (idx === '') {
+        document.getElementById('hype-display').innerHTML = '';
+        return;
+      }
+
+      const m = MATCHUPS[+idx];
+      const hyp = Math.min(m.hype, 100);
+
+      document.getElementById('hype-display').innerHTML = `
+        <div class="hype-card">
+          <div class="hype-header"><div class="hype-vs">${m.title}</div><div class="hype-sub">World Cup 2026</div></div>
+          <div class="hype-body">
+            <div class="hype-row"><div class="hype-row-label">The Rivalry</div><p>${m.rivalry}</p></div>
+            <div class="hype-row"><div class="hype-row-label">Player to Watch</div><p>${m.player}</p></div>
+            <div class="hype-row"><div class="hype-row-label">What's at Stake</div><p>${m.stake}</p></div>
+            <div class="hype-row"><div class="hype-row-label">Milo's Prediction</div><p>${m.prediction}</p></div>
+            <div class="hype-row">
+              <div class="hype-row-label">Hype-O-Meter ${m.hype>=100?'🔥':''}</div>
+              <div class="hype-meter">
+                <div class="hype-bar"><div class="hype-fill" style="width:0%" data-w="${hyp}%"></div></div>
+                <div class="hype-val">${m.hype}/10</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => {
+        const fill = document.querySelector('.hype-fill');
+        if (fill) fill.style.width = fill.dataset.w;
+      }, 80);
+    }
+
+    let miloInitialized = false;
+
+    function addMiloMsg(who, text) {
+      const msgs = document.getElementById('milo-msgs');
+      if (!msgs) return;
+
+      const d = document.createElement('div');
+      d.className = who === 'b' ? 'cm-b' : 'cm-u';
+      d.textContent = text;
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    async function sendMilo() {
+      const inp = document.getElementById('milo-in');
+      const msgs = document.getElementById('milo-msgs');
+      if (!inp || !msgs) return;
+
+      const q = inp.value.trim();
+      if (!q) return;
+
+      addMiloMsg('u', q);
+      inp.value = '';
+
+      const load = document.createElement('div');
+      load.className = 'cm-b';
+      load.style.opacity = '0.5';
+      load.textContent = 'Thinking...';
+      msgs.appendChild(load);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: 'system',
+                content: 'You are Milo, a friendly soccer explainer for American sports fans. Answer clearly using analogies to NFL, NBA, MLB, and NHL when helpful.'
+              },
+              { role: 'user', content: q }
+            ]
+          })
+        });
+
+        const data = await res.json();
+        load.remove();
+
+        if (!res.ok) {
+          const errText =
+            data?.error?.message ||
+            (typeof data?.error === 'string' ? data.error : JSON.stringify(data?.error || data));
+          addMiloMsg('b', 'Error: ' + errText);
+          return;
+        }
+
+        const reply = data?.choices?.[0]?.message?.content || 'No reply from Milo.';
+        addMiloMsg('b', reply);
+      } catch (e) {
+        load.remove();
+        addMiloMsg('b', 'Network error: ' + e.message);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const mi = document.getElementById('milo-in');
+      const btn = document.getElementById('milo-send');
+
+      if (mi) {
+        mi.addEventListener('keydown', e => {
+          if (e.key === 'Enter') sendMilo();
+        });
+      }
+
+      if (btn) {
+        btn.addEventListener('click', sendMilo);
+      }
+    });
+  </script>
 </body>
 </html>
-
