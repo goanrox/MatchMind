@@ -4,362 +4,837 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MatchMind — Soccer Finally Explained</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:#18181f;color:#fff;overflow-x:hidden}
+body{font-family:'Nunito',sans-serif;background:#0d3b1a;color:#fff;overflow-x:hidden}
 
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;
+/* ═══════════════════════════════════════
+   DISNEY PIXAR SOCCER PITCH BACKGROUND
+═══════════════════════════════════════ */
+.pitch-bg{
+  position:fixed;inset:0;z-index:0;
+  background:#1a5c2a;
+  overflow:hidden;
+}
+.pitch-bg::before{
+  content:'';
+  position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 50% 45% at 12% 20%,rgba(210,175,115,.15) 0%,transparent 100%),
-    radial-gradient(ellipse 40% 50% at 88% 65%,rgba(105,125,185,.12) 0%,transparent 100%),
-    radial-gradient(ellipse 55% 35% at 50% 100%,rgba(45,50,75,.6) 0%,transparent 100%),
-    linear-gradient(150deg,#23211d 0%,#1c1c2a 55%,#13131f 100%);
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 8%,
+      rgba(0,0,0,0.06) 8%,
+      rgba(0,0,0,0.06) 16%,
+      transparent 16%,
+      transparent 24%,
+      rgba(0,0,0,0.06) 24%,
+      rgba(0,0,0,0.06) 32%,
+      transparent 32%,
+      transparent 40%,
+      rgba(0,0,0,0.06) 40%,
+      rgba(0,0,0,0.06) 48%,
+      transparent 48%,
+      transparent 56%,
+      rgba(0,0,0,0.06) 56%,
+      rgba(0,0,0,0.06) 64%,
+      transparent 64%,
+      transparent 72%,
+      rgba(0,0,0,0.06) 72%,
+      rgba(0,0,0,0.06) 80%,
+      transparent 80%
+    );
+  animation:grassShimmer 6s ease-in-out infinite alternate;
+}
+@keyframes grassShimmer{
+  0%{opacity:1}
+  100%{opacity:0.7}
+}
+.pitch-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+}
+/* Warm stadium light glow in center */
+.pitch-bg::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 50%, rgba(255,220,100,0.08) 0%, transparent 70%),
+             radial-gradient(ellipse 100% 100% at 50% 50%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.75) 100%);
   pointer-events:none;
 }
 
+/* ═══════════════════════════════════════
+   PAGE LOAD BALL ROLL
+═══════════════════════════════════════ */
+#ballRoll{
+  position:fixed;bottom:30px;left:-80px;z-index:9999;
+  font-size:3rem;
+  animation:ballRollAnim 2s ease-in-out forwards;
+  pointer-events:none;
+}
+@keyframes ballRollAnim{
+  0%{left:-80px;transform:rotate(0deg)}
+  100%{left:110vw;transform:rotate(720deg)}
+}
+
+/* ═══════════════════════════════════════
+   GOAL OVERLAY
+═══════════════════════════════════════ */
+#goalOverlay{
+  display:none;
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(255,165,0,0.15);
+  backdrop-filter:blur(4px);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+#goalOverlay.show{display:flex}
+.goal-text{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,15vw,12rem);
+  color:#FFD700;
+  text-shadow:0 0 60px rgba(255,215,0,0.8),0 0 120px rgba(255,215,0,0.4);
+  animation:goalPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  line-height:1;
+}
+@keyframes goalPop{
+  0%{transform:scale(0.3);opacity:0}
+  60%{transform:scale(1.1)}
+  100%{transform:scale(1);opacity:1}
+}
+.goal-sub{
+  font-family:'Nunito',sans-serif;
+  font-size:1.5rem;
+  font-weight:800;
+  color:#fff;
+  margin-top:12px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  animation:fadeInUp 0.5s 0.3s both;
+}
+.confetti-container{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.confetti-piece{
+  position:absolute;
+  width:10px;height:10px;
+  border-radius:2px;
+  animation:confettiFall 2s ease-in forwards;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+
+/* ═══════════════════════════════════════
+   WRAP
+═══════════════════════════════════════ */
 .wrap{position:relative;z-index:1}
 
-/* NAV */
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
 nav{
   position:fixed;top:14px;left:0;right:0;z-index:120;
 }
-.nav-shell{
-  max-width:1180px;margin:0 auto;padding:0 20px;
-}
+.nav-shell{max-width:1180px;margin:0 auto;padding:0 20px}
 .nav-inner{
   height:68px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 18px;
-  border-radius:26px;
-  background:rgba(24,22,30,.72);
+  padding:0 22px;
+  border-radius:28px;
+  background:rgba(5,18,8,0.88);
   backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:0 18px 40px rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 1px rgba(255,215,0,0.05);
 }
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
-.nav-logo-mark{
-  width:28px;height:28px;border-radius:50%;
-  display:grid;place-items:center;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  font-size:.95rem;
+.nav-logo{
+  font-family:'Orbitron',sans-serif;
+  font-size:1rem;font-weight:900;color:#fff;text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+  letter-spacing:1px;
 }
-.nav-links{display:flex;gap:6px;list-style:none}
-.nav-links a{padding:8px 14px;border-radius:999px;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.62);text-decoration:none;transition:all .2s;cursor:pointer}
-.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.nav-cta{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.88));color:#18181f;padding:11px 18px;border-radius:999px;font-size:.92rem;font-weight:700;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
-.nav-cta:hover{background:#fff;transform:translateY(-1px)}
+.nav-live-dot{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:700;
+  color:#7defa1;letter-spacing:1px;text-transform:uppercase;
+  margin-left:8px;
+}
+.nav-live-dot::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:#7defa1;box-shadow:0 0 10px #7defa1;
+  animation:livePulse 1.5s ease-in-out infinite;
+}
+@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 10px #7defa1}50%{opacity:0.4;box-shadow:0 0 4px #7defa1}}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{
+  padding:8px 14px;border-radius:999px;
+  font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;
+  color:rgba(255,255,255,0.65);text-decoration:none;
+  transition:all 0.2s;cursor:pointer;
+  position:relative;
+}
+.nav-links a:hover{color:#FFD700}
+.nav-links a::before{
+  content:'⚽';position:absolute;left:-2px;top:50%;transform:translateY(-50%) scale(0);
+  font-size:0.7rem;transition:transform 0.2s;
+}
+.nav-links a:hover::before{transform:translateY(-50%) scale(1)}
+.nav-cta{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;padding:10px 20px;border-radius:999px;
+  font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:800;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 4px 20px rgba(255,215,0,0.3);
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,215,0,0.5)}
 
-/* SECTIONS */
+/* ═══════════════════════════════════════
+   SECTIONS
+═══════════════════════════════════════ */
 .sec{padding:88px 48px}
 .inner{max-width:1040px;margin:0 auto}
-.s-tag{font-size:.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px}
-.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.95rem,3.2vw,2.8rem);font-weight:600;line-height:1.1;color:#fff;margin-bottom:12px;letter-spacing:-.4px}
-.s-sub{font-size:.96rem;color:rgba(255,255,255,.46);line-height:1.74;max-width:560px}
+.s-tag{
+  font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,215,0,0.7);margin-bottom:10px;
+}
+.s-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  line-height:1.05;color:#fff;margin-bottom:12px;
+  letter-spacing:1px;
+}
+.s-sub{font-size:1rem;color:rgba(255,255,255,0.55);line-height:1.74;max-width:560px;font-family:'Nunito',sans-serif}
 
-/* HERO */
-#hero{padding:136px 20px 34px}
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero{padding:136px 20px 50px}
 .hero-shell{
   max-width:1180px;margin:0 auto;
-  border-radius:34px;
-  overflow:hidden;
-  padding:54px 24px 30px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-  border:1px solid rgba(255,255,255,.10);
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  box-shadow:0 24px 60px rgba(0,0,0,.28);
+  border-radius:34px;overflow:hidden;
+  padding:60px 32px 40px;
+  background:rgba(5,20,10,0.72);
+  border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 24px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,215,0,0.06),inset 0 1px 0 rgba(255,255,255,0.08);
 }
 #hero .inner{display:flex;flex-direction:column;align-items:center;text-align:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:7px 16px;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.68);margin-bottom:28px}
-.ldot{width:8px;height:8px;border-radius:50%;background:#7defa1;animation:blink 2s ease-in-out infinite;box-shadow:0 0 14px #7defa1}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-#hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.25rem,6.3vw,6rem);font-weight:600;line-height:.96;letter-spacing:-2px;color:#fff;margin-bottom:20px}
-#hero h1 em{font-style:italic;color:rgba(255,255,255,.46)}
-.hero-sub{font-size:1.07rem;color:rgba(255,255,255,.48);line-height:1.8;max-width:760px;margin-bottom:34px}
-.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
-.btn-solid{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.9));color:#18181f;padding:14px 28px;border-radius:18px;font-size:.96rem;font-weight:700;text-decoration:none;transition:all .2s;border:none;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 16px 34px rgba(255,255,255,.08)}
-.btn-solid:hover{background:#fff;transform:translateY(-1px)}
-.btn-ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.82);padding:14px 26px;border-radius:18px;font-size:.94rem;font-weight:600;text-decoration:none;transition:all .2s}
-.btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);
+  border-radius:24px;padding:8px 18px;
+  font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;
+  color:rgba(255,215,0,0.9);margin-bottom:24px;letter-spacing:1px;
+  text-transform:uppercase;
+}
+.ldot{width:8px;height:8px;border-radius:50%;background:#7defa1;animation:livePulse 2s ease-in-out infinite;box-shadow:0 0 14px #7defa1}
+#hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4rem,8vw,8rem);
+  line-height:0.92;letter-spacing:2px;color:#fff;margin-bottom:20px;
+}
+#hero h1 em{font-style:normal;color:#FFD700;text-shadow:0 0 40px rgba(255,215,0,0.4)}
+.hero-sub{
+  font-family:'Nunito',sans-serif;font-size:1.1rem;
+  color:rgba(255,255,255,0.55);line-height:1.8;
+  max-width:700px;margin-bottom:36px;font-weight:600;
+}
+.btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:42px}
+.btn-solid{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;padding:15px 32px;border-radius:20px;
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;
+  text-decoration:none;border:none;cursor:pointer;
+  box-shadow:0 8px 30px rgba(255,215,0,0.35);
+  transition:all 0.22s;
+}
+.btn-solid:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,215,0,0.5)}
+.btn-ghost{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.85);padding:15px 28px;border-radius:20px;
+  font-family:'Nunito',sans-serif;font-size:0.96rem;font-weight:700;
+  text-decoration:none;transition:all 0.2s;
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.14);color:#fff;transform:translateY(-2px)}
 
+/* STATS ROW */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%}
-.stat-box{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:26px 16px;text-align:center;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:relative;overflow:hidden}
-.stat-link{text-decoration:none;color:inherit;transition:all .24s ease;display:block}
-.stat-link:hover{transform:translateY(-4px);background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.06));border-color:rgba(255,255,255,.18)}
-.stat-num{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:600;color:#fff;line-height:1;margin-bottom:6px}
-.stat-lbl{font-size:.82rem;color:rgba(255,255,255,.42);margin-bottom:10px}
-.stat-hint{font-size:.78rem;color:rgba(255,255,255,.78);font-weight:700}
-.stat-hint span{opacity:.55;transition:all .2s}
-.stat-link:hover .stat-hint span{opacity:1;transform:translateX(3px)}
+.stat-box{
+  background:rgba(5,20,10,0.7);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:22px;padding:26px 16px;text-align:center;
+  position:relative;overflow:hidden;
+  transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+.stat-box::before{
+  content:'';position:absolute;inset:0;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,215,0,0.0),rgba(255,215,0,0.0));
+  transition:background 0.3s;
+}
+.stat-link{text-decoration:none;color:inherit;display:block}
+.stat-link:hover .stat-box{
+  transform:translateY(-6px);
+  border-color:rgba(255,215,0,0.5);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 24px rgba(255,215,0,0.15);
+}
+.stat-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:2.4rem;font-weight:900;
+  color:#FFD700;line-height:1;margin-bottom:6px;
+  text-shadow:0 0 20px rgba(255,215,0,0.4);
+}
+.stat-lbl{font-family:'Nunito',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:10px;font-weight:700}
+.stat-hint{font-family:'Nunito',sans-serif;font-size:0.8rem;color:rgba(255,215,0,0.8);font-weight:700}
+.stat-hint span{opacity:0.6;transition:all 0.2s}
+.stat-link:hover .stat-hint span{opacity:1}
 
-/* PAIN CARDS */
+/* ═══════════════════════════════════════
+   CARD BASE (shared)
+═══════════════════════════════════════ */
+.card{
+  background:rgba(5,20,10,0.82);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;padding:20px;
+  backdrop-filter:blur(16px);
+  transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(30px);
+}
+.card.visible{opacity:1;transform:translateY(0)}
+.card::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:linear-gradient(180deg,#FFD700,#FFA500);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform 0.3s ease;border-radius:3px 0 0 3px;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,215,0,0.4);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 24px rgba(255,215,0,0.12);
+}
+.card:hover::after{transform:scaleY(1)}
+
+/* ═══════════════════════════════════════
+   PAIN CARDS
+═══════════════════════════════════════ */
 #pain{padding:8px 48px 88px}
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.pain-card{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);cursor:pointer;min-height:260px;transition:border-color .3s,transform .3s}
-.pain-card:hover{border-color:rgba(255,255,255,.22);transform:translateY(-4px)}
-.pain-front{padding:28px 24px;display:flex;flex-direction:column;justify-content:flex-end;height:100%;transition:opacity .35s}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.pain-card{
+  position:relative;border-radius:20px;overflow:hidden;
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);cursor:pointer;min-height:260px;
+  transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;
+  opacity:0;transform:translateY(30px);
+}
+.pain-card.visible{opacity:1;transform:translateY(0)}
+.pain-card:hover{
+  border-color:rgba(255,215,0,0.4);transform:translateY(-5px);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 24px rgba(255,215,0,0.1);
+}
+.pain-front{padding:28px 24px;display:flex;flex-direction:column;justify-content:flex-end;height:100%;transition:opacity 0.35s}
 .pain-card:hover .pain-front{opacity:0}
 .pain-emoji{font-size:2.2rem;margin-bottom:12px}
-.pain-q{font-size:.92rem;font-weight:600;color:rgba(255,255,255,.85);line-height:1.45;margin-bottom:8px}
-.pain-hint{font-size:.75rem;color:rgba(255,255,255,.28)}
-.pain-back{position:absolute;inset:0;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s;pointer-events:none}
+.pain-q{font-family:'Nunito',sans-serif;font-size:0.94rem;font-weight:800;color:rgba(255,255,255,0.9);line-height:1.45;margin-bottom:8px}
+.pain-hint{font-family:'Nunito',sans-serif;font-size:0.75rem;color:rgba(255,215,0,0.5);font-weight:600}
+.pain-back{
+  position:absolute;inset:0;
+  background:rgba(5,30,12,0.95);
+  border-radius:20px;padding:22px;
+  display:flex;flex-direction:column;gap:10px;
+  opacity:0;transform:translateY(14px);
+  transition:opacity 0.35s,transform 0.35s;pointer-events:none;
+}
 .pain-card:hover .pain-back{opacity:1;transform:translateY(0);pointer-events:auto}
-.pain-answer-tag{font-size:.66rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.32)}
-.pain-answer{font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.6;font-weight:500}
-.pain-analogy{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:11px 13px}
-.pain-analogy .al{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px}
-.pain-analogy p{font-size:.8rem;color:rgba(255,255,255,.68);line-height:1.5}
+.pain-answer-tag{font-family:'Nunito',sans-serif;font-size:0.66rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,0.6)}
+.pain-answer{font-family:'Nunito',sans-serif;font-size:0.88rem;color:rgba(255,255,255,0.88);line-height:1.6;font-weight:600}
+.pain-analogy{background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:12px;padding:11px 13px}
+.pain-analogy .al{font-family:'Nunito',sans-serif;font-size:0.64rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,215,0,0.5);margin-bottom:4px}
+.pain-analogy p{font-family:'Nunito',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.7);line-height:1.5}
 
-/* INFO CARDS */
+/* ═══════════════════════════════════════
+   INFO / SOCCER 101
+═══════════════════════════════════════ */
 #info{padding:0 48px 88px}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.info-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:18px;padding:26px 22px;display:flex;flex-direction:column;gap:13px;transition:all .25s}
-.info-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);transform:translateY(-3px)}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.info-card{
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(16px);border-radius:20px;padding:26px 22px;
+  display:flex;flex-direction:column;gap:13px;
+  transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(30px);
+}
+.info-card.visible{opacity:1;transform:translateY(0)}
+.info-card::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:linear-gradient(180deg,#FFD700,#FFA500);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform 0.3s ease;
+}
+.info-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(255,215,0,0.4);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 24px rgba(255,215,0,0.12);
+}
+.info-card:hover::after{transform:scaleY(1)}
 .info-header{display:flex;align-items:center;gap:12px}
-.info-ico{width:40px;height:40px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.info-card h3{font-size:.95rem;font-weight:600}
-.info-body{font-size:.81rem;color:rgba(255,255,255,.5);line-height:1.65}
-.info-divider{height:1px;background:rgba(255,255,255,.07)}
-.info-analogy{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 13px}
-.info-analogy .al{font-size:.63rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px}
-.info-analogy p{font-size:.79rem;color:rgba(255,255,255,.62);line-height:1.5}
-.info-pill{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:8px;width:fit-content}
-.pill-green{background:rgba(125,239,161,.12);color:#7defa1}
-.pill-yellow{background:rgba(255,220,80,.12);color:#ffd850}
-.pill-blue{background:rgba(100,180,255,.12);color:#64b4ff}
+.info-ico{
+  width:42px;height:42px;flex-shrink:0;
+  background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.2);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;transition:transform 0.3s;
+}
+.info-card:hover .info-ico{transform:rotate(-8deg) scale(1.1)}
+.info-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:#fff}
+.info-body{font-family:'Nunito',sans-serif;font-size:0.83rem;color:rgba(255,255,255,0.55);line-height:1.65}
+.info-divider{height:1px;background:rgba(255,255,255,0.07)}
+.info-analogy{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.12);border-radius:10px;padding:11px 13px}
+.info-analogy .al{font-family:'Nunito',sans-serif;font-size:0.63rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,215,0,0.5);margin-bottom:4px}
+.info-analogy p{font-family:'Nunito',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.65);line-height:1.5}
+.info-pill{display:inline-flex;align-items:center;gap:5px;font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:800;padding:4px 12px;border-radius:8px;width:fit-content}
+.pill-green{background:rgba(125,239,161,0.12);color:#7defa1}
+.pill-yellow{background:rgba(255,215,0,0.12);color:#FFD700}
+.pill-blue{background:rgba(100,180,255,0.12);color:#64b4ff}
 
-/* FEATURE CARDS */
+/* ═══════════════════════════════════════
+   FEATURES
+═══════════════════════════════════════ */
 #features{padding:0 48px 88px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.feat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:26px 22px;color:#fff;transition:all .22s;display:flex;flex-direction:column;gap:8px;cursor:pointer}
-.feat-card:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.2);transform:translateY(-3px)}
-.feat-ico{width:40px;height:40px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.feat-card h3{font-size:.92rem;font-weight:600}
-.feat-card p{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.55}
-.feat-arrow{font-size:.75rem;color:rgba(255,255,255,.25);margin-top:4px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.feat-card{
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(16px);border-radius:20px;padding:28px 24px;
+  color:#fff;cursor:pointer;display:flex;flex-direction:column;gap:10px;
+  transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateY(30px);
+}
+.feat-card.visible{opacity:1;transform:translateY(0)}
+.feat-card::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:linear-gradient(180deg,#FFD700,#FFA500);
+  transform:scaleY(0);transform-origin:bottom;transition:transform 0.3s;
+}
+.feat-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,215,0,0.4);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 24px rgba(255,215,0,0.12);
+}
+.feat-card:hover::after{transform:scaleY(1)}
+.feat-ico{
+  width:44px;height:44px;
+  background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.2);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;transition:transform 0.3s;
+}
+.feat-card:hover .feat-ico{animation:wiggle 0.4s ease}
+@keyframes wiggle{0%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}100%{transform:rotate(0)}}
+.feat-card h3{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px}
+.feat-card p{font-family:'Nunito',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.48);line-height:1.55}
+.feat-arrow{font-family:'Nunito',sans-serif;font-size:0.76rem;color:rgba(255,215,0,0.5);margin-top:4px;font-weight:700;transition:color 0.2s}
+.feat-card:hover .feat-arrow{color:#FFD700}
 
-/* WATCH */
+/* ═══════════════════════════════════════
+   WATCH
+═══════════════════════════════════════ */
 #watch{padding:0 48px 88px}
 .tab-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.wtab{padding:7px 18px;border-radius:22px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
-.wtab.on{background:rgba(255,255,255,.88);color:#18181f}
-.wtab.off{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)}
-.wtab.off:hover{background:rgba(255,255,255,.12);color:#fff}
+.wtab{
+  padding:8px 20px;border-radius:22px;
+  font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:700;
+  cursor:pointer;border:none;transition:all 0.22s;
+}
+.wtab.on{background:linear-gradient(135deg,#FFD700,#FFA500);color:#0d3b1a}
+.wtab.off{
+  background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.55);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.wtab.off:hover{background:rgba(255,255,255,0.12);color:#fff}
 .watch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.watch-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:20px 22px;display:flex;align-items:flex-start;gap:14px;text-decoration:none;color:#fff;transition:all .2s}
-.watch-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16)}
-.w-ico{width:42px;height:42px;flex-shrink:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.w-body h3{font-size:.9rem;font-weight:600;margin-bottom:4px}
-.w-body p{font-size:.77rem;color:rgba(255,255,255,.4);line-height:1.5;margin-bottom:8px}
-.badge{display:inline-block;font-size:.67rem;font-weight:600;letter-spacing:.3px;padding:3px 9px;border-radius:6px}
-.b-free{background:rgba(125,239,161,.13);color:#7defa1}
-.b-paid{background:rgba(255,210,100,.12);color:#ffd264}
+.watch-card{
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(16px);border-radius:18px;padding:20px 22px;
+  display:flex;align-items:flex-start;gap:14px;
+  text-decoration:none;color:#fff;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.watch-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,215,0,0.35);
+  box-shadow:0 12px 36px rgba(0,0,0,0.4),0 0 20px rgba(255,215,0,0.1);
+}
+.w-ico{
+  width:44px;height:44px;flex-shrink:0;
+  background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.2);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.w-body h3{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.5px;margin-bottom:4px}
+.w-body p{font-family:'Nunito',sans-serif;font-size:0.79rem;color:rgba(255,255,255,0.45);line-height:1.5;margin-bottom:8px}
+.badge{display:inline-block;font-family:'Nunito',sans-serif;font-size:0.68rem;font-weight:800;letter-spacing:0.3px;padding:4px 10px;border-radius:8px}
+.b-free{background:rgba(125,239,161,0.13);color:#7defa1}
+.b-paid{background:rgba(255,215,0,0.12);color:#FFD700}
 
-/* FOOTER */
-footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;background:rgba(10,10,16,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;z-index:1}
+/* ═══════════════════════════════════════
+   TEAMS / CITIES / MATCHES / LESSONS pages (pills + search)
+═══════════════════════════════════════ */
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:30px}
+.search,.select{
+  background:rgba(5,20,10,0.82);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:14px;
+  padding:13px 16px;
+  color:#fff;
+  font-family:'Nunito',sans-serif;font-size:0.92rem;font-weight:600;
+  outline:none;transition:border-color 0.2s;
+}
+.search{flex:1;min-width:260px}
+.search::placeholder{color:rgba(255,255,255,0.28)}
+.search:focus,.select:focus{border-color:rgba(255,215,0,0.5)}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap}
+.pill{
+  border:1px solid rgba(255,255,255,0.12);cursor:pointer;
+  padding:9px 16px;border-radius:999px;
+  font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;
+  color:rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.07);
+  transition:all 0.2s;
+}
+.pill:hover{background:rgba(255,255,255,0.12);color:#fff}
+.pill.active{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;border-color:transparent;
+}
+.tag{
+  display:inline-flex;padding:4px 10px;border-radius:999px;
+  font-family:'Nunito',sans-serif;font-size:0.68rem;font-weight:800;letter-spacing:0.4px;
+  background:rgba(125,239,161,0.12);color:#7defa1;
+}
+.empty{text-align:center;color:rgba(255,255,255,0.35);padding:28px 0;font-size:0.92rem;display:none;font-family:'Nunito',sans-serif}
+
+/* Stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.mini-stat{
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:18px 16px;
+}
+.mini-stat-num{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;margin-bottom:4px;color:#FFD700;text-shadow:0 0 16px rgba(255,215,0,0.3)}
+.mini-stat-lbl{font-family:'Nunito',sans-serif;font-size:0.78rem;color:rgba(255,255,255,0.38);font-weight:700}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{
+  border-top:1px solid rgba(255,215,0,0.1);
+  padding:52px 48px 32px;
+  background:rgba(3,12,5,0.85);
+  backdrop-filter:blur(20px);
+  position:relative;z-index:1;
+}
 .ft-inner{max-width:1040px;margin:0 auto}
 .ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:36px}
-.ft-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:#fff;margin-bottom:10px}
-.ft-tag{font-size:.82rem;color:rgba(255,255,255,.3);line-height:1.7}
-.ft-col-h{font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:14px}
+.ft-name{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:#FFD700;margin-bottom:10px;letter-spacing:1px}
+.ft-tag{font-family:'Nunito',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.3);line-height:1.7}
+.ft-col-h{font-family:'Nunito',sans-serif;font-size:0.68rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,0.4);margin-bottom:14px}
 .ft-col ul{list-style:none}
 .ft-col li{margin-bottom:10px}
-.ft-col a{font-size:.84rem;color:rgba(255,255,255,.42);text-decoration:none;transition:color .2s;cursor:pointer}
-.ft-col a:hover{color:rgba(255,255,255,.82)}
-.ft-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.ft-bottom p{font-size:.74rem;color:rgba(255,255,255,.2)}
+.ft-col a{font-family:'Nunito',sans-serif;font-size:0.84rem;color:rgba(255,255,255,0.42);text-decoration:none;transition:color 0.2s;cursor:pointer;font-weight:600}
+.ft-col a:hover{color:#FFD700}
+.ft-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.ft-bottom p{font-family:'Nunito',sans-serif;font-size:0.74rem;color:rgba(255,255,255,0.2);font-weight:600}
 
-/* MODALS */
+/* ═══════════════════════════════════════
+   MODALS
+═══════════════════════════════════════ */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.5);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  overflow-y:auto;
-  padding:20px;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  overflow-y:auto;padding:20px;
 }
 .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .modal-box{
-  background:#1c1a24;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:24px;
-  width:100%;max-width:780px;
-  margin:auto;
-  animation:modalIn .3s cubic-bezier(.4,0,.2,1);
-  overflow:hidden;
+  background:rgba(6,22,10,0.97);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:28px;width:100%;max-width:800px;
+  margin:auto;overflow:hidden;
+  animation:modalPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 40px 120px rgba(0,0,0,0.7),0 0 0 1px rgba(255,215,0,0.06);
 }
-@keyframes modalIn{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
+@keyframes modalPop{
+  from{transform:scale(0.88) translateY(20px);opacity:0}
+  to{transform:scale(1) translateY(0);opacity:1}
+}
 .modal-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:22px 28px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,215,0,0.04);
 }
-.modal-header h2{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:10px}
-.modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.09);border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
-.modal-close:hover{background:rgba(255,255,255,.18)}
+.modal-header h2{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;
+  display:flex;align-items:center;gap:10px;color:#fff;
+}
+.modal-close{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.09);border:none;
+  color:rgba(255,255,255,0.6);cursor:pointer;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s,color 0.2s;font-family:'Nunito',sans-serif;
+}
+.modal-close:hover{background:rgba(255,215,0,0.2);color:#FFD700}
 .modal-body{padding:28px}
 
-/* Modal content helpers */
-.m-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:18px 20px;margin-bottom:10px}
-.m-card:last-child{margin-bottom:0}
-.m-card h4{font-size:.92rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.m-card p{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6}
+/* Modal content */
+.m-card{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:16px;padding:18px 20px;margin-bottom:10px;
+  transition:all 0.2s;cursor:pointer;
+}
+.m-card:hover{background:rgba(255,215,0,0.06);border-color:rgba(255,215,0,0.2)}
+.m-card h4{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.5px;
+  margin-bottom:6px;display:flex;align-items:center;gap:8px;color:#fff;
+}
+.m-card p{font-family:'Nunito',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.55);line-height:1.6}
 
 /* Quiz */
-.quiz-q{font-size:.96rem;font-weight:600;color:#fff;margin-bottom:16px;line-height:1.5}
+.quiz-q{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.5}
 .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.quiz-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 16px;color:rgba(255,255,255,.8);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
-.quiz-btn:hover{background:rgba(255,255,255,.13);color:#fff}
-.quiz-btn.correct{background:rgba(125,239,161,.15);border-color:#7defa1;color:#7defa1}
-.quiz-btn.wrong{background:rgba(255,90,90,.12);border-color:rgba(255,90,90,.4);color:rgba(255,120,120,.9)}
-.quiz-feedback{font-size:.84rem;padding:12px 16px;border-radius:10px;line-height:1.5;margin-bottom:12px}
-.quiz-feedback.good{background:rgba(125,239,161,.12);color:#7defa1}
-.quiz-feedback.bad{background:rgba(255,90,90,.1);color:rgba(255,130,130,.9)}
-.quiz-next{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:10px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.quiz-next:hover{background:#fff}
-.quiz-score{font-size:.82rem;color:rgba(255,255,255,.4);margin-left:12px}
+.quiz-btn{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+  border-radius:13px;padding:13px 16px;color:rgba(255,255,255,0.82);
+  font-family:'Nunito',sans-serif;font-size:0.86rem;font-weight:700;
+  cursor:pointer;transition:all 0.2s;text-align:left;position:relative;overflow:hidden;
+}
+.quiz-btn:hover{background:rgba(255,215,0,0.1);border-color:rgba(255,215,0,0.3);color:#fff}
+.quiz-btn.correct{background:rgba(125,239,161,0.15);border-color:#7defa1;color:#7defa1}
+.quiz-btn.wrong{background:rgba(255,90,90,0.12);border-color:rgba(255,90,90,0.4);color:rgba(255,120,120,0.9)}
+.quiz-feedback{font-family:'Nunito',sans-serif;font-size:0.86rem;font-weight:700;padding:12px 16px;border-radius:12px;line-height:1.5;margin-bottom:12px}
+.quiz-feedback.good{background:rgba(125,239,161,0.12);color:#7defa1}
+.quiz-feedback.bad{background:rgba(255,90,90,0.1);color:rgba(255,130,130,0.9)}
+.quiz-next{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;border:none;border-radius:12px;
+  padding:11px 24px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.88rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.quiz-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,215,0,0.3)}
+.quiz-score{font-family:'Orbitron',sans-serif;font-size:0.8rem;color:rgba(255,215,0,0.7);margin-left:12px;font-weight:700}
 
-/* Translator search */
-.search-box{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.92rem;outline:none;margin-bottom:18px;transition:border-color .2s}
-.search-box:focus{border-color:rgba(255,255,255,.3)}
-.search-box::placeholder{color:rgba(255,255,255,.28)}
-.term-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:16px 18px;margin-bottom:10px}
-.term-name{font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px}
-.term-def{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.55;margin-bottom:8px}
-.term-analogy{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.5;font-style:italic}
-.term-diff{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:6px;margin-top:6px}
-.diff-b{background:rgba(125,239,161,.12);color:#7defa1}
-.diff-i{background:rgba(255,220,80,.1);color:#ffd850}
-.diff-a{background:rgba(255,100,100,.12);color:rgba(255,140,140,.9)}
+/* +10 pts flying badge */
+.pts-badge{
+  position:fixed;
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  color:#7defa1;text-shadow:0 0 20px rgba(125,239,161,0.6);
+  pointer-events:none;z-index:9999;
+  animation:ptsFly 0.9s ease-out forwards;
+}
+@keyframes ptsFly{
+  0%{opacity:1;transform:translateY(0) scale(0.5)}
+  50%{opacity:1;transform:translateY(-50px) scale(1.2)}
+  100%{opacity:0;transform:translateY(-100px) scale(1)}
+}
 
-/* Live match */
-.scoreboard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px 24px;text-align:center;margin-bottom:20px}
-.score-teams{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px}
-.score-team{font-size:1rem;font-weight:600}
-.score-num-live{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:#fff}
-.score-min{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:4px}
-.event-feed{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
-.event-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:13px;padding:14px 16px}
+/* Translator */
+.search-box{
+  width:100%;background:rgba(5,20,10,0.8);border:1px solid rgba(255,255,255,0.14);
+  border-radius:13px;padding:13px 18px;color:#fff;
+  font-family:'Nunito',sans-serif;font-size:0.92rem;font-weight:600;
+  outline:none;margin-bottom:18px;transition:border-color 0.2s;
+}
+.search-box:focus{border-color:rgba(255,215,0,0.5)}
+.search-box::placeholder{color:rgba(255,255,255,0.28)}
+.term-card{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:16px 18px;margin-bottom:10px;
+  transition:all 0.2s;
+}
+.term-card:hover{border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.04)}
+.term-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.5px;color:#fff;margin-bottom:4px}
+.term-def{font-family:'Nunito',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.58);line-height:1.55;margin-bottom:8px}
+.term-analogy{font-family:'Nunito',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.5;font-style:italic}
+.term-diff{display:inline-block;font-family:'Nunito',sans-serif;font-size:0.65rem;font-weight:800;letter-spacing:0.5px;padding:3px 9px;border-radius:6px;margin-top:6px}
+.diff-b{background:rgba(125,239,161,0.12);color:#7defa1}
+.diff-i{background:rgba(255,215,0,0.1);color:#FFD700}
+.diff-a{background:rgba(255,100,100,0.12);color:rgba(255,140,140,0.9)}
+
+/* Live match / Scoreboard */
+.scoreboard{
+  background:rgba(3,12,5,0.95);
+  border:1px solid rgba(255,215,0,0.2);
+  border-radius:20px;padding:22px 28px;text-align:center;margin-bottom:20px;
+  box-shadow:0 0 40px rgba(255,215,0,0.06),inset 0 1px 0 rgba(255,215,0,0.08);
+}
+.score-teams{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:8px}
+.score-team{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:#fff}
+.score-num-live{
+  font-family:'Orbitron',sans-serif;font-size:2.8rem;font-weight:900;
+  color:#FFD700;text-shadow:0 0 30px rgba(255,215,0,0.5);
+  transition:transform 0.2s;
+}
+.score-min{font-family:'Orbitron',sans-serif;font-size:0.78rem;color:rgba(125,239,161,0.6);margin-top:4px;font-weight:700}
+.event-feed{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,215,0,0.15) transparent}
+.event-card{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:14px 16px;transition:all 0.2s;
+}
+.event-card:hover{border-color:rgba(255,215,0,0.2)}
 .event-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .event-icon{font-size:1.2rem}
-.event-min{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.35);min-width:32px}
-.event-title{font-size:.88rem;font-weight:600;color:#fff}
-.event-milo{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,.05);border-radius:8px;margin-top:6px}
-.event-new{border-color:rgba(125,239,161,.3);animation:fadeIn .5s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.sim-btn{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:11px;padding:11px 22px;font-weight:600;font-size:.86rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;margin-bottom:16px}
-.sim-btn:hover{background:#fff}
-.sim-btn:disabled{background:rgba(255,255,255,.3);color:rgba(0,0,0,.5);cursor:not-allowed}
+.event-min{font-family:'Orbitron',sans-serif;font-size:0.7rem;font-weight:700;color:rgba(255,215,0,0.5);min-width:36px}
+.event-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.5px;color:#fff}
+.event-milo{font-family:'Nunito',sans-serif;font-size:0.79rem;color:rgba(255,255,255,0.5);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,0.04);border-radius:8px;margin-top:6px}
+.event-new{border-color:rgba(255,215,0,0.3);animation:eventSlide 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes eventSlide{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sim-btn{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;border:none;border-radius:13px;
+  padding:12px 24px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.88rem;
+  cursor:pointer;transition:all 0.2s;margin-bottom:16px;
+}
+.sim-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,0.3)}
+.sim-btn:disabled{background:rgba(255,255,255,0.2);color:rgba(0,0,0,0.4);cursor:not-allowed;transform:none;box-shadow:none}
 
-/* Pregame */
-.match-select{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;margin-bottom:20px;cursor:pointer}
-.match-select option{background:#1c1a24;color:#fff}
-.hype-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
-.hype-header{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;background:rgba(255,255,255,.04)}
-.hype-vs{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
-.hype-sub{font-size:.78rem;color:rgba(255,255,255,.38)}
+/* Pre-game */
+.match-select{
+  width:100%;background:rgba(5,20,10,0.8);border:1px solid rgba(255,255,255,0.14);
+  border-radius:13px;padding:13px 18px;color:#fff;
+  font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:600;
+  outline:none;margin-bottom:20px;cursor:pointer;
+}
+.match-select option{background:#0d3b1a;color:#fff}
+.hype-card{
+  background:rgba(5,20,10,0.82);border:1px solid rgba(255,255,255,0.1);
+  border-radius:18px;overflow:hidden;
+}
+.hype-header{
+  padding:22px 24px;border-bottom:1px solid rgba(255,255,255,0.08);
+  text-align:center;background:rgba(255,215,0,0.04);
+}
+.hype-vs{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:4px;color:#fff}
+.hype-sub{font-family:'Nunito',sans-serif;font-size:0.78rem;color:rgba(255,255,255,0.38);font-weight:600}
 .hype-body{padding:22px 24px;display:flex;flex-direction:column;gap:16px}
 .hype-row{display:flex;flex-direction:column;gap:6px}
-.hype-row-label{font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.hype-row p{font-size:.86rem;color:rgba(255,255,255,.72);line-height:1.6}
+.hype-row-label{font-family:'Nunito',sans-serif;font-size:0.66rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,0.5)}
+.hype-row p{font-family:'Nunito',sans-serif;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.6}
 .hype-meter{display:flex;align-items:center;gap:12px;margin-top:4px}
-.hype-bar{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
-.hype-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,rgba(255,210,80,.6),rgba(255,120,50,.8));transition:width .8s cubic-bezier(.4,0,.2,1)}
-.hype-val{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.7);min-width:36px;text-align:right}
+.hype-bar{flex:1;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.hype-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#FFD700,#FF6B00);transition:width 0.8s cubic-bezier(0.4,0,0.2,1)}
+.hype-val{font-family:'Orbitron',sans-serif;font-size:0.82rem;font-weight:700;color:#FFD700;min-width:36px;text-align:right}
 
-/* Floating Milo */
+/* ═══════════════════════════════════════
+   FLOATING MILO
+═══════════════════════════════════════ */
 .milo-window{
-  position:fixed;
-  right:24px;
-  bottom:92px;
-  width:360px;
-  max-width:calc(100vw - 24px);
-  height:470px;
-  max-height:72vh;
-  border-radius:24px;
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:420;
-  opacity:0;
-  transform:translateY(16px) scale(.98);
-  transition:all .24s ease;
-  background:#1c1a24;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 30px 80px rgba(0,0,0,.42);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
+  position:fixed;right:24px;bottom:100px;
+  width:360px;max-width:calc(100vw - 24px);
+  height:480px;max-height:72vh;
+  border-radius:26px;display:none;flex-direction:column;
+  overflow:hidden;z-index:420;
+  opacity:0;transform:translateY(20px) scale(0.96);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  background:rgba(6,22,10,0.97);
+  border:1px solid rgba(255,215,0,0.18);
+  box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 40px rgba(255,215,0,0.06);
 }
-.milo-window.open{
-  display:flex;
-  opacity:1;
-  transform:translateY(0) scale(1);
-}
+.milo-window.open{display:flex;opacity:1;transform:translateY(0) scale(1)}
 .milo-head{
   display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.04);
+  padding:16px 18px;
+  border-bottom:1px solid rgba(255,215,0,0.1);
+  background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(255,165,0,0.04));
 }
 .milo-title{
-  display:flex;align-items:center;gap:10px;font-weight:700;font-size:.94rem;
+  display:flex;align-items:center;gap:10px;
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:#FFD700;
 }
-.milo-dot{
-  width:10px;height:10px;border-radius:50%;background:#7defa1;box-shadow:0 0 14px #7defa1;
-}
+.milo-dot{width:10px;height:10px;border-radius:50%;background:#7defa1;box-shadow:0 0 14px #7defa1;animation:livePulse 1.5s ease-in-out infinite}
 .milo-close{
   width:32px;height:32px;border:none;border-radius:50%;
-  background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);cursor:pointer;font-size:1rem;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);cursor:pointer;font-size:1rem;
+  transition:all 0.2s;
 }
-.milo-close:hover{background:rgba(255,255,255,.14)}
-.milo-body{
-  display:flex;flex-direction:column;gap:12px;padding:14px;min-height:0;height:100%;
-}
+.milo-close:hover{background:rgba(255,215,0,0.2);color:#FFD700}
+.milo-body{display:flex;flex-direction:column;gap:12px;padding:14px;min-height:0;height:100%}
 .chat-msgs{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:8px}
-.cm-b,.cm-u{padding:10px 13px;border-radius:12px;font-size:.83rem;line-height:1.5;max-width:88%}
-.cm-b{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);align-self:flex-start}
-.cm-u{background:rgba(255,255,255,.15);align-self:flex-end}
+.cm-b,.cm-u{
+  padding:10px 14px;border-radius:14px;
+  font-family:'Nunito',sans-serif;font-size:0.84rem;line-height:1.5;max-width:90%;font-weight:600;
+}
+.cm-b{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
+  border-left:3px solid #FFD700;align-self:flex-start;
+}
+.cm-u{background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.2);align-self:flex-end}
 .chat-row{display:flex;gap:8px}
-.chat-row input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:10px 13px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
-.chat-row input:focus{border-color:rgba(255,255,255,.28)}
-.chat-row input::placeholder{color:rgba(255,255,255,.26)}
-.chat-row button{background:rgba(255,255,255,.88);color:#18181f;border:none;border-radius:10px;padding:9px 16px;font-weight:700;font-size:.83rem;cursor:pointer;transition:background .2s;font-family:'DM Sans',sans-serif}
-.chat-row button:hover{background:#fff}
+.chat-row input{
+  flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:10px 14px;color:#fff;
+  font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:600;outline:none;
+  transition:border-color 0.2s;
+}
+.chat-row input:focus{border-color:rgba(255,215,0,0.4)}
+.chat-row input::placeholder{color:rgba(255,255,255,0.26)}
+.chat-row button{
+  background:linear-gradient(135deg,#FFD700,#FFA500);
+  color:#0d3b1a;border:none;border-radius:12px;
+  padding:9px 16px;font-weight:800;font-size:0.84rem;
+  cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;
+}
+.chat-row button:hover{transform:scale(1.05)}
 
 /* FAB */
 #milo-fab{
-  position:fixed;bottom:24px;right:24px;z-index:430;width:58px;height:58px;border-radius:50%;
-  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.35rem;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);transition:all .2s;
+  position:fixed;bottom:24px;right:24px;z-index:430;
+  width:62px;height:62px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(5,30,12,0.95),rgba(5,20,10,0.95));
+  border:2px solid rgba(255,215,0,0.35);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1.6rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(255,215,0,0.15);
+  animation:fabBounce 3s ease-in-out infinite;
+  transition:all 0.2s;
 }
-#milo-fab:hover{background:rgba(255,255,255,.2);transform:scale(1.06)}
+@keyframes fabBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+#milo-fab:hover{
+  animation:none;transform:scale(1.1);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5),0 0 30px rgba(255,215,0,0.3);
+  border-color:rgba(255,215,0,0.7);
+}
 .milo-fab-label{
-  position:absolute;right:72px;white-space:nowrap;
-  padding:9px 12px;border-radius:999px;
-  background:rgba(16,17,24,.9);border:1px solid rgba(255,255,255,.1);
-  color:rgba(255,255,255,.84);font-size:.78rem;font-weight:700;
-  opacity:0;transform:translateX(8px);pointer-events:none;transition:all .2s ease;
+  position:absolute;right:74px;white-space:nowrap;
+  padding:9px 14px;border-radius:999px;
+  background:rgba(6,22,10,0.95);border:1px solid rgba(255,215,0,0.2);
+  color:#FFD700;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:800;
+  opacity:0;transform:translateX(8px);pointer-events:none;transition:all 0.2s;
 }
 #milo-fab:hover .milo-fab-label{opacity:1;transform:translateX(0)}
 
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-}
+/* ═══════════════════════════════════════
+   EXPLORE SECTION
+═══════════════════════════════════════ */
+#explore{padding-top:0}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:1024px){.stats-row{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){
   .pain-grid,.info-grid,.feat-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-strip{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:640px){
   nav{top:10px}
   .nav-inner{padding:0 14px;height:62px}
   .nav-links{display:none}
-  #hero,.sec,#pain,#info,#features,#watch{padding-left:20px;padding-right:20px}
+  #hero,.sec,#pain,#info,#features,#watch,#explore{padding-left:20px;padding-right:20px}
   #hero{padding-top:108px}
   .stats-row{grid-template-columns:1fr}
   .pain-grid,.info-grid,.feat-grid{grid-template-columns:1fr}
@@ -368,19 +843,104 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
   footer{padding-left:20px;padding-right:20px}
   .quiz-opts{grid-template-columns:1fr}
   .modal-overlay{padding:12px}
-  .modal-body{padding:20px}
-  .milo-window{right:12px;left:12px;width:auto;bottom:84px;max-width:none}
+  .modal-body{padding:18px}
+  .milo-window{right:12px;left:12px;width:auto;bottom:90px;max-width:none}
+  .stats-strip{grid-template-columns:1fr 1fr}
 }
+
+/* ═══════════════════════════════════════
+   FADE-IN UTILITY
+═══════════════════════════════════════ */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeInUp 0.6s ease both}
 </style>
 </head>
 <body>
+
+<!-- PITCH BACKGROUND -->
+<div class="pitch-bg">
+  <svg class="pitch-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Pitch stripes -->
+    <rect width="1440" height="900" fill="none"/>
+    <!-- Outer boundary -->
+    <rect x="80" y="40" width="1280" height="820" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="3" rx="2"/>
+    <!-- Halfway line -->
+    <line x1="720" y1="40" x2="720" y2="860" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Center circle -->
+    <circle cx="720" cy="450" r="100" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Center spot -->
+    <circle cx="720" cy="450" r="5" fill="rgba(255,255,255,0.7)"/>
+    <!-- Top penalty box -->
+    <rect x="480" y="40" width="480" height="155" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Top 6-yard box -->
+    <rect x="600" y="40" width="240" height="65" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <!-- Top penalty spot -->
+    <circle cx="720" cy="160" r="5" fill="rgba(255,255,255,0.7)"/>
+    <!-- Top penalty arc -->
+    <path d="M 630 195 A 100 100 0 0 1 810 195" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Bottom penalty box -->
+    <rect x="480" y="705" width="480" height="155" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Bottom 6-yard box -->
+    <rect x="600" y="795" width="240" height="65" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <!-- Bottom penalty spot -->
+    <circle cx="720" cy="740" r="5" fill="rgba(255,255,255,0.7)"/>
+    <!-- Bottom penalty arc -->
+    <path d="M 630 705 A 100 100 0 0 0 810 705" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
+    <!-- Corner arcs -->
+    <path d="M 80 65 A 22 22 0 0 1 103 40" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <path d="M 1337 40 A 22 22 0 0 1 1360 65" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <path d="M 80 835 A 22 22 0 0 0 103 860" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <path d="M 1337 860 A 22 22 0 0 0 1360 835" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2"/>
+    <!-- TOP GOAL POST -->
+    <rect x="645" y="18" width="150" height="28" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="3.5" rx="2"/>
+    <rect x="645" y="18" width="150" height="28" fill="rgba(255,255,255,0.04)"/>
+    <!-- BOTTOM GOAL POST -->
+    <rect x="645" y="854" width="150" height="28" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="3.5" rx="2"/>
+    <rect x="645" y="854" width="150" height="28" fill="rgba(255,255,255,0.04)"/>
+    <!-- Corner flags -->
+    <!-- Top-left flag -->
+    <line x1="80" y1="40" x2="80" y2="8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <polygon points="80,8 96,14 80,20" fill="#FF4D00" opacity="0.85">
+      <animateTransform attributeName="transform" type="skewX" values="0;4;0;-4;0" dur="3s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Top-right flag -->
+    <line x1="1360" y1="40" x2="1360" y2="8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <polygon points="1360,8 1376,14 1360,20" fill="#FFD700" opacity="0.85">
+      <animateTransform attributeName="transform" type="skewX" values="0;-4;0;4;0" dur="3.5s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Bottom-left flag -->
+    <line x1="80" y1="860" x2="80" y2="892" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <polygon points="80,892 96,886 80,880" fill="#FFD700" opacity="0.85">
+      <animateTransform attributeName="transform" type="skewX" values="0;4;0;-4;0" dur="4s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Bottom-right flag -->
+    <line x1="1360" y1="860" x2="1360" y2="892" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <polygon points="1360,892 1376,886 1360,880" fill="#FF4D00" opacity="0.85">
+      <animateTransform attributeName="transform" type="skewX" values="0;-4;0;4;0" dur="2.8s" repeatCount="indefinite"/>
+    </polygon>
+  </svg>
+</div>
+
+<!-- BALL ROLL ANIMATION -->
+<div id="ballRoll">⚽</div>
+
+<!-- GOAL OVERLAY -->
+<div id="goalOverlay">
+  <div class="confetti-container" id="confettiContainer"></div>
+  <div class="goal-text">GOOOOOAL!</div>
+  <div class="goal-sub">⚽ What a Strike! ⚽</div>
+</div>
+
 <div class="wrap">
 
 <!-- NAV -->
 <nav>
   <div class="nav-shell">
     <div class="nav-inner">
-      <a href="#" class="nav-logo"><span class="nav-logo-mark">⚽</span> MatchMind</a>
+      <a href="#" class="nav-logo">
+        ⚽ MATCHMIND
+        <span class="nav-live-dot">WC 2026</span>
+      </a>
       <ul class="nav-links">
         <li><a onclick="scrollToSection('#pain')">Why MatchMind</a></li>
         <li><a onclick="scrollToSection('#info')">Soccer 101</a></li>
@@ -403,27 +963,34 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
         <button class="btn-solid" onclick="openModal('school-modal')">Start Learning Free</button>
         <a href="#pain" class="btn-ghost">See How It Works</a>
       </div>
-
       <div class="stats-row">
-        <a class="stat-box stat-link" href="teams.html">
-          <div class="stat-num" data-target="48">0</div>
-          <div class="stat-lbl">Teams</div>
-          <div class="stat-hint">View all teams <span>→</span></div>
+        <a class="stat-link" href="teams.html">
+          <div class="stat-box">
+            <div class="stat-num" data-target="48">0</div>
+            <div class="stat-lbl">Teams</div>
+            <div class="stat-hint">View all teams <span>→</span></div>
+          </div>
         </a>
-        <a class="stat-box stat-link" href="matches.html">
-          <div class="stat-num" data-target="104">0</div>
-          <div class="stat-lbl">Matches</div>
-          <div class="stat-hint">Browse fixtures <span>→</span></div>
+        <a class="stat-link" href="matches.html">
+          <div class="stat-box">
+            <div class="stat-num" data-target="104">0</div>
+            <div class="stat-lbl">Matches</div>
+            <div class="stat-hint">Browse fixtures <span>→</span></div>
+          </div>
         </a>
-        <a class="stat-box stat-link" href="cities.html">
-          <div class="stat-num" data-target="16">0</div>
-          <div class="stat-lbl">Host Cities</div>
-          <div class="stat-hint">See venues <span>→</span></div>
+        <a class="stat-link" href="cities.html">
+          <div class="stat-box">
+            <div class="stat-num" data-target="16">0</div>
+            <div class="stat-lbl">Host Cities</div>
+            <div class="stat-hint">See venues <span>→</span></div>
+          </div>
         </a>
-        <a class="stat-box stat-link" href="lessons.html">
-          <div class="stat-num" data-target="12">0</div>
-          <div class="stat-lbl">Lessons</div>
-          <div class="stat-hint">Start learning <span>→</span></div>
+        <a class="stat-link" href="lessons.html">
+          <div class="stat-box">
+            <div class="stat-num" data-target="12">0</div>
+            <div class="stat-lbl">Lessons</div>
+            <div class="stat-hint">Start learning <span>→</span></div>
+          </div>
         </a>
       </div>
     </div>
@@ -480,7 +1047,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
         <span class="info-pill pill-green">✓ Beginner</span>
       </div>
       <div class="info-card">
-        <div class="info-header"><div class="info-ico">🟨</div><h3>Yellow &amp; Red Cards</h3></div>
+        <div class="info-header"><div class="info-ico">🟨</div><h3>Yellow & Red Cards</h3></div>
         <p class="info-body">Yellow card = formal warning. Two yellows in one game = automatic red. A red means immediate ejection AND your team plays shorthanded (10 vs 11) for the rest of the match. No replacement allowed.</p>
         <div class="info-divider"></div>
         <div class="info-analogy"><div class="al">🏀 Like in basketball</div><p>Two technical fouls and you're gone — except your whole team suffers by playing one man down for the rest of the game. No equivalent in American sports.</p></div>
@@ -494,7 +1061,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
         <span class="info-pill pill-green">✓ Beginner</span>
       </div>
       <div class="info-card">
-        <div class="info-header"><div class="info-ico">🏆</div><h3>Extra Time &amp; Shootouts</h3></div>
+        <div class="info-header"><div class="info-ico">🏆</div><h3>Extra Time & Shootouts</h3></div>
         <p class="info-body">Tied after 90 minutes in a knockout game? Two more 15-minute periods (extra time). Still level? Five players each take penalty kicks alternating. If tied after five — sudden death kicks continue until someone misses.</p>
         <div class="info-divider"></div>
         <div class="info-analogy"><div class="al">🏒 Like in hockey</div><p>OT period then a shootout — except everyone's sobbing regardless of the outcome and a shootout deciding a World Cup is genuinely traumatic.</p></div>
@@ -508,7 +1075,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
         <span class="info-pill pill-yellow">⚠ Intermediate</span>
       </div>
       <div class="info-card">
-        <div class="info-header"><div class="info-ico">🎯</div><h3>Set Pieces &amp; Dead Balls</h3></div>
+        <div class="info-header"><div class="info-ico">🎯</div><h3>Set Pieces & Dead Balls</h3></div>
         <p class="info-body">Set pieces are pre-planned plays from dead ball situations: free kicks, corner kicks, and throw-ins. Teams practice elaborate routines for these — they account for roughly 30% of all top-level goals.</p>
         <div class="info-divider"></div>
         <div class="info-analogy"><div class="al">🏈 Like in football</div><p>Scripted plays from a dead ball — a corner kick is an inbound play, a free kick is either a field goal attempt or a trick play depending on the distance.</p></div>
@@ -587,25 +1154,17 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
     <h2 class="s-title">Choose your way in.</h2>
     <p class="s-sub" style="max-width:640px;margin-bottom:28px">Teams, matches, cities, and lessons now work as the main navigation paths into the product.</p>
     <div class="stats-row">
-      <a class="stat-box stat-link" href="teams.html">
-        <div class="stat-num">48</div>
-        <div class="stat-lbl">Teams</div>
-        <div class="stat-hint">Open teams page <span>→</span></div>
+      <a class="stat-link" href="teams.html">
+        <div class="stat-box"><div class="stat-num">48</div><div class="stat-lbl">Teams</div><div class="stat-hint">Open teams page <span>→</span></div></div>
       </a>
-      <a class="stat-box stat-link" href="matches.html">
-        <div class="stat-num">104</div>
-        <div class="stat-lbl">Matches</div>
-        <div class="stat-hint">Open matches page <span>→</span></div>
+      <a class="stat-link" href="matches.html">
+        <div class="stat-box"><div class="stat-num">104</div><div class="stat-lbl">Matches</div><div class="stat-hint">Open matches page <span>→</span></div></div>
       </a>
-      <a class="stat-box stat-link" href="cities.html">
-        <div class="stat-num">16</div>
-        <div class="stat-lbl">Host Cities</div>
-        <div class="stat-hint">Open cities page <span>→</span></div>
+      <a class="stat-link" href="cities.html">
+        <div class="stat-box"><div class="stat-num">16</div><div class="stat-lbl">Host Cities</div><div class="stat-hint">Open cities page <span>→</span></div></div>
       </a>
-      <a class="stat-box stat-link" href="lessons.html">
-        <div class="stat-num">12</div>
-        <div class="stat-lbl">Lessons</div>
-        <div class="stat-hint">Open lessons page <span>→</span></div>
+      <a class="stat-link" href="lessons.html">
+        <div class="stat-box"><div class="stat-num">12</div><div class="stat-lbl">Lessons</div><div class="stat-hint">Open lessons page <span>→</span></div></div>
       </a>
     </div>
   </div>
@@ -615,7 +1174,10 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
 <footer>
   <div class="ft-inner">
     <div class="ft-grid">
-      <div><div class="ft-name">⚽ MatchMind</div><p class="ft-tag">Soccer for Dummies,<br>but make it cool.<br><br>Your AI-powered companion<br>for World Cup 2026.</p></div>
+      <div>
+        <div class="ft-name">⚽ MATCHMIND</div>
+        <p class="ft-tag">Soccer for Dummies,<br>but make it cool.<br><br>Your AI-powered companion<br>for World Cup 2026.</p>
+      </div>
       <div class="ft-col"><div class="ft-col-h">Learn</div><ul>
         <li><a onclick="openModal('school-modal')">Soccer School</a></li>
         <li><a onclick="openModal('quiz-modal')">Fan IQ Quiz</a></li>
@@ -641,11 +1203,11 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
 <!-- FLOATING MILO -->
 <div id="miloWindow" class="milo-window">
   <div class="milo-head">
-    <div class="milo-title"><span class="milo-dot"></span><span>Ask Milo</span></div>
+    <div class="milo-title"><span class="milo-dot"></span><span>ASK MILO</span></div>
     <button class="milo-close" onclick="toggleMilo(false)">×</button>
   </div>
   <div class="milo-body">
-    <p style="font-size:.82rem;color:rgba(255,255,255,.44)">Ask Milo anything about soccer — he'll explain it using American sports you already know.</p>
+    <p style="font-family:'Nunito',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.44);font-weight:600">Ask Milo anything about soccer — he'll explain it using American sports you already know.</p>
     <div class="chat-msgs" id="milo-msgs"></div>
     <div class="chat-row">
       <input id="milo-in" type="text" placeholder="What is VAR? What's offside?…" />
@@ -656,11 +1218,11 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
 
 <!-- FAB -->
 <div id="milo-fab" onclick="toggleMilo()" title="Ask Milo">
-  <span class="milo-fab-label">Ask Milo</span>
+  <span class="milo-fab-label">Ask Milo ⚽</span>
   ⚽
 </div>
 
-<!-- MODALS -->
+<!-- ═══ MODALS ═══ -->
 
 <!-- SOCCER SCHOOL -->
 <div class="modal-overlay" id="school-modal">
@@ -670,56 +1232,19 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
     <button class="modal-close" onclick="closeModal('school-modal')">×</button>
   </div>
   <div class="modal-body">
-    <p style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">12 lessons that explain soccer using American sports. Tap any lesson to read it.</p>
-
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>1. ⚠️ The Offside Rule</h4>
-      <p style="display:none">You're offside if you're past the second-to-last defender (usually the last outfield player) when the ball is played to you. The rule prevents "goal hanging." Timing is everything — if you're level, you're onside.<br><br><strong>American Analogy:</strong> Like being in the crease before the puck in hockey. You can't camp ahead of the play. The linesman's flag goes up, the goal is disallowed, and play restarts with the defending team.<br><br><strong>Exception:</strong> You can't be offside from a corner kick, throw-in, or goal kick. And being in your own half is always fine.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>2. 🟨 Yellow &amp; Red Cards</h4>
-      <p style="display:none">Yellow = caution/warning. Second yellow in one game = automatic red. Red = immediate ejection. Your team plays 10 vs 11 for the rest of the match — no substitution allowed to replace the sent-off player.<br><br><strong>Direct red cards</strong> are given for violent conduct, serious foul play, denying an obvious goal-scoring opportunity (DOGSO), or spitting.<br><br><strong>American Analogy:</strong> Two technical fouls in the NBA ejects you — but in soccer, your whole team suffers the 10-man disadvantage for the rest of the game. No parallel in American sports.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>3. 🎯 Penalty Kicks</h4>
-      <p style="display:none">A penalty is awarded when a player is fouled inside the opponent's 18-yard penalty box. The kick is taken from the penalty spot — 12 yards from goal — one-on-one with the goalkeeper. All other players stand outside the box.<br><br>The keeper must stay on the line until the ball is kicked. Kickers score approximately 75–78% of penalties at the highest level.<br><br><strong>American Analogy:</strong> Like a free throw — but it's a full breakaway and far more dramatic. The entire crowd holds its breath. World Cups are decided by these.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>4. 📺 VAR Explained</h4>
-      <p style="display:none">VAR (Video Assistant Referee) is a team of officials watching every play on multiple camera feeds. They can alert the on-field referee to potential errors in four categories: goals, penalty decisions, direct red cards, and mistaken identity.<br><br>The on-field referee can then go to a pitchside monitor to review the footage and make a final call. The process typically takes 1–3 minutes.<br><br><strong>American Analogy:</strong> Exactly like the NFL replay official in the booth, or an NHL situation room call from Toronto. Same concept — officiating support via video review.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>5. ⏱️ Stoppage Time</h4>
-      <p style="display:none">The referee tracks time lost during the half to injuries, substitutions, goal celebrations, VAR reviews, and time-wasting. At the end of the half, the fourth official holds up a board showing the minimum added time (e.g., "+5 minutes").<br><br>The ref can play longer than announced if events occur during stoppage time itself. This is why matches sometimes go to 97, 99, or even 103 minutes.<br><br><strong>American Analogy:</strong> Like NBA makeup time — except the amount isn't precise and the ref decides it on the fly.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>6. 🏆 Extra Time &amp; Shootouts</h4>
-      <p style="display:none">In knockout rounds, if the score is level after 90 minutes, two extra 15-minute periods are played. If still level after 120 minutes, a penalty shootout decides the match.<br><br><strong>American Analogy:</strong> Hockey overtime then a shootout — except the stakes are infinitely higher and grown adults openly cry when their team loses on penalties.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>7. 📐 Formations &amp; Tactics</h4>
-      <p style="display:none">A formation describes where the 10 outfield players are positioned. Numbers go back-to-front: 4-3-3 means 4 defenders, 3 midfielders, 3 forwards.<br><br><strong>American Analogy:</strong> NFL offensive/defensive schemes — coaches switch mid-game just like a play-caller adjusts based on the score and opponent.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>8. 🔄 Substitutions</h4>
-      <p style="display:none">Teams can make up to 5 substitutions per game. Once a player comes off, they cannot return.<br><br><strong>American Analogy:</strong> Like a basketball substitution — except you only get 5 all game and taking a player off is permanent.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>9. 🏁 Corner Kicks</h4>
-      <p style="display:none">A corner kick is awarded when the ball crosses the goal line and was last touched by a defending player.<br><br><strong>American Analogy:</strong> Like an inbound play in basketball after the ball goes out of bounds off the defense.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>10. 📋 Group Stage &amp; Knockout</h4>
-      <p style="display:none">In 2026, 48 teams are split into groups. Points: Win=3, Draw=1, Loss=0. The top teams advance, then it becomes single-elimination.<br><br><strong>American Analogy:</strong> MLB divisional race then March Madness single-elimination.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>11. 🧤 The Goalkeeper's Rules</h4>
-      <p style="display:none">The goalkeeper is the only player allowed to use their hands — but only inside their own penalty box. Outside the box, they're treated like any outfield player.</p>
-    </div>
-    <div class="m-card" onclick="toggleLesson(this)">
-      <h4>12. 🌍 World Cup Format 2026</h4>
-      <p style="display:none">For the first time ever, the 2026 World Cup features 48 teams — expanded from 32. It's hosted across 3 countries (USA, Canada, Mexico) and 16 cities.</p>
-    </div>
+    <p style="font-family:'Nunito',sans-serif;font-size:0.86rem;color:rgba(255,255,255,0.45);margin-bottom:20px;font-weight:600">12 lessons that explain soccer using American sports. Tap any lesson to read it.</p>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>1. ⚠️ The Offside Rule</h4><p style="display:none">You're offside if you're past the second-to-last defender (usually the last outfield player) when the ball is played to you. The rule prevents "goal hanging." Timing is everything — if you're level, you're onside.<br><br><strong>American Analogy:</strong> Like being in the crease before the puck in hockey. You can't camp ahead of the play. The linesman's flag goes up, the goal is disallowed, and play restarts with the defending team.<br><br><strong>Exception:</strong> You can't be offside from a corner kick, throw-in, or goal kick. And being in your own half is always fine.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>2. 🟨 Yellow & Red Cards</h4><p style="display:none">Yellow = caution/warning. Second yellow in one game = automatic red. Red = immediate ejection. Your team plays 10 vs 11 for the rest of the match — no substitution allowed to replace the sent-off player.<br><br><strong>Direct red cards</strong> are given for violent conduct, serious foul play, denying an obvious goal-scoring opportunity (DOGSO), or spitting.<br><br><strong>American Analogy:</strong> Two technical fouls in the NBA ejects you — but in soccer, your whole team suffers the 10-man disadvantage for the rest of the game. No parallel in American sports.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>3. 🎯 Penalty Kicks</h4><p style="display:none">A penalty is awarded when a player is fouled inside the opponent's 18-yard penalty box. The kick is taken from the penalty spot — 12 yards from goal — one-on-one with the goalkeeper. All other players stand outside the box.<br><br>The keeper must stay on the line until the ball is kicked. Kickers score approximately 75–78% of penalties at the highest level.<br><br><strong>American Analogy:</strong> Like a free throw — but it's a full breakaway and far more dramatic. The entire crowd holds its breath. World Cups are decided by these.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>4. 📺 VAR Explained</h4><p style="display:none">VAR (Video Assistant Referee) is a team of officials watching every play on multiple camera feeds. They can alert the on-field referee to potential errors in four categories: goals, penalty decisions, direct red cards, and mistaken identity.<br><br>The on-field referee can then go to a pitchside monitor to review the footage and make a final call. The process typically takes 1–3 minutes.<br><br><strong>American Analogy:</strong> Exactly like the NFL replay official in the booth, or an NHL situation room call from Toronto. Same concept — officiating support via video review.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>5. ⏱️ Stoppage Time</h4><p style="display:none">The referee tracks time lost during the half to injuries, substitutions, goal celebrations, VAR reviews, and time-wasting. At the end of the half, the fourth official holds up a board showing the minimum added time (e.g., "+5 minutes").<br><br>The ref can play longer than announced if events occur during stoppage time itself. This is why matches sometimes go to 97, 99, or even 103 minutes.<br><br><strong>American Analogy:</strong> Like NBA makeup time — except the amount isn't precise and the ref decides it on the fly.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>6. 🏆 Extra Time & Shootouts</h4><p style="display:none">In knockout rounds, if the score is level after 90 minutes, two extra 15-minute periods are played. If still level after 120 minutes, a penalty shootout decides the match.<br><br><strong>American Analogy:</strong> Hockey overtime then a shootout — except the stakes are infinitely higher and grown adults openly cry when their team loses on penalties.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>7. 📐 Formations & Tactics</h4><p style="display:none">A formation describes where the 10 outfield players are positioned. Numbers go back-to-front: 4-3-3 means 4 defenders, 3 midfielders, 3 forwards.<br><br><strong>American Analogy:</strong> NFL offensive/defensive schemes — coaches switch mid-game just like a play-caller adjusts based on the score and opponent.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>8. 🔄 Substitutions</h4><p style="display:none">Teams can make up to 5 substitutions per game. Once a player comes off, they cannot return.<br><br><strong>American Analogy:</strong> Like a basketball substitution — except you only get 5 all game and taking a player off is permanent.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>9. 🏁 Corner Kicks</h4><p style="display:none">A corner kick is awarded when the ball crosses the goal line and was last touched by a defending player.<br><br><strong>American Analogy:</strong> Like an inbound play in basketball after the ball goes out of bounds off the defense.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>10. 📋 Group Stage & Knockout</h4><p style="display:none">In 2026, 48 teams are split into groups. Points: Win=3, Draw=1, Loss=0. The top teams advance, then it becomes single-elimination.<br><br><strong>American Analogy:</strong> MLB divisional race then March Madness single-elimination.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>11. 🧤 The Goalkeeper's Rules</h4><p style="display:none">The goalkeeper is the only player allowed to use their hands — but only inside their own penalty box. Outside the box, they're treated like any outfield player.</p></div>
+    <div class="m-card" onclick="toggleLesson(this)"><h4>12. 🌍 World Cup Format 2026</h4><p style="display:none">For the first time ever, the 2026 World Cup features 48 teams — expanded from 32. It's hosted across 3 countries (USA, Canada, Mexico) and 16 cities.</p></div>
   </div>
 </div>
 </div>
@@ -735,20 +1260,18 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
     <div class="scoreboard">
       <div class="score-teams">
         <div class="score-team">🇺🇸 USA</div>
-        <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:16px">
           <div class="score-num-live" id="score-home">0</div>
-          <div style="font-size:1rem;color:rgba(255,255,255,.3)">—</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:1rem;color:rgba(255,255,255,0.3)">—</div>
           <div class="score-num-live" id="score-away">0</div>
         </div>
         <div class="score-team">🇧🇷 Brazil</div>
       </div>
       <div class="score-min" id="score-min">Not started</div>
     </div>
-
     <button class="sim-btn" id="sim-btn" onclick="startSim()">▶ Simulate Live Match</button>
-
     <div class="event-feed" id="event-feed">
-      <div style="text-align:center;padding:24px;color:rgba(255,255,255,.3);font-size:.85rem">Hit simulate to watch the match unfold with real-time Milo translations ↑</div>
+      <div style="text-align:center;padding:24px;color:rgba(255,255,255,0.3);font-family:'Nunito',sans-serif;font-size:0.86rem;font-weight:600">Hit simulate to watch the match unfold with real-time Milo translations ↑</div>
     </div>
   </div>
 </div>
@@ -764,9 +1287,9 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
   <div class="modal-body">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
       <div style="display:flex;gap:8px">
-        <button class="wtab on" onclick="setDiff('beginner',this)" id="diff-beginner">🟢 Beginner</button>
-        <button class="wtab off" onclick="setDiff('intermediate',this)" id="diff-intermediate">🟡 Intermediate</button>
-        <button class="wtab off" onclick="setDiff('expert',this)" id="diff-expert">🔴 Expert</button>
+        <button class="wtab on" onclick="setDiff('beginner',this)">🟢 Beginner</button>
+        <button class="wtab off" onclick="setDiff('intermediate',this)">🟡 Intermediate</button>
+        <button class="wtab off" onclick="setDiff('expert',this)">🔴 Expert</button>
       </div>
       <span class="quiz-score" id="quiz-score-display">Score: 0 pts</span>
     </div>
@@ -823,133 +1346,179 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:52px 48px 32px;backgro
     <button class="modal-close" onclick="closeModal('integrity-modal')">×</button>
   </div>
   <div class="modal-body">
-    <div class="m-card">
-      <h4>🎰 What is Match-Fixing?</h4>
-      <p>Match-fixing occurs when players, referees, or officials are bribed to influence the outcome of a game for gambling profits. Underground betting syndicates run operations worth billions annually.</p>
-    </div>
-    <div class="m-card">
-      <h4>🇮🇹 Calciopoli 2006 — Italy's Biggest Scandal</h4>
-      <p>In 2006, wiretapped phone recordings revealed systematic influence over referee assignments in Serie A. Juventus were stripped of titles and relegated.</p>
-    </div>
-    <div class="m-card">
-      <h4>👀 Red Flags — How to Spot a Suspicious Game</h4>
-      <p>Watch for unusual betting line movement, strange unforced errors, and tactics that make no competitive sense.</p>
-    </div>
-    <div class="m-card">
-      <h4>🛡️ How FIFA &amp; Sportradar Fight Back</h4>
-      <p>Monitoring systems, data analysis, and integrity hotlines help flag suspicious matches and protect the sport.</p>
-    </div>
-    <div class="m-card">
-      <h4>📜 Famous World Cup Controversies</h4>
-      <p>From the "Hand of God" to disputed goals and referee drama, controversy has always shaped football history.</p>
-    </div>
+    <div class="m-card"><h4>🎰 What is Match-Fixing?</h4><p>Match-fixing occurs when players, referees, or officials are bribed to influence the outcome of a game for gambling profits. Underground betting syndicates run operations worth billions annually.</p></div>
+    <div class="m-card"><h4>🇮🇹 Calciopoli 2006 — Italy's Biggest Scandal</h4><p>In 2006, wiretapped phone recordings revealed systematic influence over referee assignments in Serie A. Juventus were stripped of titles and relegated.</p></div>
+    <div class="m-card"><h4>👀 Red Flags — How to Spot a Suspicious Game</h4><p>Watch for unusual betting line movement, strange unforced errors, and tactics that make no competitive sense.</p></div>
+    <div class="m-card"><h4>🛡️ How FIFA & Sportradar Fight Back</h4><p>Monitoring systems, data analysis, and integrity hotlines help flag suspicious matches and protect the sport.</p></div>
+    <div class="m-card"><h4>📜 Famous World Cup Controversies</h4><p>From the "Hand of God" to disputed goals and referee drama, controversy has always shaped football history.</p></div>
   </div>
 </div>
 </div>
 
 <script>
+/* ── SCROLL REVEAL ── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const delay = (el.dataset.delay || 0);
+    setTimeout(() => el.classList.add('visible'), delay);
+    revealObs.unobserve(el);
+  });
+}, {threshold: 0.1});
+
+function setupReveal() {
+  document.querySelectorAll('.card,.pain-card,.info-card,.feat-card').forEach((el, i) => {
+    el.dataset.delay = (i % 3) * 80;
+    revealObs.observe(el);
+  });
+}
+setupReveal();
+
+/* ── BALL ROLL ON LOAD ── */
+window.addEventListener('load', () => {
+  const ball = document.getElementById('ballRoll');
+  setTimeout(() => { ball.style.display = 'none'; }, 2200);
+});
+
+/* ── GOAL OVERLAY ── */
+function showGoalOverlay() {
+  const overlay = document.getElementById('goalOverlay');
+  const container = document.getElementById('confettiContainer');
+  container.innerHTML = '';
+  const colors = ['#FFD700','#FFA500','#FFFFFF','#7defa1','#FF4D00'];
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*30}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${6+Math.random()*10}px;
+      height:${6+Math.random()*10}px;
+      animation-delay:${Math.random()*0.5}s;
+      animation-duration:${1.5+Math.random()}s;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+    `;
+    container.appendChild(piece);
+  }
+  overlay.classList.add('show');
+  setTimeout(() => {
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.5s';
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }, 500);
+  }, 2500);
+}
+
 /* ── MODAL SYSTEM ── */
-function openModal(id){
-  const el=document.getElementById(id);
-  if(!el) return;
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
   el.classList.add('open');
-  document.body.style.overflow='hidden';
-  if(id==='quiz-modal'&&!quizInitialized){initQuiz();quizInitialized=true}
-  if(id==='translator-modal'&&!termsInitialized){renderTerms();termsInitialized=true}
-  setTimeout(()=>{
-    const inp=document.querySelector('#'+id+' input');
-    if(inp)inp.focus();
-  },200);
+  document.body.style.overflow = 'hidden';
+  if (id === 'quiz-modal' && !quizInitialized) { initQuiz(); quizInitialized = true; }
+  if (id === 'translator-modal' && !termsInitialized) { renderTerms(); termsInitialized = true; }
+  setTimeout(() => {
+    const inp = document.querySelector('#' + id + ' input');
+    if (inp) inp.focus();
+  }, 200);
 }
-function closeModal(id){
-  const el=document.getElementById(id);
-  if(!el) return;
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
   el.classList.remove('open');
-  document.body.style.overflow='';
+  document.body.style.overflow = '';
 }
-document.querySelectorAll('.modal-overlay').forEach(el=>{
-  el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)});
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
 });
 
 /* ── SCROLL HELPER ── */
-function scrollToSection(sel){document.querySelector(sel)?.scrollIntoView({behavior:'smooth'})}
+function scrollToSection(sel) { document.querySelector(sel)?.scrollIntoView({behavior:'smooth'}); }
 
 /* ── COUNTERS ── */
-const cObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const el=e.target,target=+el.dataset.target;
-    let v=0;const step=Math.max(1,Math.ceil(target/55));
-    const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=v;if(v>=target)clearInterval(t)},24);
+const cObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target;
+    let v = 0; const step = Math.max(1, Math.ceil(target / 55));
+    const t = setInterval(() => { v = Math.min(v + step, target); el.textContent = v; if (v >= target) clearInterval(t); }, 24);
     cObs.unobserve(el);
   });
-},{threshold:.5});
-document.querySelectorAll('[data-target]').forEach(el=>cObs.observe(el));
+}, {threshold: .5});
+document.querySelectorAll('[data-target]').forEach(el => cObs.observe(el));
 
 /* ── WATCH FILTER ── */
-function fw(type,btn){
-  document.querySelectorAll('.wtab').forEach(b=>b.className='wtab off');
-  btn.className='wtab on';
-  document.querySelectorAll('.watch-card').forEach(c=>{
-    c.style.display=(type==='all'||c.dataset.t.includes(type))?'flex':'none';
+function fw(type, btn) {
+  document.querySelectorAll('.wtab').forEach(b => b.className = 'wtab off');
+  btn.className = 'wtab on';
+  document.querySelectorAll('.watch-card').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.t.includes(type)) ? 'flex' : 'none';
   });
 }
 
 /* ── LESSON TOGGLE ── */
-function toggleLesson(card){
-  const p=card.querySelector('p');
-  const open=p.style.display==='block';
-  p.style.display=open?'none':'block';
-  card.style.background=open?'rgba(255,255,255,.06)':'rgba(255,255,255,.1)';
+function toggleLesson(card) {
+  const p = card.querySelector('p');
+  const open = p.style.display === 'block';
+  p.style.display = open ? 'none' : 'block';
+  card.style.background = open ? '' : 'rgba(255,215,0,0.06)';
+  card.style.borderColor = open ? '' : 'rgba(255,215,0,0.25)';
 }
 
-/* LIVE MATCH */
-const EVENTS=[
-  {min:"5'", icon:"🟨", title:"Yellow Card — Brazil", milo:"Brazil's midfielder got a yellow card for a reckless tackle. Like a technical foul in basketball — one more and he's ejected for the game."},
-  {min:"12'", icon:"⚽", title:"Corner Kick — USA", milo:"USA earns a corner kick after a defender blocks the shot over the line. Like an inbound play in basketball — USA gets the ball from the corner arc and runs a set play."},
-  {min:"23'", icon:"⚽", title:"GOAL! USA 1–0 Brazil 🇺🇸", milo:"USA SCORES! Pulisic with a header from the corner — exactly the set piece routine they practiced. USA leads 1–0!", scoreHome:1},
-  {min:"31'", icon:"📺", title:"VAR Review — checking goal", milo:"The goal is being checked by VAR. Like NFL replay review — officials watch multiple camera angles to verify there was no offside or handball. Takes about 2 minutes."},
-  {min:"34'", icon:"✅", title:"VAR Confirmed — goal stands", milo:"Goal confirmed! After 2 minutes of review, the VAR team found no issues. USA still leads 1–0. The crowd exhales."},
-  {min:"44'", icon:"🧤", title:"Incredible Save — Brazil GK", milo:"Brazil's goalkeeper made a diving save to keep it 1–0. That's called a 'clean sheet in jeopardy' — the keeper kept his team in the game."},
+/* ── LIVE MATCH ── */
+const EVENTS = [
+  {min:"5'",icon:"🟨",title:"Yellow Card — Brazil",milo:"Brazil's midfielder got a yellow card for a reckless tackle. Like a technical foul in basketball — one more and he's ejected for the game."},
+  {min:"12'",icon:"⚽",title:"Corner Kick — USA",milo:"USA earns a corner kick after a defender blocks the shot over the line. Like an inbound play in basketball — USA gets the ball from the corner arc and runs a set play."},
+  {min:"23'",icon:"⚽",title:"GOAL! USA 1–0 Brazil 🇺🇸",milo:"USA SCORES! Pulisic with a header from the corner — exactly the set piece routine they practiced. USA leads 1–0!",scoreHome:1,isGoal:true},
+  {min:"31'",icon:"📺",title:"VAR Review — checking goal",milo:"The goal is being checked by VAR. Like NFL replay review — officials watch multiple camera angles to verify there was no offside or handball. Takes about 2 minutes."},
+  {min:"34'",icon:"✅",title:"VAR Confirmed — goal stands",milo:"Goal confirmed! After 2 minutes of review, the VAR team found no issues. USA still leads 1–0. The crowd exhales."},
+  {min:"44'",icon:"🧤",title:"Incredible Save — Brazil GK",milo:"Brazil's goalkeeper made a diving save to keep it 1–0. That's called a 'clean sheet in jeopardy' — the keeper kept his team in the game."},
   {min:"45+3'",icon:"🔔",title:"Half Time — USA 1–0 Brazil",milo:"Half time! USA leads Brazil 1–0. 15 minute break, then 45 more minutes. USA is playing the perfect game — score and defend."},
-  {min:"51'", icon:"🔄", title:"Substitution — Brazil", milo:"Brazil makes a substitution — bringing on a fresh player. Like a basketball sub, but each team only gets 5 total all game. Brazil is trying to change the game."},
-  {min:"58'", icon:"⚽", title:"GOAL! USA 1–1 Brazil 🇧🇷", milo:"Brazil equalizes! Vinicius Jr cuts inside and slots into the corner. Game tied 1–1. That's called 'pulling level' — Brazil were the better team in this half.", scoreHome:1, scoreAway:1},
-  {min:"63'", icon:"🦵", title:"Foul — USA midfielder", milo:"Foul given against USA just outside the box. Brazil get a free kick in a dangerous position — about 22 yards from goal. Like a free throw opportunity but from distance."},
-  {min:"64'", icon:"⚡", title:"Free Kick — Brazil, 22 yds", milo:"Dangerous free kick for Brazil. The wall of USA defenders lines up 10 yards away. Brazil's specialist will try to curl it over or around the wall into the top corner."},
-  {min:"71'", icon:"🟥", title:"RED CARD — USA Defender", milo:"USA defender gets a RED CARD for a last-man foul — denying an obvious goal. He's ejected AND USA now plays 10 vs 11 for the rest of the game. Massive moment."},
-  {min:"78'", icon:"⚽", title:"GOAL! USA 1–2 Brazil 🇧🇷", milo:"Brazil takes the lead! Stunning free kick curls into the top corner. 2–1 Brazil. With USA down to 10 men, this feels decisive. 12 minutes left.", scoreHome:1, scoreAway:2},
-  {min:"87'", icon:"❌", title:"Disallowed — USA goal ruled out", milo:"USA thought they'd equalized but VAR ruled it offside by inches. The attacker's shoulder was past the last defender when the ball was played. Heartbreaking."},
+  {min:"51'",icon:"🔄",title:"Substitution — Brazil",milo:"Brazil makes a substitution — bringing on a fresh player. Like a basketball sub, but each team only gets 5 total all game. Brazil is trying to change the game."},
+  {min:"58'",icon:"⚽",title:"GOAL! USA 1–1 Brazil 🇧🇷",milo:"Brazil equalizes! Vinicius Jr cuts inside and slots into the corner. Game tied 1–1. That's called 'pulling level' — Brazil were the better team in this half.",scoreHome:1,scoreAway:1,isGoal:true},
+  {min:"63'",icon:"🦵",title:"Foul — USA midfielder",milo:"Foul given against USA just outside the box. Brazil get a free kick in a dangerous position — about 22 yards from goal. Like a free throw opportunity but from distance."},
+  {min:"64'",icon:"⚡",title:"Free Kick — Brazil, 22 yds",milo:"Dangerous free kick for Brazil. The wall of USA defenders lines up 10 yards away. Brazil's specialist will try to curl it over or around the wall into the top corner."},
+  {min:"71'",icon:"🟥",title:"RED CARD — USA Defender",milo:"USA defender gets a RED CARD for a last-man foul — denying an obvious goal. He's ejected AND USA now plays 10 vs 11 for the rest of the game. Massive moment."},
+  {min:"78'",icon:"⚽",title:"GOAL! USA 1–2 Brazil 🇧🇷",milo:"Brazil takes the lead! Stunning free kick curls into the top corner. 2–1 Brazil. With USA down to 10 men, this feels decisive. 12 minutes left.",scoreHome:1,scoreAway:2,isGoal:true},
+  {min:"87'",icon:"❌",title:"Disallowed — USA goal ruled out",milo:"USA thought they'd equalized but VAR ruled it offside by inches. The attacker's shoulder was past the last defender when the ball was played. Heartbreaking."},
   {min:"90+6'",icon:"🔔",title:"Full Time — Brazil wins 2–1",milo:"FULL TIME. Brazil wins 2–1 in a dramatic match. USA played brilliantly with 11 men but couldn't hold on after the red card. That's soccer — one moment changes everything."},
 ];
-let simIdx=0,simTimer=null;
-function startSim(){
-  const btn=document.getElementById('sim-btn');
-  const feed=document.getElementById('event-feed');
-  if(simTimer){clearTimeout(simTimer);simTimer=null;}
-  if(simIdx===0){
-    feed.innerHTML='';
-    document.getElementById('score-home').textContent='0';
-    document.getElementById('score-away').textContent='0';
-    document.getElementById('score-min').textContent='0\'';
+let simIdx = 0, simTimer = null;
+function startSim() {
+  const btn = document.getElementById('sim-btn');
+  const feed = document.getElementById('event-feed');
+  if (simTimer) { clearTimeout(simTimer); simTimer = null; }
+  if (simIdx === 0) {
+    feed.innerHTML = '';
+    document.getElementById('score-home').textContent = '0';
+    document.getElementById('score-away').textContent = '0';
+    document.getElementById('score-min').textContent = "0'";
   }
-  btn.disabled=true;btn.textContent='⏳ Match in progress…';
-  function playNext(){
-    if(simIdx>=EVENTS.length){btn.textContent='↺ Watch Again';btn.disabled=false;simIdx=0;return}
-    const ev=EVENTS[simIdx++];
-    document.getElementById('score-min').textContent=ev.min;
-    if(ev.scoreHome!==undefined)document.getElementById('score-home').textContent=ev.scoreHome;
-    if(ev.scoreAway!==undefined)document.getElementById('score-away').textContent=ev.scoreAway;
-    const card=document.createElement('div');
-    card.className='event-card event-new';
-    card.innerHTML=`<div class="event-top"><span class="event-icon">${ev.icon}</span><span class="event-min">${ev.min}</span><span class="event-title">${ev.title}</span></div><div class="event-milo">⚽ Milo: ${ev.milo}</div>`;
-    feed.insertBefore(card,feed.firstChild);
-    simTimer=setTimeout(playNext,3800);
+  btn.disabled = true; btn.textContent = '⏳ Match in progress…';
+  function playNext() {
+    if (simIdx >= EVENTS.length) { btn.textContent = '↺ Watch Again'; btn.disabled = false; simIdx = 0; return; }
+    const ev = EVENTS[simIdx++];
+    document.getElementById('score-min').textContent = ev.min;
+    if (ev.scoreHome !== undefined) document.getElementById('score-home').textContent = ev.scoreHome;
+    if (ev.scoreAway !== undefined) document.getElementById('score-away').textContent = ev.scoreAway;
+    if (ev.isGoal) showGoalOverlay();
+    const card = document.createElement('div');
+    card.className = 'event-card event-new';
+    if (ev.isGoal) card.style.cssText = 'border-color:rgba(255,215,0,0.5);background:rgba(255,215,0,0.08)';
+    card.innerHTML = `<div class="event-top"><span class="event-icon">${ev.icon}</span><span class="event-min">${ev.min}</span><span class="event-title">${ev.title}</span></div><div class="event-milo">⚽ Milo: ${ev.milo}</div>`;
+    feed.insertBefore(card, feed.firstChild);
+    simTimer = setTimeout(playNext, 3800);
   }
   playNext();
 }
 
-/* QUIZ */
-const QUESTIONS={
+/* ── QUIZ ── */
+const QUESTIONS = {
   beginner:[
     {q:"How many players does each team have on the field?",opts:["9","10","11","12"],ans:2},
     {q:"How long is a standard soccer game?",opts:["80 minutes","85 minutes","90 minutes","100 minutes"],ans:2},
@@ -1001,13 +1570,12 @@ function renderQuiz(){
   if(quizIdx>=qs.length){
     const pct=Math.round((quizScore/(qs.length*10))*100);
     const grade=pct>=80?'🥇':pct>=60?'🥈':'🥉';
-    document.getElementById('quiz-area').innerHTML=`<div style="text-align:center;padding:24px"><div style="font-size:3rem;margin-bottom:12px">${grade}</div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;margin-bottom:8px">${quizScore}/${qs.length*10} points</div><div style="font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:20px">${pct}% correct — ${pct>=80?'Soccer expert!':pct>=60?'Good knowledge!':'Keep learning!'}</div><button class="quiz-next" onclick="quizIdx=0;quizScore=0;document.getElementById('quiz-score-display').textContent='Score: 0 pts';renderQuiz()">Try Again</button></div>`;
+    document.getElementById('quiz-area').innerHTML=`<div style="text-align:center;padding:24px"><div style="font-size:3rem;margin-bottom:12px">${grade}</div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:8px;color:#FFD700">${quizScore}/${qs.length*10} points</div><div style="font-family:'Nunito',sans-serif;font-size:0.86rem;color:rgba(255,255,255,0.45);margin-bottom:20px;font-weight:600">${pct}% correct — ${pct>=80?'Soccer expert!':pct>=60?'Good knowledge!':'Keep learning!'}</div><button class="quiz-next" onclick="quizIdx=0;quizScore=0;document.getElementById('quiz-score-display').textContent='Score: 0 pts';renderQuiz()">Try Again</button></div>`;
     return;
   }
-  const q=qs[quizIdx];
-  quizAnswered=false;
+  const q=qs[quizIdx];quizAnswered=false;
   document.getElementById('quiz-area').innerHTML=`
-    <div style="font-size:.76rem;color:rgba(255,255,255,.3);margin-bottom:10px">Question ${quizIdx+1} of ${qs.length} · ${quizDiff.charAt(0).toUpperCase()+quizDiff.slice(1)}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:0.76rem;color:rgba(255,255,255,0.3);margin-bottom:10px;font-weight:700">Question ${quizIdx+1} of ${qs.length} · ${quizDiff.charAt(0).toUpperCase()+quizDiff.slice(1)}</div>
     <div class="quiz-q">${q.q}</div>
     <div class="quiz-opts" id="quiz-opts">
       ${q.opts.map((o,i)=>`<button class="quiz-btn" onclick="answerQuiz(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
@@ -1025,19 +1593,49 @@ function answerQuiz(chosen,correct,btn){
     quizScore+=10;btn.classList.add('correct');
     fb.className='quiz-feedback good';fb.textContent='✓ Correct! +10 points';
     document.getElementById('quiz-score-display').textContent=`Score: ${quizScore} pts`;
+    // +10 pts badge
+    const badge=document.createElement('div');
+    badge.className='pts-badge';
+    badge.textContent='+10 PTS!';
+    const rect=btn.getBoundingClientRect();
+    badge.style.cssText=`left:${rect.left+rect.width/2-40}px;top:${rect.top}px`;
+    document.body.appendChild(badge);
+    setTimeout(()=>badge.remove(),950);
+    // mini confetti
+    spawnMiniConfetti(btn);
   }else{
     btn.classList.add('wrong');
+    btn.style.animation='shake 0.4s ease';
     fb.className='quiz-feedback bad';
     fb.textContent=`✗ The correct answer was: ${String.fromCharCode(65+correct)}. ${QUESTIONS[quizDiff][quizIdx].opts[correct]}`;
   }
   fb.style.display='block';
   document.getElementById('quiz-next-wrap').style.display='block';
 }
+function spawnMiniConfetti(el){
+  const colors=['#FFD700','#7defa1','#FFFFFF','#FFA500'];
+  const rect=el.getBoundingClientRect();
+  for(let i=0;i<14;i++){
+    const p=document.createElement('div');
+    p.style.cssText=`position:fixed;width:6px;height:6px;border-radius:50%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      left:${rect.left+Math.random()*rect.width}px;
+      top:${rect.top}px;pointer-events:none;z-index:9999;
+      animation:confettiFall ${0.8+Math.random()*0.5}s ease forwards`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1400);
+  }
+}
 
-/* TRANSLATOR */
+/* CSS shake for wrong answers */
+const shakeStyle=document.createElement('style');
+shakeStyle.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}';
+document.head.appendChild(shakeStyle);
+
+/* ── TRANSLATOR ── */
 const TERMS=[
   {name:"Offside",def:"A player is in an offside position if they are nearer to the opponent's goal than both the ball and the second-to-last defender when the ball is played to them.",analogy:"Hockey: being in the crease before the puck. You can't be ahead of the play.",diff:"b"},
-  {name:"Nutmeg",def:"Kicking the ball through an opponent's legs and collecting it on the other side.",analogy:"Basketball: a behind-the-back pass through a defender's legs. Extremely embarrassing to concede.",diff:"b"},
+  {name:"Nutmeg",def:"Kicking the ball through an opponent's legs and collecting it on the other side.",analogy:"Basketball: a between-the-legs pass through a defender. Extremely embarrassing to concede.",diff:"b"},
   {name:"Bicycle Kick",def:"An acrobatic overhead kick where the player throws their body backwards and kicks the ball over their own head.",analogy:"Baseball: a behind-the-back catch. Technically spectacular, crowd goes absolutely wild.",diff:"b"},
   {name:"Through Ball",def:"A pass played into space behind the defensive line for a teammate to run onto.",analogy:"Football: a perfectly-timed touchdown pass where the receiver runs a route into open space.",diff:"b"},
   {name:"Pressing",def:"Aggressively chasing the ball and pressuring opponents when they have possession, trying to win the ball back quickly.",analogy:"Basketball: full-court press. Exhausting for the pressing team if it doesn't work.",diff:"i"},
@@ -1076,18 +1674,16 @@ function renderTerms(filter=''){
       <div class="term-name">${t.name} <span class="term-diff ${t.diff==='b'?'diff-b':t.diff==='i'?'diff-i':'diff-a'}">${t.diff==='b'?'Beginner':t.diff==='i'?'Intermediate':'Advanced'}</span></div>
       <div class="term-def">${t.def}</div>
       <div class="term-analogy">🏈 ${t.analogy}</div>
-    </div>`).join(''):'<p style="color:rgba(255,255,255,.3);font-size:.85rem;padding:12px 0">No terms found for that search.</p>';
+    </div>`).join(''):'<p style="font-family:Nunito,sans-serif;color:rgba(255,255,255,0.3);font-size:0.86rem;padding:12px 0;font-weight:600">No terms found for that search.</p>';
 }
-function filterTerms(){
-  renderTerms(document.getElementById('term-search').value);
-}
+function filterTerms(){renderTerms(document.getElementById('term-search').value)}
 
-/* PRE-GAME HYPE */
+/* ── PRE-GAME HYPE ── */
 const MATCHUPS=[
   {title:"🇺🇸 USA vs 🏴 England",rivalry:"These two met famously in 1950 when the USA shocked England 1-0 in one of the biggest World Cup upsets ever. They drew 1-1 in 2010. England have never beaten the USA at a World Cup.",player:"Christian Pulisic (USA) — plays for AC Milan, America's best player, this is his generation's defining moment.",stake:"Both teams need points to advance from a tough group. A win here is massive for momentum and bragging rights.",prediction:"🎯 Milo says: USA draw 1-1. Pulisic scores, England equalize late. Heart attacks all around.",hype:90},
   {title:"🇲🇽 Mexico vs 🇦🇷 Argentina",rivalry:"Mexico and Argentina have met 6 times at World Cups and Mexico has NEVER won. Argentina have won the last 5 clashes. The heartbreak is historic.",player:"Lautaro Martínez (Argentina) — Inter Milan striker who scored the winning penalty in the 2022 final. Ice in his veins.",stake:"CONMEBOL pride. Mexico needs to prove they belong on the same field as the world champions.",prediction:"🎯 Milo says: Argentina 2-0. Clinical and ruthless as always. Mexico will be brave but outclassed.",hype:80},
   {title:"🇫🇷 France vs 🇩🇪 Germany",rivalry:"The greatest European rivalry. They've met at 4 World Cups. Pure quality, maximum tension, always a classic.",player:"Kylian Mbappé (France) — the fastest player in the world at 25, already a World Cup winner. This is his tournament.",stake:"Group A dominance — winner likely tops the group and gets an easier knockout path.",prediction:"🎯 Milo says: France 2-1. Mbappé gets a goal and an assist. Germany fight hard but lose.",hype:100},
-  {title:"🇪🇸 Spain vs 🇧🇷 Brazil",rivalry:"Two of the most technically gifted nations ever. Both are tournament favorites every single time they enter.",player:"Vinicius Jr (Brazil) — Real Madrid's electrifying winger. When on form, completely unplayable. His celebrations are as famous as his goals.",stake:"A potential Final preview. Both teams among the top 3 favorites to win the whole tournament.",prediction:"🎯 Milo says: 1-1 draw. Too good to separate. Both teams saving their best for later.",hype:90},
+  {title:"🇪🇸 Spain vs 🇧🇷 Brazil",rivalry:"Two of the most technically gifted nations ever. Both are tournament favorites every single time they enter.",player:"Vinicius Jr (Brazil) — Real Madrid's electrifying winger. When on form, completely unplayable.",stake:"A potential Final preview. Both teams among the top 3 favorites to win the whole tournament.",prediction:"🎯 Milo says: 1-1 draw. Too good to separate. Both teams saving their best for later.",hype:90},
   {title:"🇺🇸 USA vs 🇲🇽 Mexico",rivalry:"El Clásico de CONCACAF — the most intense rivalry in North American soccer.",player:"Folarin Balogun (USA) — born in New York, chose USA over England. Fast, clinical, hungry to prove himself.",stake:"CONCACAF bragging rights AND group stage points.",prediction:"🎯 Milo says: USA 2-1 in a physical battle. The home crowd makes the difference.",hype:100},
   {title:"🇵🇹 Portugal vs 🇫🇷 France",rivalry:"Mbappé vs Ronaldo. Two of the greatest players ever on the same field.",player:"Cristiano Ronaldo (Portugal) — 5-time Ballon d'Or.",stake:"Potentially a knockout stage preview between two tournament favorites.",prediction:"🎯 Milo says: France 2-1. Youth wins.",hype:100},
   {title:"🏴 England vs 🇪🇸 Spain",rivalry:"Euro 2024 Final rematch.",player:"Pedri (Spain) — midfield maestro.",stake:"Two tournament favorites. The winner announces themselves as the team to beat.",prediction:"🎯 Milo says: Spain 2-0.",hype:90},
@@ -1117,13 +1713,10 @@ function showMatchup(){
         </div>
       </div>
     </div>`;
-  setTimeout(()=>{
-    const fill=document.querySelector('.hype-fill');
-    if(fill)fill.style.width=fill.dataset.w;
-  },80);
+  setTimeout(()=>{const fill=document.querySelector('.hype-fill');if(fill)fill.style.width=fill.dataset.w;},80);
 }
 
-/* MILO FLOATING CHAT */
+/* ── MILO FLOATING CHAT ── */
 const miloWindow=document.getElementById('miloWindow');
 const miloMsgs=document.getElementById('milo-msgs');
 const miloInput=document.getElementById('milo-in');
@@ -1141,7 +1734,6 @@ function toggleMilo(force){
     setTimeout(()=>miloInput.focus(),120);
   }
 }
-
 function addMiloMsg(who,text){
   const d=document.createElement('div');
   d.className=who==='b'?'cm-b':'cm-u';
@@ -1149,58 +1741,34 @@ function addMiloMsg(who,text){
   miloMsgs.appendChild(d);
   miloMsgs.scrollTop=miloMsgs.scrollHeight;
 }
-
 async function sendMilo(){
   const q=miloInput.value.trim();
   if(!q)return;
   addMiloMsg('u',q);
   miloInput.value='';
-
   const load=document.createElement('div');
-  load.className='cm-b';
-  load.style.opacity='.6';
-  load.textContent='Thinking...';
+  load.className='cm-b';load.style.opacity='.6';load.textContent='Thinking...';
   miloMsgs.appendChild(load);
   miloMsgs.scrollTop=miloMsgs.scrollHeight;
-
   try{
     const res=await fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        messages:[
-          {
-            role:'system',
-            content:'You are Milo, a friendly soccer explainer for American sports fans. Answer clearly using analogies to NFL, NBA, MLB, and NHL when helpful.'
-          },
-          {role:'user',content:q}
-        ]
-      })
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:[
+        {role:'system',content:'You are Milo, a friendly soccer explainer for American sports fans. Answer clearly using analogies to NFL, NBA, MLB, and NHL when helpful.'},
+        {role:'user',content:q}
+      ]})
     });
-
     const data=await res.json();
     load.remove();
-
-    if(!res.ok){
-      const errText=data?.error?.message||(typeof data?.error==='string'?data.error:JSON.stringify(data?.error||data));
-      addMiloMsg('b','Error: '+errText);
-      return;
-    }
-
-    const reply=data?.choices?.[0]?.message?.content || 'No reply from Milo.';
-    addMiloMsg('b',reply);
-  }catch(e){
-    load.remove();
-    addMiloMsg('b','Network error: '+e.message);
-  }
+    if(!res.ok){addMiloMsg('b','Error: '+(data?.error?.message||JSON.stringify(data?.error||data)));return;}
+    addMiloMsg('b',data?.choices?.[0]?.message?.content||'No reply from Milo.');
+  }catch(e){load.remove();addMiloMsg('b','Network error: '+e.message);}
 }
-
 miloSend.addEventListener('click',sendMilo);
 miloInput.addEventListener('keydown',e=>{if(e.key==='Enter')sendMilo()});
-
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+    document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');});
     document.body.style.overflow='';
     toggleMilo(false);
   }
